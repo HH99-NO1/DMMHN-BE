@@ -1,5 +1,10 @@
 const MembersService = require("../service/members.service");
 const Joi = require("joi");
+const membersSchema = Joi.object({
+  memberEmail:Joi.string().email().required(),
+  password:Joi.string().required()
+})
+
 
 class MembersController {
   membersService = new MembersService();
