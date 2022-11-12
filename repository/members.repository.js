@@ -16,6 +16,16 @@ class MembersRepository {
   checkMembersIdDup = async (memberEmail) => {
     return await Members.findOne({ memberEmail });
   };
+
+  loginMembers = async (memberEmail, password) => {
+    const findOneMember = await Members.findOne({ memberEmail, password });
+    return findOneMember;
+  };
+
+  findOneMember = async (_id) => {
+    const findOneMember = await Members.findById(_id);
+    return findOneMember;
+  };
 }
 
 module.exports = MembersRepository;
