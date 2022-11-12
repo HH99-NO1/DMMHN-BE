@@ -1,4 +1,4 @@
-const MembersService = require("../service/members");
+const MembersService = require("../service/members.service");
 const Joi = require("joi");
 
 class MembersController {

@@ -1,4 +1,4 @@
-const MembersRepository = require("../repository/members");
+const MembersRepository = require("../repository/members.repository");
 
 class MembersService {
   membersRepository = new MembersRepository();
