@@ -1,4 +1,4 @@
-const ReservationRepository = require("../repository/reservation.repositroy");
+const ReservationRepository = require("../repository/reservation.repository");
 
 class ReservationService {
     reservationRepository = new ReservationRepository();
