@@ -1,32 +1,18 @@
-const ReservationRepository = require("../repository/reservation.repository");
+const Reservation = require("../models/reservation");
 
-class ReservationService {
-    reservationRepository = new ReservationRepository();
+class ReservationRepository {
 
     postReservation = async (interviewTopic, interviewTime, reservationDate) => {
-        try{
-            await this.reservationRepository.postReservation(interviewTopic,interviewTime,reservationDate);
-            return {
-                interviewTopic,
-                interviewTime,
-                reservationDate,
-            }
-        } catch (err) {
-            throw new Error ("postReservation에서 권한이 없습니다")
-        }
+        await Reservation.create({ interviewTopic, interviewTime, reservationDate });
+        
+        return;
     }
 
     getReservation = async (id) => {
-        try{
-            await this.reservationRepository.getReservation(id);
-            return {
-                interviewTopic: id.interviewTopic,
-                reservationDate: id.reservationDate,
-            }
-        } catch (err) {
-            throw new Error ("getReservation에서 권한이 없습니다")
-        }
+        await Reservation.findById(id);
+
+        return;
     }
 }
 
-module.exports = ReservationService;
+module.exports = ReservationRepository;
