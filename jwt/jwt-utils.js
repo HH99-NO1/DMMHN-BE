@@ -1,19 +1,18 @@
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.SECRET_KEY;
-const refreshModel = requrie("../models/refresh.models");
+const refreshModel = require("../models/refresh");
 module.exports = {
   sign: (findOneUser) => {
-    const payload = { id: findOneUser._id };
+    const payload = { id: findOneUser._id, email: findOneUser.memberEmail };
     return jwt.sign(payload, secretKey, {
-      expiresIn: "30s",
+      expiresIn: "1h",
     });
   },
 
   verify: (token) => {
     try {
       const decoded = jwt.verify(token, secretKey);
-      console.log("jwt.utils.js 14: ", decoded);
-      return { ok: true, id };
+      return { ok: true, id: decoded.id };
     } catch (err) {
       return {
         ok: false,
@@ -24,7 +23,7 @@ module.exports = {
 
   refreshSign: () => {
     return jwt.sign({}, secretKey, {
-      expiresIn: "50s",
+      expiresIn: "10h",
     });
   },
 
