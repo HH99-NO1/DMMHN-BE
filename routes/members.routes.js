@@ -3,7 +3,7 @@ const router = express.Router();
 
 const refresh = require("../jwt/refreshToken");
 const authMiddleware = require("../middleware/auth_middleware");
-const MembersController = require("../controller/members..controller");
+const MembersController = require("../controller/members.controller");
 const membersController = new MembersController();
 
 router.post("/signup", membersController.createMembers);
