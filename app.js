@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.EXPRESS_PORT || 3000;
 const cors = require("cors");
+
 const connect = require("./models/index");
 connect();
 
