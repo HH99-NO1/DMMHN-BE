@@ -10,19 +10,19 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
+  memberName: {
+    type: String,
+    // required: true,
+  },
   reservationDate: {
     type: String,
     // required: true,
   },
-  reservationTopic: {
+  interviewTopic: {
     type: String,
     // required: true,
   },
-  startReservation: {
-    type: String,
-    // required: true,
-  },
-  endReservation: {
+  interviewTime: {
     type: String,
     // required: true,
   },
