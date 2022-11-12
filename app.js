@@ -13,7 +13,7 @@ app.use(
     origin: "*",
   })
 );
-
+app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/", routes);
