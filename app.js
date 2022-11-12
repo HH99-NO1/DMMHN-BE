@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.EXPRESS_PORT || 3000;
 const cors = require("cors");
-const connect = require("./models");
+const connect = require("./models/index");
 connect();
 
 const morgan = require("morgan");
@@ -13,7 +13,7 @@ app.use(
     origin: "*",
   })
 );
-
+app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/", routes);
