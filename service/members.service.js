@@ -1,8 +1,6 @@
 const MembersRepository = require("../repository/members.repository");
 const jwt = require("../jwt/jwt-utils");
 const refreshModel = require("../models/refresh");
-const expiration = require("../models/expirationMember");
-const { findOne } = require("../models/expirationMember");
 
 class MembersService {
   membersRepository = new MembersRepository();
