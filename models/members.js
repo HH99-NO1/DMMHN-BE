@@ -10,9 +10,8 @@ const membersSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  confirmPw: {
+  expiration: {
     type: String,
-    //required:true,
   },
   memberName: {
     type: String,
@@ -49,6 +48,10 @@ const membersSchema = new mongoose.Schema({
   img: {
     type: String,
     // required: true,
+  },
+  loginHistory: {
+    type: String,
+    default: new Date(),
   },
   createdAt: { type: String, default: new Date() },
   updatedAt: { type: String, default: new Date() },
