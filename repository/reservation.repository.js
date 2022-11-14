@@ -1,18 +1,21 @@
 const Reservation = require("../models/reservation");
 
 class ReservationRepository {
+  postReservation = async (interviewTopic, interviewTime, reservationDate) => {
+    await Reservation.create({
+      interviewTopic,
+      interviewTime,
+      reservationDate,
+    });
 
-    postReservation = async (interviewTopic, interviewTime, reservationDate) => {
-        await Reservation.create({ interviewTopic, interviewTime, reservationDate });
-        
-        return;
-    }
+    return;
+  };
 
-    getListReservation = async (id) => {
-        await Reservation.findById(id);
+  getListReservation = async (id) => {
+    await Reservation.findById(id);
 
-        return;
-    }
+    return;
+  };
 }
 
 module.exports = ReservationRepository;
