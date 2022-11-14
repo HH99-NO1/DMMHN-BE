@@ -10,5 +10,6 @@ router.post("/signup", membersController.createMembers);
 router.get("/login", membersController.loginMembers);
 router.get("/me", authMiddleware, membersController.findOneMember);
 router.get("/refresh", refresh, (req, res) => {});
+router.put("/", authMiddleware, membersController.updateMember);
 
 module.exports = router;

@@ -12,9 +12,7 @@ module.exports = (req, res, next) => {
   console.log(jwt.verify(authToken));
   members.findById(id).then((members) => {
     res.locals.members = members;
+    console.log("members: ", res.locals.members);
     next();
   });
-  //   } catch (err) {
-  //     res.status(401).send({ errorMessage: "로그인 후 이용 가능한 기능입니다" });
-  //   }
 };
