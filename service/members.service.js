@@ -1,15 +1,36 @@
 const MembersRepository = require("../repository/members.repository");
 const jwt = require("../jwt/jwt-utils");
+const bcrypt = require('bcrypt')
 const refreshModel = require("../models/refresh");
 
 class MembersService {
   membersRepository = new MembersRepository();
 
-  createMembers = async (memberEmail, password) => {
-    await this.membersRepository.createMembers(memberEmail, password);
+  createMembers = async (memberEmail, password,confirmPw) => {
+    const result = await this.membersRepository.checkMembersIdDup(memberEmail)
+    console.log("result: ", result)
+    if(result){
+      throw new Error("이미 가입된 계정입니다.")
+    }
+      const hashedPw = bcrypt.hashSync(password,10)
+      await this.membersRepository.createMembers(
+        memberEmail,
+        hashedPw,
+        confirmPw
+      );
     await this.membersRepository.ExpirationMember(memberEmail, password);
     return;
   };
+
+  checkMembersIdDup = async(memberEmail)=>{
+    const findOneMember = await this.membersRepository.findOneMember(memberEmail)
+
+    if(findOneMember){
+      throw new Error("이미 가입된 계정입니다.")
+    }else{
+      return "사용가능한 계정입니다."
+    }
+  }
 
   loginMembers = async (memberEmail, password) => {
     try {

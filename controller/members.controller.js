@@ -3,16 +3,39 @@ const Joi = require("joi");
 const membersSchema = Joi.object({
   memberEmail: Joi.string().email().required(),
   password: Joi.string().required(),
+  confirmPw: Joi.string().required(),
 });
 
 class MembersController {
   membersService = new MembersService();
 
   createMembers = async (req, res, next) => {
-    const { memberEmail, password } = req.body;
-    await this.membersService.createMembers(memberEmail, password);
-    res.status(201).json({ message: "회원가입 되었습니다." });
-  };
+    const { memberEmail, password,confirmPw } = req.body;
+    try{
+    await this.membersService.createMembers(memberEmail, password,confirmPw);
+  
+    
+      await membersSchema.validateAsync(req.body);
+      if(req.headers.authorization){
+        res.status(401).json({errorMessage:"이미 로그인 된 계정입니다."})
+        return;
+      }
+      console.log(req.body)
+      if (password !== confirmPw) {
+        res
+          .status(401)
+          .json({
+            errorMessage: "비밀번호가 비밀번호 확인란과 일치하지 않습니다.",
+          });
+        return;
+      }
+      res.status(201).json({message:"회원가입에 성공했습니다"});
+    } catch (err) {
+      res.json(err.message);
+    }
+    }
+
+  
 
   loginMembers = async (req, res, next) => {
     try {
@@ -45,4 +68,5 @@ class MembersController {
     res.status(201).send({ message: "정보를 수정하였습니다" });
   };
 }
+
 module.exports = MembersController;

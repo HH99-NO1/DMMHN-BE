@@ -1,12 +1,11 @@
-const Reservation = require("../models/reservation")
+const Reservation = require("../models/reservation");
 
 class ReservationRepository {
+  postReservation = async (reservationDate, companyAdmin) => {
+    await Reservation.create({ reservationDate, companyAdmin });
 
-    postReservation = async (reservationDate, companyAdmin) => {
-        await Reservation.create({ reservationDate, companyAdmin })
-        
-        return;
-    }
+    return;
+  };
 }
 
 module.exports = ReservationRepository;

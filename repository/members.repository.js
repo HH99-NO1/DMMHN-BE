@@ -3,16 +3,13 @@ const expiration = require("../models/expirationMember");
 
 class MembersRepository {
   //member DB에 유저의 정보를 저장한다
-  createMembers = async (memberEmail, password) => {
-    try {
-      await Members.create({
-        memberEmail,
-        password,
-      });
-      return;
-    } catch (err) {
-      throw new Error(err.message);
-    }
+  createMembers = async (memberEmail, password,confirmPw) => {
+    const createMembersData = await Members.create({
+      memberEmail,
+      password,
+      confirmPw
+    })
+    return createMembersData
   };
 
   // 회원가입시 expiration 모델에 유저의 정보를 expiration === "false"로 저장한다
@@ -30,7 +27,9 @@ class MembersRepository {
   };
 
   checkMembersIdDup = async (memberEmail) => {
-    return await Members.findOne({ memberEmail });
+    const checkmem =   await Members.findOne({ memberEmail });
+    console.log("repo: ", checkmem)
+    return checkmem;
   };
 
   loginMembers = async (memberEmail, password) => {
