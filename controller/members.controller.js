@@ -56,16 +56,24 @@ class MembersController {
   };
 
   updateMember = async (req, res, next) => {
-    const { memberEmail } = res.locals.members;
-    const { password } = req.body;
-    await this.membersService.updateMember(memberEmail, password);
-    res.status(201).send({ message: "정보를 수정하였습니다" });
+    try {
+      const { memberEmail } = res.locals.members;
+      const { password } = req.body;
+      await this.membersService.updateMember(memberEmail, password);
+      res.status(201).send({ message: "정보를 수정하였습니다" });
+    } catch (err) {
+      res.status(400).send({ message: err.message });
+    }
   };
 
   deleteMember = async (req, res, next) => {
-    const { _id } = res.locals.members;
-    await this.membersService.deleteMember(_id);
-    res.status(200).send({ message: "회원탈퇴가 완료되었습니다" });
+    try {
+      const { _id } = res.locals.members;
+      await this.membersService.deleteMember(_id);
+      res.status(200).send({ message: "회원탈퇴가 완료되었습니다" });
+    } catch (err) {
+      res.status(400).send({ message: err.message });
+    }
   };
 }
 
