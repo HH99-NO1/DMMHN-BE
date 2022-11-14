@@ -26,8 +26,8 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
+  createdAt: { type: String, default: new Date() },
+  updatedAt: { type: String, default: new Date() },
 });
 
 module.exports = mongoose.model("reservation", reservationSchema);

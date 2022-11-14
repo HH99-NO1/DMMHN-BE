@@ -13,8 +13,8 @@ const date = new Date();
 const str_date = String(date);
 
 rule.dayOfWeek = [0, 1, 2, 3, 4, 5, 6];
-rule.hour = 09;
-rule.minute = 48;
+rule.hour = 10;
+rule.minute = 32;
 
 // rule에서 정의한 대로 매일 정해진 시간마다 스케쥴러 실행
 const j = schedule.scheduleJob(rule, async () => {
