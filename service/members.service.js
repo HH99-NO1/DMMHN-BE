@@ -7,24 +7,20 @@ class MembersService {
   membersRepository = new MembersRepository();
 
   createMembers = async (memberEmail, password, confirmPw) => {
-    const result = await this.membersRepository.checkMembersIdDup(memberEmail);
-    if (result) {
-      throw new Error("이미 가입된 계정입니다.");
+    try {
+      if (password === confirmPw) {
+        throw new Error("비밀번호와 비밀번화 확인이 일치하지 않습니다");
+      }
+      const result = await this.membersRepository.findOneMember(memberEmail);
+      if (result) {
+        throw new Error("이미 가입된 계정입니다.");
+      }
+      const hashedPw = bcrypt.hashSync(password, 10);
+      await this.membersRepository.createMembers(memberEmail, hashedPw);
+      return;
+    } catch (err) {
+      throw new Error(err.message);
     }
-    const hashedPw = bcrypt.hashSync(password, 10);
-    await this.membersRepository.createMembers(memberEmail, hashedPw);
-    return;
-
-    // checkMembersIdDup = async (memberEmail) => {
-    //   const findOneMember = await this.membersRepository.findOneMember(
-    //     memberEmail
-    //   );
-
-    //   if (findOneMember) {
-    //     throw new Error("이미 가입된 계정입니다.");
-    //   } else {
-    //     return "사용가능한 계정입니다.";
-    //   }
   };
 
   loginMembers = async (memberEmail, password) => {
@@ -62,9 +58,11 @@ class MembersService {
     }
   };
 
-  findOneMember = async (_id) => {
+  findOneMember = async (memberEmail) => {
     try {
-      const findOneMember = await this.membersRepository.findOneMember(_id);
+      const findOneMember = await this.membersRepository.findOneMember(
+        memberEmail
+      );
       return findOneMember;
     } catch (err) {
       throw new Error({ message: err.message });

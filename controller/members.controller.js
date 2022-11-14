@@ -11,24 +11,15 @@ class MembersController {
 
   createMembers = async (req, res, next) => {
     const { memberEmail, password, confirmPw } = req.body;
+    if (req.headers.authorization) {
+      res.status(401).json({ errorMessage: "이미 로그인 된 계정입니다." });
+      return;
+    }
     try {
       await this.membersService.createMembers(memberEmail, password, confirmPw);
-
-      await membersSchema.validateAsync(req.body);
-      if (req.headers.authorization) {
-        res.status(401).json({ errorMessage: "이미 로그인 된 계정입니다." });
-        return;
-      }
-      console.log(req.body);
-      if (password !== confirmPw) {
-        res.status(401).json({
-          errorMessage: "비밀번호가 비밀번호 확인란과 일치하지 않습니다.",
-        });
-        return;
-      }
       res.status(201).json({ message: "회원가입에 성공했습니다" });
     } catch (err) {
-      res.json(err.message);
+      res.status(400).json(err.message);
     }
   };
 
@@ -47,8 +38,10 @@ class MembersController {
 
   findOneMember = async (req, res, next) => {
     try {
-      const { _id } = res.locals.members;
-      const findOneMember = await this.membersService.findOneMember(_id);
+      const { memberEmail } = res.locals.members;
+      const findOneMember = await this.membersService.findOneMember(
+        memberEmail
+      );
       res.status(200).send(findOneMember);
     } catch (err) {
       res.status(400).send({ message: err.message });
