@@ -10,6 +10,10 @@ const membersSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
+  confirmPw: {
+    type: String,
+    //required:true,
+  },
   memberName: {
     type: String,
     // required: true,
