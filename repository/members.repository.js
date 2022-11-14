@@ -3,18 +3,18 @@ const expiration = require("../models/expirationMember");
 
 class MembersRepository {
   //member DB에 유저의 정보를 저장한다
-  createMembers = async (memberEmail, password,confirmPw) => {
+  createMembers = async (memberEmail, hashedPw, confirmPw) => {
     const createMembersData = await Members.create({
       memberEmail,
-      password,
-      confirmPw
-    })
-    return createMembersData
+      hashedPw,
+      confirmPw,
+    });
+    return createMembersData;
   };
 
   // 회원가입시 expiration 모델에 유저의 정보를 expiration === "false"로 저장한다
-  ExpirationMember = async (memberEmail, password) => {
-    await expiration.create({ memberEmail, password, expiration: "false" });
+  ExpirationMember = async (memberEmail, hashedPw) => {
+    await expiration.create({ memberEmail, hashedPw, expiration: "false" });
     return;
   };
 
@@ -27,13 +27,13 @@ class MembersRepository {
   };
 
   checkMembersIdDup = async (memberEmail) => {
-    const checkmem =   await Members.findOne({ memberEmail });
-    console.log("repo: ", checkmem)
+    const checkmem = await Members.findOne({ memberEmail });
+    console.log("repo: ", checkmem);
     return checkmem;
   };
 
-  loginMembers = async (memberEmail, password) => {
-    const findOneMember = await Members.findOne({ memberEmail, password });
+  loginMembers = async (memberEmail, hashedPw) => {
+    const findOneMember = await Members.findOne({ memberEmail, hashedPw });
     return findOneMember;
   };
 
@@ -54,6 +54,11 @@ class MembersRepository {
 
   updateMember = async (memberEmail, password) => {
     await Members.findOneAndUpdate({ memberEmail }, { password });
+    return;
+  };
+
+  deleteMember = async (_id) => {
+    await Members.findByIdAndDelete({ _id });
     return;
   };
 }
