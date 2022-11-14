@@ -17,11 +17,11 @@ class ReservationController {
         }
     }
 
-    getReservation = async (req, res, next) => {
+    getListReservation = async (req, res, next) => {
         try {
             const { id } = res.locals.user;
 
-            const getReservation = await this.reservationService.getReservation(id);
+            const getReservation = await this.reservationService.getListReservation(id);
 
             res.status(201).json({ data: getReservation });
             
