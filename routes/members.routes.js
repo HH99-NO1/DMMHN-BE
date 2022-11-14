@@ -11,5 +11,5 @@ router.get("/login", membersController.loginMembers);
 router.get("/me", authMiddleware, membersController.findOneMember);
 router.get("/refresh", refresh, (req, res) => {});
 router.put("/", authMiddleware, membersController.updateMember);
-
+router.delete("/", authMiddleware, membersController.deleteMember);
 module.exports = router;
