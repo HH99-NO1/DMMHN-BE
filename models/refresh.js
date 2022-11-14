@@ -10,8 +10,8 @@ const refreshTokenSchema = new mongoose.Schema({
     default: Date.now,
     index: { expires: "1m" },
   },
-  createdAt: { type: Date },
-  updatedAt: { type: Date },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("refreshToken", refreshTokenSchema);

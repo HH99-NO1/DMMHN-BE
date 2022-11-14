@@ -46,8 +46,8 @@ const membersSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  createdAt: { type: Date },
-  updatedAt: { type: Date },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("Members", membersSchema);
