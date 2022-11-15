@@ -61,6 +61,10 @@ class MembersController {
 
   deleteMember = async (req, res, next) => {
     try {
+      console.log(tokenInfo);
+      if (tokenInfo.message === "jwt expired") {
+        throw new Error("jwt expired");
+      }
       const { _id } = res.locals.members;
       await this.membersService.deleteMember(_id);
       res.status(200).send({ message: "회원탈퇴가 완료되었습니다" });
