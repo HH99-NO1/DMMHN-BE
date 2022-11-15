@@ -30,7 +30,6 @@ class ReservationRepository {
 
   getListReservation = async (id) => {
     await Reservation.findById(id);
-
     return;
   };
 }

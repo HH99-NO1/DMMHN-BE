@@ -9,10 +9,9 @@ module.exports = (req, res, next) => {
 
   //   try {
   const { id } = jwt.verify(authToken);
-  console.log(jwt.verify(authToken));
   members.findById(id).then((members) => {
     res.locals.members = members;
-    console.log("members: ", res.locals.members);
+    tokenInfo = jwt.verify(authToken);
     next();
   });
 };
