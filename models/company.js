@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const companySchema = new mongoose.Schema({
   companyName: {
     type: String,
-    // required: true,
+    required: true,
   },
   password: {
     type: String,
@@ -18,6 +18,10 @@ const companySchema = new mongoose.Schema({
   companyAddress: {
     type: String,
     // required: true,
+  },
+  businessScale:{
+    type:String,
+    //required:true,
   },
   registrationNumber: {
     type: String,

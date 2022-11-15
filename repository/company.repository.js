@@ -11,9 +11,9 @@ class CompanyRepository {
         return createCompanyData
     }
 
-    checkCompanyIdDup = async(companyName)=>{
-        const checkCompany = await Company.findOne({companyName});
-        return checkCompany
+    checkCompanyIdDup = async (companyName)=>{
+        const checkCompany = await Company.findOne({ companyName });
+        return checkCompany;
     };
 
     findOneCompany = async (_id) => {

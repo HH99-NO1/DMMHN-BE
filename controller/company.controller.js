@@ -12,7 +12,7 @@ class CompanyController {
 
     createCompany = async(req,res,next)=>{
         const {companyName,password,confirmPw} = req.body;
-        try{
+        //try{
             await this.companyService.createCompany(companyName,password,confirmPw);
 
             await companySchema.validateAsync(req.body);
@@ -29,9 +29,9 @@ class CompanyController {
                 return;
             }
             res.status(201).json({message:"회원가입에 성공했습니다"});
-        }catch(err){
-            res.json(err.message);
-        }
+        // }catch(err){
+        //     res.json(err.message);
+        // }
         
     }
 }
