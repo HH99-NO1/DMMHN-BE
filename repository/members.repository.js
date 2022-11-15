@@ -33,7 +33,7 @@ class MembersRepository {
   };
 
   findOneMember = async (memberEmail) => {
-    const findOneMember = await Members.findById(memberEmail);
+    const findOneMember = await Members.findOne({ memberEmail });
     return findOneMember;
   };
 
