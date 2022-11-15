@@ -58,6 +58,7 @@ class MembersService {
     }
   };
 
+  // findOneMember
   findOneMember = async (memberEmail) => {
     try {
       const findOneMember = await this.membersRepository.findOneMember(
