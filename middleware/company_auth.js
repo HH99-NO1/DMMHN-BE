@@ -1,5 +1,5 @@
 // const jwt = require("jsonwebtoken");
-const companys = require("../models/company");
+const company = require("../models/company");
 require("dotenv").config();
 const jwt = require("../jwt/jwt-utils");
 
@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
 
   // try {
   const { id } = jwt.verify(authToken);
-  companys.findById(id).then((user) => {
+  company.findById(id).then((user) => {
     res.locals.user = user;
     tokenInfo = jwt.verify(authToken);
     next();
