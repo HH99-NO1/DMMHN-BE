@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.SECRET_KEY;
 const refreshModel = require("../models/refresh");
+
 module.exports = {
   sign: (findOneUser) => {
     const payload = { id: findOneUser._id, email: findOneUser.memberEmail };
