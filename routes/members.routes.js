@@ -8,7 +8,7 @@ const MembersController = require("../controller/members.controller");
 const membersController = new MembersController();
 
 router.post("/signup", membersController.createMembers);
-router.get("/login", membersController.loginMembers);
+router.post("/login", membersController.loginMembers);
 router.get("/me", authMiddleware, membersController.findOneMember);
 router.get("/refresh", refresh, (req, res) => {});
 router.put("/", authMiddleware, membersController.updateMember);
