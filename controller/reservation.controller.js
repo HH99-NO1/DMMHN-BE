@@ -5,13 +5,19 @@ class ReservationController {
 
   postReservation = async (req, res, next) => {
     try {
-      const { interviewTopic, interviewTime, reservationDate } = req.body;
-      // const { companyAdmin } = res.locals.user;
+      const { interviewTopic, interviewTime, start, end, onMuted, interviewDone, interviewUrl } = req.body;
+      const { companyName, interviewManager } = res.locals.user;
 
       const postReservation = await this.reservationService.postReservation(
+        companyName,
+        interviewManager,
         interviewTopic,
         interviewTime,
-        reservationDate
+        start,
+        end,
+        onMuted,
+        interviewDone,
+        interviewUrl,
       );
 
       res.status(201).json({ data: postReservation });
