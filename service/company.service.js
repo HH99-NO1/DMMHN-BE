@@ -1,7 +1,7 @@
 const CompanyRepository = require("../repository/company.repository");
 const bcrypt = require("bcrypt");
 const { findOne } = require("../models/company");
-const jwt = require("../jwt/jwt-utils");
+const jwt = require("../jwt/company-jwt-utils");
 const refreshModel = require("../models/refresh");
 
 class CompanyService {

@@ -41,6 +41,10 @@ const companySchema = new mongoose.Schema({
   expiration: {
     type: String,
   },
+  interviewManager: {
+    type: String,
+    // required: true,
+  },
   createdAt: { type: String, default: new Date() },
   updatedAt: { type: String, default: new Date() },
 });

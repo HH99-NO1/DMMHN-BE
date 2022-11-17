@@ -6,7 +6,7 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  interviewManager: {
+  companyAdmin: {
     type: String,
     // required: true,
   },
@@ -35,6 +35,13 @@ const reservationSchema = new mongoose.Schema({
   },
   interviewUrl: {
     type: String,
+  },
+  isDone: {
+    type: String,
+  },
+  url: {
+    type: String,
+    // required: true,
   },
   interviewCancelMessage: {
     type: String,
