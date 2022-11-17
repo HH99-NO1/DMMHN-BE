@@ -6,7 +6,7 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  interviewManager: {
+  companyAdmin: {
     type: String,
     // required: true,
   },

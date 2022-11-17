@@ -8,7 +8,7 @@ class ReservationService {
 
   postReservation = async (
     companyName,
-    interviewManager,
+    companyAdmin,
     interviewTopic,
     interviewTime,
     start,
@@ -62,7 +62,7 @@ class ReservationService {
     if(onMuted === "true") {
       await this.reservationRepository.postReservation(
       companyName,
-      interviewManager,
+      companyAdmin,
       interviewTopic,
       interviewTime,
       start,
@@ -75,7 +75,7 @@ class ReservationService {
       } else {
       await this.reservationRepository.postReservation(
       companyName,
-      interviewManager,
+      companyAdmin,
       interviewTopic,
       interviewTime,
       start,
@@ -91,7 +91,7 @@ class ReservationService {
 
       return {
       companyName,
-      interviewManager,
+      companyAdmin,
       interviewTopic, 
       interviewTime: {
         start,

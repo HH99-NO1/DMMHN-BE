@@ -7,11 +7,13 @@ class ReservationController {
   postReservation = async (req, res, next) => {
     try {
       const { interviewTopic, interviewTime, start, end, onMuted, interviewDone, isDone } = req.body;
-      const { companyName, interviewManager } = res.locals.user;
+
+      console.log("#####controller", res.locals.user)
+      const { companyName, companyAdmin } = res.locals.user;
 
       const postReservation = await this.reservationService.postReservation(
         companyName,
-        interviewManager,
+        companyAdmin,
         interviewTopic,
         interviewTime,
         start,

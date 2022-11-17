@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const company = require("../models/company");
 const jwt = require("jsonwebtoken");
 
 const refresh = require("../jwt/refreshToken");
@@ -9,6 +10,7 @@ const membersController = new MembersController();
 
 router.post("/signup", membersController.createMembers);
 router.post("/login", membersController.loginMembers);
+//router.post("/auth",membersController.authCode)
 router.get("/me", authMiddleware, membersController.findOneMember);
 router.get("/refresh", refresh, (req, res) => {});
 router.put("/", authMiddleware, membersController.updateMember);

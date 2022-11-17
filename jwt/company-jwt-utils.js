@@ -3,8 +3,8 @@ const secretKey = process.env.SECRET_KEY;
 const refreshModel = require("../models/refresh");
 
 module.exports = {
-  sign: (findOneUser) => {
-    const payload = { id: findOneUser._id, email: findOneUser.memberEmail };
+  sign: (findCompany) => {
+    const payload = { id: findCompany._id, companyAdmin: findCompany.companyAdmin, companyName: findCompany.companyName };
     return jwt.sign(payload, secretKey, {
       expiresIn: "1h",
     });

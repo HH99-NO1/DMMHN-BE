@@ -7,6 +7,6 @@ const CompanyController = require("../controller/company.controller");
 const companyController = new CompanyController();
 
 router.post("/signup", companyController.createCompany);
-
+router.post("/login", companyController.loginCompany);
 
 module.exports = router;
