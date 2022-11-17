@@ -2,11 +2,22 @@ const Members = require("../models/members");
 
 class MembersRepository {
   //member DB에 유저의 정보를 저장한다
-  createMembers = async (memberEmail, hashedPw) => {
+  createMembers = async (
+    memberEmail,
+    hashedPw,
+    memberName,
+    phoneNum,
+    gender,
+    personalNum
+  ) => {
     const createMembersData = await Members.create({
       memberEmail,
       password: hashedPw,
       expiration: "false",
+      memberName,
+      phoneNum,
+      gender,
+      personalNum,
     });
     return createMembersData;
   };
@@ -33,7 +44,7 @@ class MembersRepository {
   };
 
   findOneMember = async (memberEmail) => {
-    const findOneMember = await Members.findById(memberEmail);
+    const findOneMember = await Members.findOne({ memberEmail });
     return findOneMember;
   };
 

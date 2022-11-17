@@ -1,33 +1,53 @@
-const CompanyRepository = require("../repository/company.repository")
-const bcrypt = require("bcrypt")
+const CompanyRepository = require("../repository/company.repository");
+const bcrypt = require("bcrypt");
 
 class CompanyService {
-    companyRepository = new CompanyRepository();
+  companyRepository = new CompanyRepository();
 
-    createCompany = async (companyName,password,confirmPw)=>{
-        const result = await this.companyRepository.checkCompanyIdDup(companyName);
-        if(result){
-            throw new Error("이미 가입된 계정입니다.")
-        }
-        const hashedPw = bcrypt.hashSync(password,10)
-        await this.companyRepository.createCompany(
-            companyName,
-            hashedPw,
-            confirmPw
-        )
-        return
+  createCompany = async (
+    companyName,
+    companyEmail,
+    companyAddress,
+    registrationNumber,
+    companyCEO,
+    companyAdmin,
+    companyTel,
+    companyTag,
+    password
+  ) => {
+    const result = await this.companyRepository.findOneCompany(companyEmail);
+
+    if (result) {
+      throw new Error("이미 가입된 계정입니다.");
     }
 
-    checkCompanyIdDup = async(companyName)=>{
-        const findOneCompany = await this.companyRepository.findOneCompany(companyName)
+    const hashedPw = bcrypt.hashSync(password, 10);
+    
+    await this.companyRepository.createCompany(
+      companyName,
+      companyEmail,
+      companyAddress,
+      registrationNumber,
+      companyCEO,
+      companyAdmin,
+      companyTel,
+      companyTag,
+      hashedPw
+    );
+    return;
+  };
 
-        if(findOneCompany){
-            throw new Error("이미 가입된 기업입니다.")
-        }else{
-            return "사용가능한 계정입니다."
-        }
+  checkCompanyIdDup = async (companyEmail) => {
+    const findOneCompany = await this.companyRepository.findOneCompany(
+        companyEmail
+    );
+
+    if (findOneCompany) {
+      throw new Error("이미 가입된 기업입니다.");
+    } else {
+      return "사용가능한 계정입니다.";
     }
+  };
 }
 
-
-module.exports =CompanyService
+module.exports = CompanyService;

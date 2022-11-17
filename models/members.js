@@ -4,38 +4,39 @@ const mongoose = require("mongoose");
 const membersSchema = new mongoose.Schema({
   memberEmail: {
     type: String,
-    // required: true,
+   // required: true,
   },
   password: {
     type: String,
-    // required: true,
+  //  required: true,
+  },
+  confirmPw:{
+    type:String,
+//required:true
   },
   expiration: {
     type: String,
   },
   memberName: {
     type: String,
-    // required: true,
+  //  required: true,
   },
-  age: {
-    type: String,
-    // required: true,
-  },
+  
   phoneNum: {
     type: String,
-    // required: true,
+   //  required: true,
   },
   gender: {
     type: String,
-    // required: true,
+   //  required: true,
   },
-  address: {
+  personalNum: {
     type: String,
-    // required: true,
+   //  required: true,
   },
   tech: {
     type: String,
-    // required: true,
+     //required: true,
   },
   degree: {
     type: String,

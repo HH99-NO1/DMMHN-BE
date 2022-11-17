@@ -1,26 +1,35 @@
-const Company = require("../models/company")
+const Company = require("../models/company");
 
 class CompanyRepository {
+  createCompany = async (
+    companyName,
+    companyEmail,
+    companyAddress,
+    registrationNumber,
+    companyCEO,
+    companyAdmin,
+    companyTel,
+    companyTag,
+    password
+  ) => {
+    const createCompanyData = await Company.create({
+      companyName,
+      companyEmail,
+      companyAddress,
+      registrationNumber,
+      companyCEO,
+      companyAdmin,
+      companyTel,
+      companyTag,
+      password
+    });
+    return createCompanyData;
+  };
 
-    createCompany = async (companyName,password,confirmPw)=>{
-        const createCompanyData = await Company.create({
-            companyName,
-            password,
-            confirmPw
-        })
-        return createCompanyData
-    }
-
-    checkCompanyIdDup = async (companyName)=>{
-        const checkCompany = await Company.findOne({ companyName });
-        return checkCompany;
-    };
-
-    findOneCompany = async (_id) => {
-        const findOneCompamy = await Members.findById(_id);
-        return findOneCompamy;
-      };
-    
+  findOneCompany = async (companyEmail) => {
+    const checkCompany = await Company.findOne({ companyEmail });
+    return checkCompany;
+  };
 }
 
 module.exports = CompanyRepository;
