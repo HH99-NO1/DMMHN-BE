@@ -38,6 +38,9 @@ const companySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  expiration: {
+    type: String,
+  },
   createdAt: { type: String, default: new Date() },
   updatedAt: { type: String, default: new Date() },
 });

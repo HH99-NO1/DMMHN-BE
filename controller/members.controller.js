@@ -92,7 +92,6 @@ class MembersController {
 
   deleteMember = async (req, res, next) => {
     try {
-      console.log(tokenInfo);
       if (tokenInfo.message === "jwt expired") {
         throw new Error("jwt expired");
       }
