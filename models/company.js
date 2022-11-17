@@ -6,42 +6,37 @@ const companySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password: {
+  companyEmail: {
     type: String,
-    // required: true,
+    required: true,
   },
-  confirmPw: {
-    type: String,
-    //required:true,
-  },
- 
   companyAddress: {
     type: String,
-    // required: true,
-  },
-  businessScale:{
-    type:String,
-    //required:true,
+    required: true,
   },
   registrationNumber: {
     type: String,
-    // required: true,
+    required: true,
+  },
+  companyCEO: {
+    type: String,
+    required: true,
   },
   companyAdmin: {
     type: String,
-    // required: true,
+    required: true,
   },
   companyTel: {
     type: String,
-    // required: true,
+    required: true,
   },
-  companyTage: {
+  companyTag: {
     type: String,
-    // required: true,
+    required: true,
   },
-  companyEmail: {
+  password: {
     type: String,
-    // required: true,
+    required: true,
   },
   createdAt: { type: String, default: new Date() },
   updatedAt: { type: String, default: new Date() },

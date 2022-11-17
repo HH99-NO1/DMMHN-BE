@@ -4,24 +4,44 @@ const bcrypt = require("bcrypt");
 class CompanyService {
   companyRepository = new CompanyRepository();
 
-  createCompany = async (companyName, password, confirmPw) => {
-    const result = await this.companyRepository.checkCompanyIdDup(companyName);
+  createCompany = async (
+    companyName,
+    companyEmail,
+    companyAddress,
+    registrationNumber,
+    companyCEO,
+    companyAdmin,
+    companyTel,
+    companyTag,
+    password
+  ) => {
+    const result = await this.companyRepository.findOneCompany(companyEmail);
+
+
     if (result) {
       throw new Error("이미 가입된 계정입니다.");
     }
     const hashedPw = bcrypt.hashSync(password, 10);
+    
     await this.companyRepository.createCompany(
       companyName,
-      hashedPw,
-      confirmPw
+      companyEmail,
+      companyAddress,
+      registrationNumber,
+      companyCEO,
+      companyAdmin,
+      companyTel,
+      companyTag,
+      hashedPw
     );
     return;
   };
 
-  checkCompanyIdDup = async (companyName) => {
+  checkCompanyIdDup = async (companyEmail) => {
     const findOneCompany = await this.companyRepository.findOneCompany(
-      companyName
+        companyEmail
     );
+
 
     if (findOneCompany) {
       throw new Error("이미 가입된 기업입니다.");
@@ -29,6 +49,7 @@ class CompanyService {
       return "사용가능한 계정입니다.";
     }
   };
+
 
   createReservation = async (
     companyName,
@@ -44,6 +65,8 @@ class CompanyService {
     );
     return;
   };
+
 }
 
 module.exports = CompanyService;
+

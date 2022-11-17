@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const company = require("../models/company");
 const jwt = require("jsonwebtoken");
 
 const refresh = require("../jwt/refreshToken");
@@ -9,10 +10,12 @@ const membersController = new MembersController();
 
 router.post("/signup", membersController.createMembers);
 router.post("/login", membersController.loginMembers);
+//router.post("/auth",membersController.authCode)
 router.get("/me", authMiddleware, membersController.findOneMember);
 router.get("/refresh", refresh, (req, res) => {});
 router.put("/", authMiddleware, membersController.updateMember);
 router.delete("/", authMiddleware, membersController.deleteMember);
+
 
 router.post("/companySignup", async (req, res) => {
   const { companyName, companyEmail, companyPassword, interviewManager } =
@@ -61,3 +64,4 @@ router.post("/companyLogin", async (req, res) => {
 });
 
 module.exports = router;
+
