@@ -58,7 +58,7 @@ class ReservationService {
 
       console.log(url)
 
-    // try {
+    try {
     if(onMuted === "true") {
       await this.reservationRepository.postReservation(
       companyName,
@@ -106,9 +106,9 @@ class ReservationService {
         url
       },
       };
-    // } catch (err) {
-    //   throw new Error("postReservation에서 권한이 없습니다");
-    // }
+    } catch (err) {
+      throw new Error("postReservation에서 권한이 없습니다");
+    }
   };
 
   getReservation = async (id) => {

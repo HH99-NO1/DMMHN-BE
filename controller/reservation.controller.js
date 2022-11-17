@@ -5,7 +5,7 @@ class ReservationController {
   reservationService = new ReservationService();
 
   postReservation = async (req, res, next) => {
-    // try {
+    try {
       const { interviewTopic, interviewTime, start, end, onMuted, interviewDone, isDone } = req.body;
       const { companyName, interviewManager } = res.locals.user;
 
@@ -22,9 +22,9 @@ class ReservationController {
       );
 
       res.status(201).json({ data: postReservation });
-    // } catch (err) {
-    //   res.status(400).json({ errorMessage: err.message });
-    // }
+    } catch (err) {
+      res.status(400).json({ errorMessage: err.message });
+    }
   };
 
   // postUrl = async (req, res, next) => {

@@ -15,12 +15,12 @@ class MembersController {
       res.status(401).json({ errorMessage: "이미 로그인 된 계정입니다." });
       return;
     }
-    try {
-      await this.membersService.createMembers(memberEmail, password, confirmPw);
-      res.status(201).json({ message: "회원가입에 성공했습니다" });
-    } catch (err) {
-      res.status(400).json(err.message);
-    }
+    // try {
+    await this.membersService.createMembers(memberEmail, password, confirmPw);
+    res.status(201).json({ message: "회원가입에 성공했습니다" });
+    // } catch (err) {
+    //   res.status(400).json(err.message);
+    // }
   };
 
   loginMembers = async (req, res, next) => {

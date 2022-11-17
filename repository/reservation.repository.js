@@ -1,7 +1,7 @@
 const Reservation = require("../models/reservation");
 
 class ReservationRepository {
-  postReservation = async (       
+  postReservation = async (
     companyName,
     interviewManager,
     interviewTopic,
@@ -13,19 +13,17 @@ class ReservationRepository {
     isDone,
     url
     ) => {
-   await Reservation.create({
+    await Reservation.create({
       companyName,
       interviewManager,
-      interviewTopic, 
-      interviewTime, 
+      interviewTopic,
+      interviewTime,
       start,
       end,
       onMuted, 
       interviewDone,
       isDone,
       url
-      // createdAt,
-      // updatedAt
     });
 
     return;
@@ -33,6 +31,21 @@ class ReservationRepository {
 
   getListReservation = async (id) => {
     await Reservation.findById(id);
+    return;
+  };
+
+  createReservation = async (
+    companyName,
+    companyEmail,
+    companyPassword,
+    interviewManager
+  ) => {
+    await Reservation.create(
+      companyName,
+      companyEmail,
+      companyPassword,
+      interviewManager
+    );
     return;
   };
 }

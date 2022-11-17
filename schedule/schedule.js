@@ -19,6 +19,7 @@ rule.minute = 00;
 
 // rule에서 정의한 대로 매일 정해진 시간마다 스케쥴러 실행
 const j = schedule.scheduleJob(rule, async () => {
+  console.log("스케쥴러 실행");
   // expiration 모델에서 모든 유저들의 정보를 가져온다
   const findAllExpiration = await Members.find({});
   const expirationMember = [];
@@ -31,7 +32,7 @@ const j = schedule.scheduleJob(rule, async () => {
       expirationMember.push(findAllExpiration[i]);
     }
   }
-
+  console.log();
   //expirationMember 배열에 담긴 유저들의 expiration값을 true로 바꾼다
   if (expirationMember[0] !== undefined) {
     for (let i = 0; i < expirationMember.length; i++) {
