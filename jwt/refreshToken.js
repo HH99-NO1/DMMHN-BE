@@ -27,10 +27,7 @@ const refresh = async (req, res) => {
     const refreshResult = await refreshVerify(refreshToken);
     console.log(accessTokenResult);
     // access token의 재발급을 위해서는 access token이 만료되어 있어야 한다*/
-    if (
-      accessTokenResult.ok === false &&
-      accessTokenResult.message === "jwt expired"
-    ) {
+    if (accessTokenResult.message === "jwt expired") {
       // refresh token이 만료되었다면 새로 로그인을 해야 한다
       if (refreshResult.message === "refreshToken expired") {
         res.status(401).send({
