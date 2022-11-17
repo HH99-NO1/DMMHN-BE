@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const company = require("../models/company");
+const company = require("../models/company");
 const jwt = require("jsonwebtoken");
 
 const refresh = require("../jwt/refreshToken");
@@ -16,19 +16,19 @@ router.put("/", authMiddleware, membersController.updateMember);
 router.delete("/", authMiddleware, membersController.deleteMember);
 
 router.post("/companySignup", async (req, res) => {
-    const { companyName, companyEmail, companyPassword, interviewManager } = req.body;
-    await company.create({ companyName, companyEmail, companyPassword, interviewManager });
+    const { companyName, companyEmail, password, interviewManager } = req.body;
+    await company.create({ companyName, companyEmail, password, interviewManager });
     res.status(201).json({ messaage: "회원가입" });
   });
 
   router.post("/companyLogin", async (req, res) => {
-    const { companyName ,companyEmail, companyPassword, interviewManager } = req.body;
+    const { companyName ,companyEmail, password, interviewManager } = req.body;
   
     try {
       const findCompany = await company.findOne({ interviewManager });
       console.log("######user", findCompany);
   
-      if (!findCompany || companyPassword != findCompany.companyPassword) {
+      if (!findCompany || password != findCompany.password) {
         res
           .status(400)
           .json({ errorMessage: "아이디 또는 패스워드를 확인해주세요." });

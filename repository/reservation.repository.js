@@ -10,8 +10,10 @@ class ReservationRepository {
     end,
     onMuted,
     interviewDone,
-    interviewUrl) => {
-    await Reservation.create({
+    isDone,
+    url
+    ) => {
+   await Reservation.create({
       companyName,
       interviewManager,
       interviewTopic, 
@@ -19,8 +21,9 @@ class ReservationRepository {
       start,
       end,
       onMuted, 
-      interviewDone, 
-      interviewUrl,
+      interviewDone,
+      isDone,
+      url
       // createdAt,
       // updatedAt
     });

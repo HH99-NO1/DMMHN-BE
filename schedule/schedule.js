@@ -1,11 +1,11 @@
-const Members = require("./models/members");
+const Members = require("../models/members");
 const schedule = require("node-schedule");
 const rule = new schedule.RecurrenceRule();
 
 // 시간 데이터에 1달을 더하는 함수
 const nextMonth = (date) => {
   const newDate = new Date(date);
-  newDate.setMonth(newDate.getMonth() + 0);
+  newDate.setMonth(newDate.getMonth() + 1);
   return String(newDate);
 };
 

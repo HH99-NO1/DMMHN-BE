@@ -36,6 +36,13 @@ const reservationSchema = new mongoose.Schema({
   interviewUrl: {
     type: String,
   },
+  isDone: {
+    type: String,
+  },
+  url: {
+    type: String,
+    // required: true,
+  },
   interviewCancelMessage: {
     type: String,
   },
