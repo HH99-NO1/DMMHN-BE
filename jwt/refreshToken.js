@@ -20,9 +20,9 @@ const refresh = async (req, res) => {
         message: "권한이 없습니다",
       });
     }
-    console.log("23: ", refreshToken);
     // refresh token이 유효한지를 검사한다
     const refreshResult = await refreshVerify(refreshToken);
+    console.log(accessTokenResult);
     // access token의 재발급을 위해서는 access token이 만료되어 있어야 한다*/
     if (
       accessTokenResult.ok === false &&
