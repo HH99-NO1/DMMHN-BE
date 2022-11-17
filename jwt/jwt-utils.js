@@ -32,7 +32,7 @@ module.exports = {
     const data = await refreshModel.findOne({ refreshToken });
     const refreshTokenArray = refreshToken.split(" ");
     const refreshTokenValue = refreshTokenArray[1];
-
+    console.log(data);
     if (refreshToken === data.refreshToken) {
       try {
         jwt.verify(refreshTokenValue, secretKey);
