@@ -5,11 +5,6 @@ const refreshTokenSchema = new mongoose.Schema({
   refreshToken: {
     type: String,
   },
-  expireAt: {
-    type: Date,
-    default: Date.now,
-    index: { expires: "1m" },
-  },
   expiratedAt: { type: String, default: new Date() },
   updatedAt: { type: String, default: new Date() },
 });

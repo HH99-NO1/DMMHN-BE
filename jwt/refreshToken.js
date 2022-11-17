@@ -2,6 +2,7 @@ const { sign, verify, refreshVerify } = require("./jwt-utils");
 const jwt = require("jsonwebtoken");
 
 const refresh = async (req, res) => {
+  console.log(req.headers);
   // access token과 refresh token의 존재 유무를 체크
   if (req.headers.authorization && req.headers.refresh) {
     const accessToken = req.headers.authorization.split(" ")[1];
