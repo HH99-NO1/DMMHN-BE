@@ -9,6 +9,7 @@ require("dotenv").config();
 class MembersService {
   membersRepository = new MembersRepository();
 
+
 //   authCode = async (email) =>{
     
 //     let transporter = nodemailer.createTransport({
@@ -119,7 +120,9 @@ class MembersService {
       await this.membersRepository.deleteMember(_id);
       return;
     };
+
   };
 
 
 module.exports = MembersService;
+

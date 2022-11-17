@@ -18,6 +18,7 @@ class CompanyController {
   companyService = new CompanyService();
 
   createCompany = async (req, res, next) => {
+
     const {
       companyName,
       companyEmail,
@@ -60,7 +61,9 @@ class CompanyController {
     // }catch(err){
     //     res.json(err.message);
     // }
+
   };
 }
 
 module.exports = CompanyController;
+
