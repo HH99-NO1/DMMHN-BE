@@ -38,7 +38,7 @@ const refresh = async (req, res) => {
       } else {
         const newAccessToken = sign(decoded);
         res.status(200).send({
-          ok: true,
+          ok: 5,
           data: {
             accessToken: newAccessToken,
             refreshToken,

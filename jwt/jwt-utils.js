@@ -16,7 +16,7 @@ module.exports = {
       return { ok: true, id: decoded.id };
     } catch (err) {
       return {
-        ok: false,
+        ok: 6,
         message: err.message,
       };
     }
