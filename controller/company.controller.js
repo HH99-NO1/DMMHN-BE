@@ -27,6 +27,15 @@ class CompanyController {
     }
     res.status(201).json({ message: "회원가입에 성공했습니다" });
   };
+
+  loginCompany = async (req, res, next) => {
+    const { companyName, password } = req.body;
+    const loginCompany = await this.companyService.loginCompany(
+      companyName,
+      password
+    );
+    res.status(200).json({ message: "로그인 완료", data: loginCompany });
+  };
 }
 
 module.exports = CompanyController;

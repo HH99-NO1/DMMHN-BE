@@ -14,13 +14,13 @@ const companySchema = new mongoose.Schema({
     type: String,
     //required:true,
   },
- 
+
   companyAddress: {
     type: String,
     // required: true,
   },
-  businessScale:{
-    type:String,
+  businessScale: {
+    type: String,
     //required:true,
   },
   registrationNumber: {
@@ -42,6 +42,9 @@ const companySchema = new mongoose.Schema({
   companyEmail: {
     type: String,
     // required: true,
+  },
+  expiration: {
+    type: String,
   },
   createdAt: { type: String, default: new Date() },
   updatedAt: { type: String, default: new Date() },
