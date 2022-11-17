@@ -7,23 +7,41 @@ const refreshModel = require("../models/refresh");
 class CompanyService {
   companyRepository = new CompanyRepository();
 
-  createCompany = async (companyName, password, confirmPw) => {
-    const result = await this.companyRepository.checkCompanyIdDup(companyName);
+  createCompany = async (
+    companyName,
+    companyEmail,
+    companyAddress,
+    registrationNumber,
+    companyCEO,
+    companyAdmin,
+    companyTel,
+    companyTag,
+    password
+  ) => {
+    const result = await this.companyRepository.findOneCompany(companyEmail);
+
     if (result) {
       throw new Error("이미 가입된 계정입니다.");
     }
     const hashedPw = bcrypt.hashSync(password, 10);
+
     await this.companyRepository.createCompany(
       companyName,
-      hashedPw,
-      confirmPw
+      companyEmail,
+      companyAddress,
+      registrationNumber,
+      companyCEO,
+      companyAdmin,
+      companyTel,
+      companyTag,
+      hashedPw
     );
     return;
   };
 
-  checkCompanyIdDup = async (companyName) => {
+  checkCompanyIdDup = async (companyEmail) => {
     const findOneCompany = await this.companyRepository.findOneCompany(
-      companyName
+      companyEmail
     );
 
     if (findOneCompany) {
@@ -48,10 +66,11 @@ class CompanyService {
     return;
   };
 
-  loginCompany = async (companyName, password) => {
-    const findOneCompany = await this.companyRepository.loginCompany(
-      companyName
+  loginCompany = async (companyEmail, password) => {
+    const findOneCompany = await this.companyRepository.findOneCompany(
+      companyEmail
     );
+    console.log(findOneCompany);
     if (findOneCompany.expiration === "true") {
       throw new Error("장기간 미접속으로 정지된 회원입니다");
     }
