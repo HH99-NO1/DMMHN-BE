@@ -16,7 +16,7 @@ const refresh = async (req, res) => {
     // 디코딩 결과가 없으면 권한이 없음을 응답
     if (decoded === null) {
       res.status(401).send({
-        ok: false,
+        ok: 1,
         message: "권한이 없습니다",
       });
     }
@@ -31,7 +31,7 @@ const refresh = async (req, res) => {
       // refresh token이 만료되었다면 새로 로그인을 해야 한다
       if (refreshResult.message === "refreshToken expired") {
         res.status(401).send({
-          ok: false,
+          ok: 2,
           message: "새로 로그인을 해주세요!",
         });
         // refresh token이 유효하다면 access token을 재발급한다
@@ -47,12 +47,13 @@ const refresh = async (req, res) => {
       }
     } else {
       res.status(400).send({
+        ok: 3,
         message: "액세스 토큰이 만료되지 않았습니다",
       });
     }
   } else {
     res.status(400).send({
-      ok: false,
+      ok: 4,
       message: "액세스 토큰 또는 리프레시 토큰이 존재하지 않습니다.",
     });
   }
