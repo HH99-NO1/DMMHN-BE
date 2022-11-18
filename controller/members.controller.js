@@ -83,6 +83,10 @@ class MembersController {
 
   updateMember = async (req, res, next) => {
     try {
+      if (tokenInfo.message === "jwt expired") {
+        res.status(401).send({ message: "jwt expired", ok: 6 });
+        return;
+      }
       const { memberEmail } = res.locals.members;
       const { password } = req.body;
       await this.membersService.updateMember(memberEmail, password);
@@ -95,7 +99,8 @@ class MembersController {
   deleteMember = async (req, res, next) => {
     try {
       if (tokenInfo.message === "jwt expired") {
-        throw new Error("jwt expired");
+        res.status(401).send({ message: "jwt expired", ok: 6 });
+        return;
       }
       const { _id } = res.locals.members;
       await this.membersService.deleteMember(_id);
