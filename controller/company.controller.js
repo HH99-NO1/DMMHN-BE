@@ -11,7 +11,7 @@ const companySchema = Joi.object({
   companyTel: Joi.string().required(),
   companyTag: Joi.string().required(),
   password: Joi.string().required(),
-  confirmPw: Joi.string().required()
+  confirmPw: Joi.string().required(),
 });
 
 class CompanyController {
@@ -60,6 +60,15 @@ class CompanyController {
     // }catch(err){
     //     res.json(err.message);
     // }
+  };
+
+  loginCompany = async (req, res, next) => {
+    const { companyEmail, password } = req.body;
+    const loginCompany = await this.companyService.loginCompany(
+      companyEmail,
+      password
+    );
+    res.status(200).json({ message: "로그인 완료", data: loginCompany });
   };
 }
 

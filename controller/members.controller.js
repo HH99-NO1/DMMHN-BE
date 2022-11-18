@@ -9,17 +9,11 @@ const membersSchema = Joi.object({
 class MembersController {
   membersService = new MembersService();
 
-  authCode = async(req,res,next)=>{
-  //  try{
-      const { email } = req.body;
-      const authCode = await this.membersService.authCode(email);
-      res
-        .status(200)
-        .json({data: authCode,message:"Sent Auth Email"})
-  //  }catch(err){
-//      res.status(400).json({message:"인증 코드 발송에 실패했습니다."})
-//    }
-}
+  authCode = async (req, res, next) => {
+    const { email } = req.body;
+    const authCode = await this.membersService.authCode(email);
+    res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+  };
 
   createMembers = async (req, res, next) => {
     const {
@@ -35,21 +29,22 @@ class MembersController {
       res.status(401).json({ errorMessage: "이미 로그인 된 계정입니다." });
       return;
     }
-  //  try {
-      await this.membersService.createMembers(
-        memberEmail,
-        password,
-        confirmPw,
-        memberName,
-        phoneNum,
-        gender,
-        personalNum
-      );
-      res.status(201).json({ message: "회원가입에 성공했습니다" });
-  //   } catch (err) {
-  //     res.status(400).json(err.message);
-  //   }
-   };
+
+    //  try {
+    await this.membersService.createMembers(
+      memberEmail,
+      password,
+      confirmPw,
+      memberName,
+      phoneNum,
+      gender,
+      personalNum
+    );
+    res.status(201).json({ message: "회원가입에 성공했습니다" });
+    //   } catch (err) {
+    //     res.status(400).json(err.message);
+    //   }
+  };
 
   loginMembers = async (req, res, next) => {
     try {
@@ -66,6 +61,10 @@ class MembersController {
 
   findOneMember = async (req, res, next) => {
     try {
+      if (tokenInfo.message === "jwt expired") {
+        res.status(401).send({ message: "jwt expired", ok: 6 });
+        return;
+      }
       const { memberEmail } = res.locals.members;
       const findOneMember = await this.membersService.findOneMember(
         memberEmail
@@ -78,6 +77,10 @@ class MembersController {
 
   updateMember = async (req, res, next) => {
     try {
+      if (tokenInfo.message === "jwt expired") {
+        res.status(401).send({ message: "jwt expired", ok: 6 });
+        return;
+      }
       const { memberEmail } = res.locals.members;
       const { password } = req.body;
       await this.membersService.updateMember(memberEmail, password);
@@ -89,9 +92,9 @@ class MembersController {
 
   deleteMember = async (req, res, next) => {
     try {
-      console.log(tokenInfo);
       if (tokenInfo.message === "jwt expired") {
-        throw new Error("jwt expired");
+        res.status(401).send({ message: "jwt expired", ok: 6 });
+        return;
       }
       const { _id } = res.locals.members;
       await this.membersService.deleteMember(_id);

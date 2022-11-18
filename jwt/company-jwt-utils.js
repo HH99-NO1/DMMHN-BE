@@ -3,10 +3,10 @@ const secretKey = process.env.SECRET_KEY;
 const refreshModel = require("../models/refresh");
 
 module.exports = {
-  sign: (findOneUser) => {
-    const payload = { id: findOneUser._id, email: findOneUser.memberEmail };
+  sign: (findCompany) => {
+    const payload = { id: findCompany._id, companyAdmin: findCompany.companyAdmin, companyName: findCompany.companyName };
     return jwt.sign(payload, secretKey, {
-      expiresIn: "30s",
+      expiresIn: "1h",
     });
   },
 
@@ -16,7 +16,7 @@ module.exports = {
       return { ok: true, id: decoded.id };
     } catch (err) {
       return {
-        ok: 6,
+        ok: false,
         message: err.message,
       };
     }
@@ -24,7 +24,7 @@ module.exports = {
 
   refreshSign: () => {
     return jwt.sign({}, secretKey, {
-      expiresIn: "40s",
+      expiresIn: "10h",
     });
   },
 
@@ -32,9 +32,7 @@ module.exports = {
     const data = await refreshModel.findOne({ refreshToken });
     const refreshTokenArray = refreshToken.split(" ");
     const refreshTokenValue = refreshTokenArray[1];
-    if (!data) {
-      throw new Error("존재하지 않는 refreshToken 입니다");
-    }
+
     if (refreshToken === data.refreshToken) {
       try {
         jwt.verify(refreshTokenValue, secretKey);

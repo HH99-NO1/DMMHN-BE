@@ -21,7 +21,7 @@ class CompanyRepository {
       companyAdmin,
       companyTel,
       companyTag,
-      password
+      password,
     });
     return createCompanyData;
   };
