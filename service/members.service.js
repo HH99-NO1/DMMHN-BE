@@ -4,32 +4,38 @@ const bcrypt = require("bcrypt");
 const refreshModel = require("../models/refresh");
 const nodemailer = require('nodemailer');
 require("dotenv").config();
+const ejs = require("ejs");
+
 
 
 class MembersService {
   membersRepository = new MembersRepository();
 
-//   authCode = async (email) =>{
+  
+  
+
+  authCode = async (email) =>{  
+   
     
-//     let transporter = nodemailer.createTransport({
-//       service: "gmail",
-//       host:"smtp.gmail.com",
-//       port:587,
-//       secure:false,
-//       auth: {
-//         user:process.env.NODEMAILER_USER,
-//         pass:process.env.NODEMAILER_PASS
-//       }
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      host:"smtp.gmail.com",
+      port:587,
+      secure:false,
+      auth: {
+        user:process.env.NODEMAILER_USER,
+        pass:process.env.NODEMAILER_PASS
+      }
     
-//   })
-//     await transporter.sendMail({
-//     from:`"떨면 뭐하니" <${process.env.NODEMAILER_USER}>`,
-//     to: email,
-//     subcect: "떨면 뭐하니 Auth Number",
-//     text: "text" 
-//   })
-//   return "text"
-// }
+  })
+    await transporter.sendMail({
+    from:`"떨면 뭐하니" <${process.env.NODEMAILER_USER}>`,
+    to: email,
+    subcect: "떨면 뭐하니 Auth Number",
+    text: "인증코드를 입력해주세요" 
+  })
+  return "text"
+}
 
   createMembers = async (
     memberEmail,
@@ -119,6 +125,7 @@ class MembersService {
       await this.membersRepository.deleteMember(_id);
       return;
     };
+
   };
 
 
