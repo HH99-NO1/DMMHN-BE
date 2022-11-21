@@ -59,7 +59,7 @@ class MembersController {
     }
   };
 
-  findOneMember = async (req, res, next) => {
+  getMemberInfo = async (req, res, next) => {
     try {
       if (tokenInfo.message === "jwt expired") {
         res.status(401).send({ message: "jwt expired", ok: 6 });

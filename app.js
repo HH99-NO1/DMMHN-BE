@@ -16,7 +16,7 @@ app.use(
 );
 
 // scheduler 실행
-j;
+expiration;
 
 app.use("/", routes);
 
