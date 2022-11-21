@@ -5,13 +5,14 @@ const membersSchema = Joi.object({
   password: Joi.string().required(),
   confirmPw: Joi.string().required(),
 });
+const authCode = "";
 
 class MembersController {
   membersService = new MembersService();
 
   authCode = async (req, res, next) => {
     const { email } = req.body;
-    const authCode = await this.membersService.authCode(email);
+    authCode = await this.membersService.authCode(email);
     res.status(200).json({ data: authCode, message: "Sent Auth Email" });
   };
 
@@ -23,7 +24,7 @@ class MembersController {
       memberName,
       phoneNum,
       gender,
-      personalNum,
+      personalNum,      
     } = req.body;
     if (req.headers.authorization) {
       res.status(401).json({ errorMessage: "이미 로그인 된 계정입니다." });
@@ -38,7 +39,9 @@ class MembersController {
       memberName,
       phoneNum,
       gender,
-      personalNum
+      authCode,
+      personalNum,
+      
     );
     res.status(201).json({ message: "회원가입에 성공했습니다" });
     //   } catch (err) {

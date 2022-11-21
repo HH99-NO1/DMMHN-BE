@@ -12,7 +12,7 @@ class ReservationRepository {
     interviewDone,
     isDone,
     url
-    ) => {
+  ) => {
     await Reservation.create({
       companyName,
       companyAdmin,
@@ -20,32 +20,25 @@ class ReservationRepository {
       interviewTime,
       start,
       end,
-      onMuted, 
+      onMuted,
       interviewDone,
       isDone,
-      url
+      url,
     });
 
     return;
   };
 
-  getListReservation = async (id) => {
-    await Reservation.findById(id);
+  cancelReservation = async (url, cancelMessage) => {
+    await Reservation.findOneAndUpdate(
+      { url },
+      { cancelMessage, urlexpirated: true }
+    );
     return;
   };
 
-  createReservation = async (
-    companyName,
-    companyEmail,
-    companyPassword,
-    interviewManager
-  ) => {
-    await Reservation.create(
-      companyName,
-      companyEmail,
-      companyPassword,
-      interviewManager
-    );
+  getReservation = async (companyName) => {
+    await Reservation.findOne({companyName});
     return;
   };
 }

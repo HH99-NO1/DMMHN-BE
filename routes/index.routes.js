@@ -6,7 +6,7 @@ const companyRouter = require("../routes/company.routes")
 const mockInterviewRouter = require("./mockInterview.routes")
 
 router.use("/members", membersRouter);
-router.use("/", reservationRouter);
+router.use("/interviews", reservationRouter);
 router.use("/company", companyRouter)
 router.use("/mockInterview", mockInterviewRouter)
 

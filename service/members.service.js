@@ -6,6 +6,9 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 const ejs = require("ejs");
 
+const EMAIL_VALIDATION =/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[.][a-zA-Z]{2,3}$/i;
+
+
 class MembersService {
   membersRepository = new MembersRepository();
 
@@ -20,7 +23,7 @@ class MembersService {
         pass: process.env.NODEMAILER_PASS,
       },
     });
-    await transporter.sendMail({
+    transporter.sendMail({
       from: `"떨면 뭐하니" <${process.env.NODEMAILER_USER}>`,
       to: email,
       subcect: "떨면 뭐하니 Auth Number",
@@ -29,6 +32,7 @@ class MembersService {
     return "text";
   };
 
+  
   createMembers = async (
     memberEmail,
     password,
@@ -36,11 +40,15 @@ class MembersService {
     memberName,
     phoneNum,
     gender,
+    authCode,
     personalNum
   ) => {
     //     try {
     if (password !== confirmPw) {
       throw new Error("비밀번호와 비밀번화 확인이 일치하지 않습니다");
+    }
+    if(!EMAIL_VALIDATION.test(email)) {
+      throw new Error("이메일 형식을 맞춰주세요")
     }
     const result = await this.membersRepository.findOneMember(memberEmail);
     if (result) {
@@ -53,6 +61,7 @@ class MembersService {
       memberName,
       phoneNum,
       gender,
+      authCode,
       personalNum
     );
     return;

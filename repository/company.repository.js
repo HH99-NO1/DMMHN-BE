@@ -12,7 +12,7 @@ class CompanyRepository {
     companyTag,
     password
   ) => {
-    const createCompanyData = await Company.create({
+    await Company.create({
       companyName,
       companyEmail,
       companyAddress,
@@ -23,7 +23,7 @@ class CompanyRepository {
       companyTag,
       password,
     });
-    return createCompanyData;
+    return;
   };
 
   findOneCompany = async (companyEmail) => {
