@@ -5,7 +5,7 @@ const reservationRouter = require("./reservation.routes");
 const companyRouter = require("../routes/company.routes")
 
 router.use("/members", membersRouter);
-router.use("/", reservationRouter);
+router.use("/interviews", reservationRouter);
 router.use("/company", companyRouter)
 
 module.exports = router;
