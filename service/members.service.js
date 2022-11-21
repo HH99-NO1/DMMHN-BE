@@ -20,7 +20,7 @@ class MembersService {
         pass: process.env.NODEMAILER_PASS,
       },
     });
-    await transporter.sendMail({
+    transporter.sendMail({
       from: `"떨면 뭐하니" <${process.env.NODEMAILER_USER}>`,
       to: email,
       subcect: "떨면 뭐하니 Auth Number",
