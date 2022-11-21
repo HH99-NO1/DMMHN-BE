@@ -3,7 +3,7 @@ const app = express();
 // const PORT = process.env.EXPRESS_PORT || 3000;
 const cors = require("cors");
 const connect = require("./models/index");
-const j = require("./schedule/schedule");
+const expiration = require("./schedule/schedule");
 connect();
 
 const morgan = require("morgan");
@@ -16,7 +16,7 @@ app.use(
 );
 
 // scheduler 실행
-j;
+expiration;
 
 app.use("/", routes);
 

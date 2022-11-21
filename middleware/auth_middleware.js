@@ -1,5 +1,6 @@
 const members = require("../models/members");
 const jwt = require("../jwt/jwt-utils");
+
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
   const [authType, authToken] = authorization.split(" ");
