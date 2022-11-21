@@ -8,18 +8,20 @@ class MembersRepository {
     memberName,
     phoneNum,
     gender,
+    authCode,
     personalNum
   ) => {
-    const createMembersData = await Members.create({
+    await Members.create({
       memberEmail,
       password: hashedPw,
       expiration: "false",
       memberName,
       phoneNum,
       gender,
+      authCode,
       personalNum,
     });
-    return createMembersData;
+    return;
   };
 
   // expiration 모델의 updatedAt을 최신 날짜로 업데이트

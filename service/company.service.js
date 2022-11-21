@@ -35,6 +35,7 @@ class CompanyService {
       companyTel,
       companyTag,
       hashedPw
+    
     );
     return;
   };
