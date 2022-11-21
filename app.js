@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.EXPRESS_PORT || 3000;
+// const PORT = process.env.EXPRESS_PORT || 3000;
 const cors = require("cors");
 const connect = require("./models/index");
 const j = require("./schedule/schedule");
@@ -20,6 +20,8 @@ j;
 
 app.use("/", routes);
 
-app.listen(PORT, () => {
-  console.log(`${PORT} is Running`);
-});
+// app.listen(PORT, () => {
+//   console.log(`${PORT} is Running`);
+// });
+
+module.exports = app
