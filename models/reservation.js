@@ -31,7 +31,7 @@ const reservationSchema = new mongoose.Schema({
     type: String,
   },
   interviewDone: {
-    type: String,
+    type: Boolean,
   },
   interviewUrl: {
     type: String,
@@ -43,11 +43,14 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  interviewCancelMessage: {
+  cancelMessage: {
     type: String,
   },
   interviewMembers: {
     type: String,
+  },
+  urlexpirated: {
+    type: Boolean,
   },
   createdAt: { type: String, default: new Date() },
   updatedAt: { type: String, default: new Date() },

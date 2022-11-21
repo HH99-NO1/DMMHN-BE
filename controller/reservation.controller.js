@@ -6,9 +6,15 @@ class ReservationController {
 
   postReservation = async (req, res, next) => {
     try {
-      const { interviewTopic, interviewTime, start, end, onMuted, interviewDone, isDone } = req.body;
-
-      console.log("#####controller", res.locals.user)
+      const {
+        interviewTopic,
+        interviewTime,
+        start,
+        end,
+        onMuted,
+        interviewDone,
+        isDone,
+      } = req.body;
       const { companyName, companyAdmin } = res.locals.user;
 
       const postReservation = await this.reservationService.postReservation(
@@ -20,7 +26,7 @@ class ReservationController {
         end,
         onMuted,
         interviewDone,
-        isDone,
+        isDone
       );
 
       res.status(201).json({ data: postReservation });
@@ -29,28 +35,37 @@ class ReservationController {
     }
   };
 
-  // postUrl = async (req, res, next) => {
-  //   const { _id } = req.params;
-  //   const { companyName } = res.locals.user;
-
-  //   await Company.findById({ companyName });
-  //   const makeUrl = await Company.creare({_id, companyName});
-
-  //   res.status(201).json({ data: makeUrl});
-  // }
-
-  getListReservation = async (req, res, next) => {
+  cancelReservation = async (req, res, next) => {
     try {
-      const { id } = res.locals.user;
+      const { url } = req.params;
+      const { cancelMessage } = req.body;
+      const { companyName, companyAdmin } = res.locals.user;
 
-      const getReservation = await this.reservationService.getListReservation(
-        id
+      const cancelReservation = await this.reservationService.cancelReservation(
+        url,
+        cancelMessage,
+        companyName,
+        companyAdmin
       );
 
-      res.status(201).json({ data: getReservation });
+      res.status(201).json({ data: cancelReservation });
     } catch (err) {
       res.status(400).json({ errorMessage: err.message });
     }
+  };
+
+  getReservation = async (req, res, next) => {
+    // try {
+    const { companyName } = res.locals.user;
+
+    const getReservation = await this.reservationService.getReservation(
+      companyName,
+    );
+
+    res.status(201).json({ data: getReservation });
+    // } catch (err) {
+    //   res.status(400).json({ errorMessage: err.message });
+    // }
   };
 }
 

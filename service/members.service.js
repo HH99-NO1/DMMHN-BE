@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const refreshModel = require("../models/refresh");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
-const ejs = require("ejs");
 
 class MembersService {
   membersRepository = new MembersRepository();
@@ -67,6 +66,10 @@ class MembersService {
       const findOneMember = await this.membersRepository.loginMembers(
         memberEmail
       );
+
+      if (!findOneMember) {
+        throw new Error("아이디 또는 비밀번호가 일치하지 않습니다");
+      }
 
       // // expiration 모델의 updatedAt을 최신 날짜로 업데이트
       await this.membersRepository.updateLoginHistory(memberEmail);
