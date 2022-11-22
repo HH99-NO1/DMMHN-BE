@@ -38,8 +38,7 @@ const refresh = async (req, res) => {
           res.status(200).send({
             ok: 5,
             data: {
-              accessToken: newAccessToken,
-              refreshToken,
+              accessToken: `Bearer ${newAccessToken}`,
             },
           });
         }
