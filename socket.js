@@ -1,36 +1,50 @@
-const app = require('./app')
-const http = require('http')
+const app = require("./app");
+const http = require("http");
 
-const server = http.createServer(app)
-const io = require('socket.io')(server, {
-    cors: {
-        origin: '*',
-        credentials: true,
-    },
-})
-
-    io.on('connection', (socket) => {
-
-    socket.on('join_room', async () => {
-        socket.join()
-    })
-
-    socket.on('ice', () => {
-        socket.to().emit('ice', )
-    })
-
-    socket.on('offer', () => {
-        socket.to().emit('offer',)
-    })
-
-    socket.on('answer', () => {
-        socket.to().emit('answer',)
-    })
-
-    socket.on('disconnecting', async () => {
-
-    });
-
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
 });
 
-module.exports = { server }
+io.on("connection", (socket) => {
+  console.log("socket: ", socket);
+
+  socket.on("join_room", async (data) => {
+    console.log("join_room: ", data);
+
+    socket.join(data);
+  });
+
+  //   socket.on("ice", () => {
+  //     socket.to().emit("ice");
+  //   });
+
+  socket.on("offer", (sdp, roomName) => {
+    console.log("offer: ", sdp);
+    console.log("offer: ", roomName);
+
+    socket.to(roomName).emit("offer", sdp);
+  });
+
+  socket.on("answer", (sdp, roomName) => {
+    console.log("answer: ", sdp);
+    console.log("answer: ", roomName);
+
+    socket.to(roomName).emit("answer", sdp);
+  });
+
+  socket.on("candidate", (candidate, roomName) => {
+    console.log("candidate: ", candidate);
+    console.log("candidate: ", roomName);
+
+    // candidate를 전달받고 방의 다른 유저들에게 전달해 줍니다.
+    socket.to(roomName).emit("candidate", candidate);
+  });
+
+  //   socket.on("disconnecting", async () => {});
+});
+
+module.exports = { server };
