@@ -58,7 +58,8 @@ io.on("connection", (socket) => {
         console.log("offer: ", sdp)
         console.log("offer: ", roomName)
       // offer를 전달받고 다른 유저들에게 전달해 줍니다.
-      socket.to(roomName).emit("getOffer", sdp);
+      socket.broadcast.emit("getOffer", sdp);
+      console.log("61번째줄 성공")
     });
   
     socket.on("answer", (sdp, roomName) => {
