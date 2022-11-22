@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
         console.log("offer: ", sdp)
         console.log("offer: ", roomName)
       // offer를 전달받고 다른 유저들에게 전달해 줍니다.
-      socket.broadcast.emit("getOffer", sdp);
+      socket.to(roomName).emit("getOffer", sdp);
       console.log("61번째줄 성공")
     });
   
@@ -66,7 +66,7 @@ io.on("connection", (socket) => {
         console.log("answer: ", sdp)
         console.log("answer: ", roomName)
       // answer를 전달받고 방의 다른 유저들에게 전달해 줍니다.
-      socket.broadcast.emit("getAnswer", sdp);
+      socket.to(roomName).emit("getAnswer", sdp);
       console.log("70번째줄 성공!")
     });
   
@@ -74,7 +74,7 @@ io.on("connection", (socket) => {
         console.log("candidate :", candidate)
         console.log("candidate :", roomName)
       // candidate를 전달받고 방의 다른 유저들에게 전달해 줍니다.
-      socket.broadcast.emit("getCandidate", candidate);
+      socket.to(roomName).emit("getCandidate", candidate);
       console.log("78번째줄 성공!")
     });
   
