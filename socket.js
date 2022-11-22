@@ -6,7 +6,7 @@ const io = require("socket.io")(server, {
     cors: {
         origin: "https://dgbnb.shop",
         methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
+        // allowedHeaders: ["my-custom-header"],
         credentials: true,
       },
 });
@@ -42,6 +42,7 @@ io.on("connection", (socket) => {
   
       // 입장
       socket.join(data.room);
+      console.log("입장 !!!!",data.room)
   
       // 입장하기 전 해당 방의 다른 유저들이 있는지 확인하고
       // 다른 유저가 있었다면 offer-answer을 위해 알려줍니다.
