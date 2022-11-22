@@ -18,7 +18,7 @@ class MockInterviewService {
 
     getRandomQuestions = async (category, numOfQuestions) => {
         const questions = await this.mockInterviewRepository.getRandomQuestions(category);
-        const shuffledQue = this.shuffle(questions).slice(0, numOfQuestions);
+        const shuffledQue = shuffling(questions).slice(0, numOfQuestions);
         
         return shuffledQue;
     };
