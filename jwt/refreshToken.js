@@ -1,6 +1,6 @@
 const { sign, verify, refreshVerify } = require("./jwt-utils");
 const jwt = require("jsonwebtoken");
-
+const secretKey = process.env.SECRET_KEY;
 const refresh = async (req, res) => {
   // access token과 refresh token의 존재 유무를 체크
   if (req.headers.authorization && req.headers.refresh) {
@@ -12,7 +12,6 @@ const refresh = async (req, res) => {
 
     // access token을 디코딩하여 user의 정보를 가져온다
     const decoded = jwt.decode(accessToken);
-
     // 디코딩 결과가 없으면 권한이 없음을 응답
     if (decoded === null) {
       res.status(401).send({
@@ -34,7 +33,10 @@ const refresh = async (req, res) => {
           });
           // refresh token이 유효하다면 access token을 재발급한다
         } else {
-          const newAccessToken = sign(decoded);
+          const payload = { id: decoded.id, email: decoded.email };
+          const newAccessToken = jwt.sign(payload, secretKey, {
+            expiresIn: "30s",
+          });
           res.status(200).send({
             ok: 5,
             data: {
