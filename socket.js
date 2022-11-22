@@ -11,6 +11,11 @@ const io = require("socket.io")(server, {
       },
 });
 
+// 어떤 방에 어떤 유저가 들어있는지
+let users = {};
+// socket.id기준으로 어떤 방에 들어있는지
+let socketRoom = {};
+
 const MAXIMUM = 2;
 
 io.on("connection", (socket) => {
