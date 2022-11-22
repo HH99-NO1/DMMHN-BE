@@ -6,7 +6,7 @@ const io = require("socket.io")(server, {
     cors: {
         origin: "https://dgbnb.shop",
         methods: ["GET", "POST"],
-        // allowedHeaders: ["my-custom-header"],
+        allowedHeaders: ["my-custom-header"],
         credentials: true,
       },
 });
@@ -24,6 +24,7 @@ io.on("connection", (socket) => {
         console.log("join_room: ",data)
       // 방이 기존에 생성되어 있다면
       if (users[data.room]) {
+        console.log("27줄", users[data.room])
         // 현재 입장하려는 방에 있는 인원수
         const currentRoomLength = users[data.room].length;
         if (currentRoomLength === MAXIMUM) {
@@ -40,9 +41,10 @@ io.on("connection", (socket) => {
       }
       socketRoom[socket.id] = data.room;
   
+      console.log("입장 !!!!",data.room)
       // 입장
       socket.join(data.room);
-      console.log("입장 !!!!",data.room)
+      
   
       // 입장하기 전 해당 방의 다른 유저들이 있는지 확인하고
       // 다른 유저가 있었다면 offer-answer을 위해 알려줍니다.
