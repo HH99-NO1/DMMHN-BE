@@ -10,9 +10,10 @@ const authCode = "";
 class MembersController {
   membersService = new MembersService();
 
-  authCode = async (req, res, next) => {
-    const { email } = req.body;
-    authCode = await this.membersService.authCode(email);
+  sendAuthCode = async (req, res, next) => {
+    const { memberEmail } = req.body;
+    const authCode = await this.membersService.sendAuthCode(memberEmail);
+    
     res.status(200).json({ data: authCode, message: "Sent Auth Email" });
   };
 
