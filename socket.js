@@ -14,7 +14,7 @@ const io = new Server(server, {
   },
 });
 
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8080;
 
 // 어떤 방에 어떤 유저가 들어있는지
 let users = {};
@@ -92,6 +92,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`server running on ${PORT}`);
+server.listen(3000, () => {
+  console.log(`server running on 3000`);
 });
