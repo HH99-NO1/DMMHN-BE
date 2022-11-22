@@ -26,7 +26,7 @@ const expiration = schedule.scheduleJob(rule, async () => {
   /**가져온 유저중에서 한달동안 로그인을 하지 않은 유저들을 찾은 뒤
    * expirationMember 배열에 넣는다 */
   for (let i = 0; i < findAllExpiration.length; i++) {
-    const userDate = findAllExpiration[i].updatedAt;
+    const userDate = findAllExpiration[i].loginHistory;
     if (nextMonth(userDate) < date) {
       expirationMember.push(findAllExpiration[i]);
     }
