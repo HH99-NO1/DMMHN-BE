@@ -13,7 +13,7 @@ class MembersController {
   sendAuthCode = async (req, res, next) => {
     const { memberEmail } = req.body;
     const authCode = await this.membersService.sendAuthCode(memberEmail);
-    
+
     res.status(200).json({ data: authCode, message: "Sent Auth Email" });
   };
 
