@@ -3,10 +3,12 @@ const http = require("http");
 
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
-  cors: {
-    origin: "*",
-    credentials: true,
-  },
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true,
+      },
 });
 
 const MAXIMUM = 2;
