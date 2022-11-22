@@ -9,6 +9,8 @@ const io = require("socket.io")(server, {
   },
 });
 
+const MAXIMUM = 2;
+
 io.on("connection", (socket) => {
   console.log("socket: ", socket);
 
@@ -43,8 +45,6 @@ io.on("connection", (socket) => {
     // candidate를 전달받고 방의 다른 유저들에게 전달해 줍니다.
     socket.to(roomName).emit("candidate", candidate);
   });
-
-  //   socket.on("disconnecting", async () => {});
 });
 
 module.exports = { server };
