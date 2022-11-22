@@ -25,7 +25,7 @@ class MembersController {
       memberName,
       phoneNum,
       gender,
-      personalNum,      
+      personalNum,
     } = req.body;
     if (req.headers.authorization) {
       res.status(401).json({ errorMessage: "이미 로그인 된 계정입니다." });
@@ -41,8 +41,7 @@ class MembersController {
       phoneNum,
       gender,
       authCode,
-      personalNum,
-      
+      personalNum
     );
     res.status(201).json({ message: "회원가입에 성공했습니다" });
     //   } catch (err) {
@@ -63,17 +62,15 @@ class MembersController {
     }
   };
 
-  findOneMember = async (req, res, next) => {
+  getMemberInfo = async (req, res, next) => {
     try {
       if (tokenInfo.message === "jwt expired") {
         res.status(401).send({ message: "jwt expired", ok: 6 });
         return;
       }
-      const { memberEmail } = res.locals.members;
-      const findOneMember = await this.membersService.findOneMember(
-        memberEmail
-      );
-      res.status(200).send(findOneMember);
+      const { _id } = res.locals.members;
+      const getMemberInfo = await this.membersService.getMemberInfo(_id);
+      res.status(200).send(getMemberInfo);
     } catch (err) {
       res.status(400).send({ message: err.message });
     }

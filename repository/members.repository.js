@@ -45,9 +45,9 @@ class MembersRepository {
     return findOneMember;
   };
 
-  findOneMember = async (memberEmail) => {
-    const findOneMember = await Members.findOne({ memberEmail });
-    return findOneMember;
+  getMemberInfo = async (_id) => {
+    const getMemberInfo = await Members.findOne({ _id });
+    return getMemberInfo;
   };
 
   updateMember = async (memberEmail, password) => {

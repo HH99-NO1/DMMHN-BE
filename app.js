@@ -23,5 +23,4 @@ app.use("/", routes);
 // app.listen(PORT, () => {
 //   console.log(`${PORT} is Running`);
 // });
-
-module.exports = app
+module.exports = app;
