@@ -2,9 +2,13 @@ const MembersRepository = require("../repository/members.repository");
 const jwt = require("../jwt/jwt-utils");
 const bcrypt = require("bcrypt");
 const refreshModel = require("../models/refresh");
-const nodemailer = require("nodemailer");
 require("dotenv").config();
-// const ejs = require("ejs");
+const transPort = require("../config/email");
+
+const generateRandom = function (min, max) {
+  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  return randomNumber;
+};
 
 const EMAIL_VALIDATION =
   /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[.][a-zA-Z]{2,3}$/i;
@@ -12,24 +16,23 @@ const EMAIL_VALIDATION =
 class MembersService {
   membersRepository = new MembersRepository();
 
-  authCode = async (email) => {
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.NODEMAILER_USER,
-        pass: process.env.NODEMAILER_PASS,
-      },
-    });
-    transporter.sendMail({
+  sendAuthCode = async (memberEmail) => {
+    const authCode = generateRandom(111111, 999999);
+
+    const mailOptions = {
       from: `"떨면 뭐하니" <${process.env.NODEMAILER_USER}>`,
-      to: email,
+      to: memberEmail,
       subcect: "떨면 뭐하니 Auth Number",
-      text: "인증코드를 입력해주세요",
+      text: "인증코드를 입력해주세요" + authCode,
+    };
+
+    transPort.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        ctx.state = 500;
+      }
     });
-    return "text";
+
+    return authCode;
   };
 
   createMembers = async (
