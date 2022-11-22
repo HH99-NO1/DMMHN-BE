@@ -14,6 +14,7 @@ class ReservationController {
         onMuted,
         interviewDone,
         isDone,
+        url
       } = req.body;
       const { companyName, companyAdmin } = res.locals.user;
 
@@ -26,7 +27,8 @@ class ReservationController {
         end,
         onMuted,
         interviewDone,
-        isDone
+        isDone,
+        url
       );
 
       res.status(201).json({ data: postReservation });
