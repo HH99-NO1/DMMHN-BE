@@ -24,7 +24,7 @@ module.exports = {
 
   refreshSign: () => {
     return jwt.sign({}, secretKey, {
-      expiresIn: "2m",
+      expiresIn: "30m",
     });
   },
 
