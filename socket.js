@@ -74,27 +74,27 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    const roomID = socketRoom[socket.id];
-    console.log("roomID: ", roomID);
-    socket.leave(roomID);
-    socket.to(roomID).emit("leave", socket.id);
-    // 방을 나가게 된다면 socketRoom과 users의 정보에서 해당 유저를 지워줍니다.
     // const roomID = socketRoom[socket.id];
-    // console.log("86 users: ", users);
-    // console.log("87 roomId: ", roomID);
-    // console.log("88 users[roomID]: ", users[roomID]);
-    // console.log("89 socket.id: ", socket.id);
-    // if (users[roomID]) {
-    //   users[roomID] = users[roomID].filter((user) => user.id !== socket.id);
-    //   if (users[roomID].length === 0) {
-    //     delete users[roomID];
-    //     return;
-    //   }
-    // }
-    // delete socketRoom[socket.id];
-    // console.log("91 users[roomID]: ", users[roomID]);
-    // console.log("98 delete socketRoom[socket.id]: ", socketRoom[socket.id]);
-    // socket.broadcast.to(users[roomID]).emit("user_exit", { id: socket.id });
+    // console.log("roomID: ", roomID);
+    // socket.leave(roomID);
+    // socket.to(roomID).emit("leave", socket.id);
+    // 방을 나가게 된다면 socketRoom과 users의 정보에서 해당 유저를 지워줍니다.
+    const roomID = socketRoom[socket.id];
+    console.log("86 users: ", users);
+    console.log("87 roomId: ", roomID);
+    console.log("88 users[roomID]: ", users[roomID]);
+    console.log("89 socket.id: ", socket.id);
+    if (users[roomID]) {
+      users[roomID] = users[roomID].filter((user) => user.id !== socket.id);
+      if (users[roomID].length === 0) {
+        delete users[roomID];
+        return;
+      }
+    }
+    delete socketRoom[socket.id];
+    console.log("91 users[roomID]: ", users[roomID]);
+    console.log("98 delete socketRoom[socket.id]: ", socketRoom[socket.id]);
+    socket.broadcast.to(users[roomID]).emit("user_exit", { id: socket.id });
   });
 });
 
