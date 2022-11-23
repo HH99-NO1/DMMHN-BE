@@ -86,6 +86,7 @@ io.on("connection", (socket) => {
     console.log("86 users: ", users);
     console.log("87 roomId: ", roomID);
     console.log("88 users[roomID]: ", users[roomID]);
+    console.log("89 socket.id: ", socket.id);
     if (users[roomID]) {
       users[roomID] = users[roomID].filter((user) => user.id !== socket.id);
       if (users[roomID].length === 0) {
