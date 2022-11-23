@@ -22,9 +22,11 @@ io.on("connection", (socket) => {
   console.log(socket.id, "connection");
   socket.on("join_room", (data) => {
     console.log("join_room: ", data);
+
     // 방이 기존에 생성되어 있다면
     if (users[data.room]) {
       console.log("27줄", users[data.room]);
+
       // 현재 입장하려는 방에 있는 인원수
       const currentRoomLength = users[data.room].length;
       if (currentRoomLength === MAXIMUM) {
@@ -81,7 +83,9 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     // 방을 나가게 된다면 socketRoom과 users의 정보에서 해당 유저를 지워줍니다.
     const roomID = socketRoom[socket.id];
-
+    console.log("86 users: ", users);
+    console.log("87 roomId: ", roomID);
+    console.log("88 users[roomID]: ", users[roomID]);
     if (users[roomID]) {
       users[roomID] = users[roomID].filter((user) => user.id !== socket.id);
       if (users[roomID].length === 0) {
