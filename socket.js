@@ -88,6 +88,7 @@ io.on("connection", (socket) => {
       }
     }
     delete socketRoom[socket.id];
+    console.log("91 users[roomID]: ", users[roomID]);
     console.log("98 delete socketRoom[socket.id]: ", socketRoom[socket.id]);
     socket.broadcast.to(users[roomID]).emit("user_exit", { id: socket.id });
   });
