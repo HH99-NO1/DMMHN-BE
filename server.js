@@ -1,6 +1,7 @@
-const { server } = require('./socket')
+const { server } = require("./socket");
 const PORT = process.env.EXPRESS_PORT || 3000;
+const logger = require("./config/logger");
 
 server.listen(PORT, () => {
-    console.log('http server on', PORT)
-})
+  logger.info(`http server on ${PORT}`);
+});
