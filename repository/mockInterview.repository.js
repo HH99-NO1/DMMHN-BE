@@ -9,6 +9,7 @@ class MockInterviewRepository {
 
     getRandomQuestions = async (category) => {
         const questions = await MockInterviews.find({ category });
+        
         return questions;
     }
 };
