@@ -41,15 +41,16 @@ io.on("connection", (socket) => {
     }
     socketRoom[socket.id] = data.room;
 
-    console.log("입장 !!!!", data.room);
     // 입장
     socket.join(data.room);
+    console.log("입장 !!!!", data.room);
 
     // 입장하기 전 해당 방의 다른 유저들이 있는지 확인하고
     // 다른 유저가 있었다면 offer-answer을 위해 알려줍니다.
     const others = users[data.room].filter((user) => user.id !== socket.id);
     if (others.length) {
       io.sockets.to(socket.id).emit("all_users", others);
+      console.log("53번째 줄 성공!");
     }
   });
 
