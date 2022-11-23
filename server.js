@@ -1,4 +1,4 @@
-const { server } = require("./app");
+const { server } = require("./socket");
 const PORT = process.env.EXPRESS_PORT || 3000;
 
 server.listen(PORT, () => {
