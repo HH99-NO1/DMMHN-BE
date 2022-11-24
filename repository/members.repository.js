@@ -7,9 +7,7 @@ class MembersRepository {
     hashedPw,
     memberName,
     phoneNum,
-    gender,
-    authCode,
-    personalNum
+    gender
   ) => {
     await Members.create({
       memberEmail,
@@ -17,9 +15,7 @@ class MembersRepository {
       expiration: "false",
       memberName,
       phoneNum,
-      gender,
-      authCode,
-      personalNum,
+      gender
     });
     return;
   };

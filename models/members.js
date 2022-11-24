@@ -10,10 +10,6 @@ const membersSchema = new mongoose.Schema({
     type: String,
   //  required: true,
   },
-  confirmPw:{
-    type:String,
-//required:true
-  },
   expiration: {
     type: String,
   },
@@ -21,16 +17,11 @@ const membersSchema = new mongoose.Schema({
     type: String,
   //  required: true,
   },
-  
   phoneNum: {
     type: String,
    //  required: true,
   },
   gender: {
-    type: String,
-   //  required: true,
-  },
-  personalNum: {
     type: String,
    //  required: true,
   },
@@ -48,6 +39,7 @@ const membersSchema = new mongoose.Schema({
   },
   img: {
     type: String,
+    default: "https://files.slack.com/files-pri/T049FELNSHY-F04CALD8MBL/profile-default.png",
     // required: true,
   },
   loginHistory: {
