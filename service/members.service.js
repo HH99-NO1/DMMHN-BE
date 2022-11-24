@@ -116,7 +116,7 @@ class MembersService {
       return {
         _id: getMemberInfo._id,
         memberEmail: getMemberInfo.memberEmail,
-        profileImg: getMemberInfo.img,
+        profileImg: getMemberInfo.img, 
         createdAt: getMemberInfo.createdAt,
         updatedAt: getMemberInfo.updatedAt,
       };
