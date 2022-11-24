@@ -90,9 +90,10 @@ class MembersService {
       }
 
       // DB에서 가져온 유저의 비밀번호와 입력한 비밀번호가 일치하는지 확인한다.
-      const match = bcrypt.compare(password, findOneMember.password);
+      const match = await bcrypt.compare(password, findOneMember.password);
 
       // 일치하는 유저가 없을 경우 에러 메세지를 띄운다
+      console.log(match);
       if (!match) {
         throw new Error("아이디 또는 비밀번호가 일치하지 않습니다");
       }
