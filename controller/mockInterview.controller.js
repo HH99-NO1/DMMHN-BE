@@ -16,7 +16,6 @@ class MockInterviewController {
   
   getRandomQuestions = async (req, res, next) => {
     const { category, number } = req.body;
-    console.log("***controller", req);
     console.log("***controller req.body", req.body);
     
     try {
