@@ -41,18 +41,16 @@ class MembersService {
     confirmPw,
     memberName,
     phoneNum,
-    gender,
-    authCode,
-    personalNum
+    gender
   ) => {
     //     try {
     if (password !== confirmPw) {
       throw new Error("비밀번호와 비밀번화 확인이 일치하지 않습니다");
     }
-    if (!EMAIL_VALIDATION.test(email)) {
-      throw new Error("이메일 형식을 맞춰주세요");
-    }
-    const result = await this.membersRepository.findOneMember(memberEmail);
+    // if (!EMAIL_VALIDATION.test(memberEmail)) {
+    //   throw new Error("이메일 형식을 맞춰주세요");
+    // }
+    const result = await this.membersRepository.loginMembers(memberEmail);
     if (result) {
       throw new Error("이미 가입된 계정입니다.");
     }
@@ -62,9 +60,7 @@ class MembersService {
       hashedPw,
       memberName,
       phoneNum,
-      gender,
-      authCode,
-      personalNum
+      gender
     );
     return;
     //  } catch (err) {
@@ -120,6 +116,7 @@ class MembersService {
       return {
         _id: getMemberInfo._id,
         memberEmail: getMemberInfo.memberEmail,
+        profileImg: getMemberInfo.img, 
         createdAt: getMemberInfo.createdAt,
         updatedAt: getMemberInfo.updatedAt,
       };
