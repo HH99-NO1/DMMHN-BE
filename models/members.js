@@ -39,7 +39,7 @@ const membersSchema = new mongoose.Schema({
   },
   img: {
     type: String,
-    default: "https://files.slack.com/files-pri/T049FELNSHY-F04CALD8MBL/profile-default.png",
+    default: "https://i.ibb.co/jwSbV5Z/profile-default.png",
     // required: true,
   },
   loginHistory: {
