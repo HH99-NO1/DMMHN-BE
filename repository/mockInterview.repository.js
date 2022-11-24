@@ -1,17 +1,16 @@
 const MockInterviews = require("../models/mockInterview");
 
 class MockInterviewRepository {
+  createQuestions = async (category, question) => {
+    await MockInterviews.create({ category, question });
+    return;
+  };
 
-    createQuestions = async (category, question) => {
-        await MockInterviews.create({category, question});
-        return;
-    };
+  getRandomQuestions = async (category) => {
+    const questions = await MockInterviews.find({ category });
 
-    getRandomQuestions = async (category) => {
-        const questions = await MockInterviews.find({ category });
-        
-        return questions;
-    }
-};
+    return questions;
+  };
+}
 
 module.exports = MockInterviewRepository;

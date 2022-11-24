@@ -3,31 +3,31 @@ const mongoose = require("mongoose");
 // required: 무조건 필요한지
 const membersSchema = new mongoose.Schema({
   memberEmail: {
-    type: String,
-   // required: true,
+    type: [String],
+    // required: true,
   },
   password: {
     type: String,
-  //  required: true,
+    //  required: true,
   },
   expiration: {
     type: String,
   },
   memberName: {
     type: String,
-  //  required: true,
+    //  required: true,
   },
   phoneNum: {
     type: String,
-   //  required: true,
+    //  required: true,
   },
   gender: {
     type: String,
-   //  required: true,
+    //  required: true,
   },
   tech: {
     type: String,
-     //required: true,
+    //required: true,
   },
   degree: {
     type: String,
@@ -39,7 +39,8 @@ const membersSchema = new mongoose.Schema({
   },
   img: {
     type: String,
-    default: "https://files.slack.com/files-pri/T049FELNSHY-F04CALD8MBL/profile-default.png",
+    default:
+      "https://files.slack.com/files-pri/T049FELNSHY-F04CALD8MBL/profile-default.png",
     // required: true,
   },
   loginHistory: {
