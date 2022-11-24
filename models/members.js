@@ -1,33 +1,36 @@
 const mongoose = require("mongoose");
-
+const curr = new Date();
+const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
+const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+const kr_curr = new Date(utc + KR_TIME_DIFF);
 // required: 무조건 필요한지
 const membersSchema = new mongoose.Schema({
   memberEmail: {
     type: String,
-   // required: true,
+    // required: true,
   },
   password: {
     type: String,
-  //  required: true,
+    //  required: true,
   },
   expiration: {
     type: String,
   },
   memberName: {
     type: String,
-  //  required: true,
+    //  required: true,
   },
   phoneNum: {
     type: String,
-   //  required: true,
+    //  required: true,
   },
   gender: {
     type: String,
-   //  required: true,
+    //  required: true,
   },
   tech: {
     type: String,
-     //required: true,
+    //required: true,
   },
   degree: {
     type: String,
@@ -46,8 +49,8 @@ const membersSchema = new mongoose.Schema({
     type: String,
     default: new Date(),
   },
-  createdAt: { type: String, default: new Date() },
-  updatedAt: { type: String, default: new Date() },
+  createdAt: { type: String, default: kr_curr },
+  updatedAt: { type: String, default: kr_curr },
 });
 
 module.exports = mongoose.model("Members", membersSchema);
