@@ -20,14 +20,14 @@ class MockInterviewRepository {
     result,
     totalTime
   ) => {
-    await MockInterviewResults.create({
+    const data = await MockInterviewResults.create({
       memberEmail,
       category,
       number,
       result,
       totalTime,
     });
-    return;
+    return data;
   };
 
   getInterviewResults = async (memberEmail) => {
