@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
-var autoIncrement = require('mongoose-auto-increment');
-autoIncrement.initialize(connection);
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 // required: 무조건 필요한지
 const mockInterviewResultSchema = new mongoose.Schema({
-  seq: {
+  sequence: {
     type: Number,
     // required: true,
   },
@@ -14,6 +13,10 @@ const mockInterviewResultSchema = new mongoose.Schema({
   },
   category: {
     type: String,
+    // required: true,
+  },
+  number: {
+    type: Number,
     // required: true,
   },
   result: {
@@ -28,11 +31,8 @@ const mockInterviewResultSchema = new mongoose.Schema({
   updatedAt: { type: String, default: new Date() },
 });
 
-mockInterviewResultSchema.plugin(autoIncrement.plugin,{
-	model : 'MockInterviewResults',
-	field : 'seq',
-	startAt : 1, //시작 
-	increment : 1 // 증가
+mockInterviewResultSchema.plugin(AutoIncrement, {
+  inc_field: "sequence"
 });
 
 module.exports = mongoose.model(

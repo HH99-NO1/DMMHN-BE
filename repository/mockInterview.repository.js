@@ -34,6 +34,12 @@ class MockInterviewRepository {
     const data = await MockInterviewResults.find({ memberEmail });
     return data;
   };
+
+  getInterviewResultDetails = async (sequence) => {
+    const data = await MockInterviewResults.findOne({ sequence });
+
+    return data;
+  };
 }
 
 module.exports = MockInterviewRepository;

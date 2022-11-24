@@ -1,4 +1,5 @@
 const MockInterviewService = require("../service/mockInterview.service");
+const logger = require("../config/logger");
 
 class MockInterviewController {
   mockInterviewService = new MockInterviewService();
@@ -16,7 +17,6 @@ class MockInterviewController {
 
   getRandomQuestions = async (req, res, next) => {
     const { category, number } = req.body;
-    console.log("***controller req.body", req.body);
 
     try {
       const data = await this.mockInterviewService.getRandomQuestions(
@@ -32,7 +32,6 @@ class MockInterviewController {
 
   saveInterviewResults = async (req, res, next) => {
     const { memberEmail } = res.locals.members;
-    console.log("**controller", memberEmail);
     const { category, number, result, totalTime } = req.body;
 
     try {
@@ -59,6 +58,13 @@ class MockInterviewController {
     } catch(err) {
       res.status(400).send(err.message);
     }
+  };
+
+  getInterviewResultDetails = async (req, res, next) => {
+    const { sequence } = req.params;
+    const data = await this.mockInterviewService.getInterviewResultDetails(sequence);
+
+    res.status(200).json(data);
   };
 }
 
