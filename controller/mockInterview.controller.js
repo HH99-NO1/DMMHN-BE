@@ -18,9 +18,13 @@ class MockInterviewController {
   getRandomQuestions = async (req, res, next) => {
     const { category, number } = req.body;
 
-    const data = await this.mockInterviewService.getRandomQuestions(category, number);
+    try {
+      const data = await this.mockInterviewService.getRandomQuestions(category, number);
 
-    res.json({ data });
+      res.status(200).json({ data });
+    } catch (err) {
+      res.status(400).send(err.message);
+    }
   };
 
 };
