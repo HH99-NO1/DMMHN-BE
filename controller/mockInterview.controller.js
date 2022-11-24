@@ -5,7 +5,8 @@ class MockInterviewController {
 
   createQuestions = async (req, res, next) => {
     const { category, question } = req.body;
-
+    console.log("***controller", req);
+    console.log("***controller req.body", req.body);
     try {
         await this.mockInterviewService.createQuestions(category, question);
 
