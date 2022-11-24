@@ -35,7 +35,7 @@ class MockInterviewController {
     const { category, number, result, totalTime } = req.body;
 
     try {
-      await this.mockInterviewService.saveInterviewResults(
+      const data = await this.mockInterviewService.saveInterviewResults(
         memberEmail,
         category,
         number,
@@ -43,7 +43,7 @@ class MockInterviewController {
         totalTime
       );
 
-      res.status(201).send("모의면접 결과가 저장되었습니다.");
+      res.status(201).json({ sequence: data, message: "모의면접 결과가 저장되었습니다."});
     } catch(err) {
       res.status(400).send(err.message);
     }

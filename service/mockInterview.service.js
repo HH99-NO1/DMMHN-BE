@@ -35,14 +35,14 @@ class MockInterviewService {
     result,
     totalTime
   ) => {
-    await this.mockInterviewRepository.saveInterviewResults(
+    const data = await this.mockInterviewRepository.saveInterviewResults(
       memberEmail,
       category,
       number,
       result,
       totalTime
     );
-    return;
+    return data.sequence;
   };
 
   getInterviewResults = async (memberEmail) => {
