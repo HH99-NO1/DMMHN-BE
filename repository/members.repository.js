@@ -1,4 +1,5 @@
 const Members = require("../models/members");
+const logger = require("../config/logger");
 
 class MembersRepository {
   //member DB에 유저의 정보를 저장한다
@@ -52,6 +53,7 @@ class MembersRepository {
   };
 
   updateMemberWithImg = async (memberEmail, img) => {
+    logger.info(`/repository/members.repository@updateMemberWithImg`);
     await Members.findOneAndUpdate({ memberEmail }, { img });
     return;
   };

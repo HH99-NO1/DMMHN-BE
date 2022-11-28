@@ -2,6 +2,7 @@ const multer  = require('multer')
 const multerS3 = require('multer-s3')
 const AWS = require('aws-sdk');
 require('dotenv').config;
+const logger = require("../config/logger");
 
 AWS.config.update({
     accessKeyId: process.env.S3_ACCES_KEY_ID,
@@ -15,6 +16,7 @@ const upload = multer({
         bucket: process.env.S3_BUCKET_NAME,
         contentType: multerS3.AUTO_CONTENT_TYPE,
         key(req, file, cb) {
+            logger.info("@@@@upload_middleware");
             const { type } = req.body
             if(type === "img") {
                 cb(null, `profile-img/${Date.now()}_${file.originalname}`);
