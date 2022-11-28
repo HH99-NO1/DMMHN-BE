@@ -52,13 +52,6 @@ io.on("connection", (socket) => {
       io.sockets.to(socket.id).emit("all_users", others);
     }
   });
-  socket.on("candidate", (candidate, roomName) => {
-    console.log("candidate :", candidate);
-    console.log("candidate :", roomName);
-    // candidate를 전달받고 방의 다른 유저들에게 전달해 줍니다.
-    socket.to(roomName).emit("getCandidate", candidate);
-    console.log("78번째줄 성공!");
-  });
 
   socket.on("offer", (sdp, roomName) => {
     console.log("offer: ", sdp);
@@ -74,6 +67,14 @@ io.on("connection", (socket) => {
     // answer를 전달받고 방의 다른 유저들에게 전달해 줍니다.
     socket.to(roomName).emit("getAnswer", sdp);
     console.log("70번째줄 성공!");
+  });
+
+  socket.on("candidate", (candidate, roomName) => {
+    console.log("candidate :", candidate);
+    console.log("candidate :", roomName);
+    // candidate를 전달받고 방의 다른 유저들에게 전달해 줍니다.
+    socket.to(roomName).emit("getCandidate", candidate);
+    console.log("78번째줄 성공!");
   });
 });
 
