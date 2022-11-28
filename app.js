@@ -4,6 +4,7 @@ const cors = require("cors");
 const connect = require("./models/index");
 connect();
 const expiration = require("./schedule/schedule");
+const roomName = require("./socket");
 
 // const morganMiddleware = require("./middleware/morgan_middleware");
 const routes = require("./routes/index.routes");
@@ -20,5 +21,6 @@ app.use(
 expiration;
 
 app.use("/", routes);
+app.use("/room", roomName);
 
 module.exports = app;
