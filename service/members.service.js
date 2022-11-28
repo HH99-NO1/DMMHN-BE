@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const refreshModel = require("../models/refresh");
 require("dotenv").config();
 const transPort = require("../config/email");
+const logger = require("../config/logger");
 
 const generateRandom = function (min, max) {
   const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -125,8 +126,19 @@ class MembersService {
     }
   };
 
-  updateMember = async (memberEmail, password) => {
-    await this.membersRepository.updateMember(memberEmail, password);
+  updateMember = async (memberEmail, password, profileImg) => {
+
+    if(!profileImg) {
+      logger.info("here comes!1");
+      await this.membersRepository.updateMember(memberEmail, password);
+    } else if(profileImg) {
+      logger.info("here comes!2");
+      const img = profileImg.location;
+      
+      await this.membersRepository.updateMemberWithImg(memberEmail, img);
+    } else {
+      throw new Error ('회원 정보 수정에 실패하였습니다.')
+    }
     return;
   };
 

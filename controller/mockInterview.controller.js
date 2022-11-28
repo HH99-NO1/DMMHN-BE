@@ -23,9 +23,10 @@ class MockInterviewController {
         category,
         number
       );
-
+      
       res.status(200).json(data);
     } catch (err) {
+      logger.error(err);
       res.status(400).send(err.message);
     }
   };
@@ -62,9 +63,14 @@ class MockInterviewController {
 
   getInterviewResultDetails = async (req, res, next) => {
     const { sequence } = req.params;
-    const data = await this.mockInterviewService.getInterviewResultDetails(sequence);
 
-    res.status(200).json(data);
+    try {
+      const data = await this.mockInterviewService.getInterviewResultDetails(sequence);
+  
+      res.status(200).json(data);
+    } catch (err) {
+      res.status(400).send(err.message);
+    };
   };
 }
 

@@ -51,6 +51,11 @@ class MembersRepository {
     return;
   };
 
+  updateMemberWithImg = async (memberEmail, img) => {
+    await Members.findOneAndUpdate({ memberEmail }, { img });
+    return;
+  };
+
   deleteMember = async (_id) => {
     await Members.findByIdAndDelete({ _id });
     return;
