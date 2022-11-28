@@ -37,7 +37,7 @@ app.get("/room/:roomName", authMiddleware, async (req, res) => {
   io.on("connection", (socket) => {
     console.log(memberEmail, "connection");
     socket.on("join_room", async () => {
-      console.log("join_room: ", roomName,memberEmail);
+      console.log("join_room: ", roomName, memberEmail);
       // 방이 기존에 생성되어 있다면
       // if (findRoom) {
       //   console.log("27줄", findRoom);
@@ -64,52 +64,101 @@ app.get("/room/:roomName", authMiddleware, async (req, res) => {
 
       // 입장하기 전 해당 방의 다른 유저들이 있는지 확인하고
       // 다른 유저가 있었다면 offer-answer을 위해 알려줍니다.
-      const others = users[data.room].filter((user) => user.id !== socket.id);
-      if (others.length) {
-        io.sockets.to(socket.id).emit("all_users", others);
+      // const others = users[roomName].filter((user) => user.id !== socket.id);
+      // if (others.length) {
+      //   io.sockets.to(socket.id).emit("all_users", others);
+      // }
+    });
+
+    socket.on("ice", (ice, remoteSocketId) => {
+      console.log("74 ice", ice,remoteSocketId)
+      socket.to(remoteSocketId).emit("ice", ice, socket.id);
+    });
+
+    socket.on("offer", (offer, remoteSocketId, localNickname) => {
+      console.log("79 offer", offer,remoteSocketId,localNickname)
+      socket.to(remoteSocketId).emit("offer", offer, socket.id, localNickname);
+    });
+
+    socket.on("answer", (answer, remoteSocketId) => {
+      console.log("84 ice", answer,remoteSocketId)
+      socket.to(remoteSocketId).emit("answer", answer, socket.id);
+    });
+
+    socket.on("disconnecting", async () => {
+      // delete mediaStatus[myRoomName][socket.id]
+      if (myNickname && myRoomName) {
+        console.log(`${myNickname}이 방 ${myRoomName}에서 퇴장`);
       }
-    });
+      socket.to(myRoomName).emit("leave_room", socket.id);
 
-    socket.on("offer", (sdp, roomName) => {
-      console.log("offer: ", roomName);
-      // offer를 전달받고 다른 유저들에게 전달해 줍니다.
-      socket.to(roomName).emit("getOffer", sdp);
-    });
-
-    socket.on("answer", (sdp, roomName) => {
-      console.log("answer: ", roomName);
-      // answer를 전달받고 방의 다른 유저들에게 전달해 줍니다.
-      socket.to(roomName).emit("getAnswer", sdp);
-    });
-
-    socket.on("candidate", (candidate, roomName) => {
-      console.log("candidate :", roomName);
-      // candidate를 전달받고 방의 다른 유저들에게 전달해 줍니다.
-      socket.to(roomName).emit("getCandidate", candidate);
-    });
-
-    socket.on("disconnect", () => {
-      // const roomID = socketRoom[socket.id];
-      // console.log("roomID: ", roomID);
-      // socket.leave(roomID);
-      // socket.to(roomID).emit("leave", socket.id);
-      // 방을 나가게 된다면 socketRoom과 users의 정보에서 해당 유저를 지워줍니다.
-      const roomID = socketRoom[socket.id];
-      console.log("86 users: ", users);
-      console.log("87 roomId: ", roomID);
-      console.log("88 users[roomID]: ", users[roomID]);
-      console.log("89 socket.id: ", socket.id);
-      if (users[roomID]) {
-        users[roomID] = users[roomID].filter((user) => user.id !== socket.id);
-        if (users[roomID].length === 0) {
-          delete users[roomID];
-          return;
+      // 나가면서 방의 정보를 업데이트 해주고 나가기
+      for (let i = 0; i < roomObjArr.length; i++) {
+        if (roomObjArr[i].roomName === myRoomName) {
+          const newUsers = roomObjArr[i].users.filter(
+            (user) => user.socketId !== socket.id
+          );
+          roomObjArr[i].users = newUsers;
+          roomObjArr[i].currentNum--;
+          console.log(
+            `방 ${myRoomName} (${roomObjArr[i].currentNum}/${MAXIMUM})`
+          );
+          break;
         }
       }
-      delete socketRoom[socket.id];
-      console.log("91 users[roomID]: ", users[roomID]);
-      console.log("98 delete socketRoom[socket.id]: ", socketRoom[socket.id]);
-      socket.broadcast.to(users[roomID]).emit("user_exit", { id: socket.id });
+
+      await Room.findByIdAndUpdate(myRoomName, {
+        $inc: { numberOfPeopleInRoom: -1 },
+      });
+
+      setTimeout(async () => {
+        const existRoom = await Room.findById(myRoomName);
+        if (existRoom?.numberOfPeopleInRoom <= 0) {
+          await Room.findByIdAndRemove(myRoomName);
+
+          const roomHistory = await RoomHistory.findOne({ roomId: myRoomName });
+          roomHistory.deletedAt = new Date();
+          await roomHistory.save();
+
+          const newRoomObjArr = roomObjArr.filter(
+            (roomObj) => roomObj.currentNum > 0
+          );
+          roomObjArr = newRoomObjArr;
+          delete mediaStatus[myRoomName];
+          console.log(`방 ${myRoomName} 삭제됨`);
+        }
+      }, 10000);
+    });
+
+    socket.on("emoji", (roomNameFromClient, socketIdFromClient) => {
+      socket.to(roomNameFromClient).emit("emoji", socketIdFromClient);
+    });
+
+    socket.on(
+      "screensaver",
+      (roomNameFromClient, socketIdFromClient, check) => {
+        if (!mediaStatus[roomNameFromClient][socketIdFromClient]) {
+          mediaStatus[roomNameFromClient][socketIdFromClient] = {};
+        }
+        mediaStatus[roomNameFromClient][socketIdFromClient].screensaver = check;
+        socket
+          .to(roomNameFromClient)
+          .emit("screensaver", socketIdFromClient, check);
+      }
+    );
+
+    socket.on("mic_check", (roomNameFromClient, socketIdFromClient, check) => {
+      if (!mediaStatus[roomNameFromClient][socketIdFromClient]) {
+        mediaStatus[roomNameFromClient][socketIdFromClient] = {};
+      }
+      mediaStatus[roomNameFromClient][socketIdFromClient].muted = check;
+      socket
+        .to(roomNameFromClient)
+        .emit("mic_check", socketIdFromClient, check);
+    });
+
+    socket.on("sendYoutubeTime", (time) => {
+      socket.emit("sendYoutubeTime", time);
     });
   });
 });
