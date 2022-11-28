@@ -12,7 +12,7 @@ router.post("/:roomName", auth_middleware, async (req, res) => {
 
 router.get("/:roomName", auth_middleware, async (req, res) => {
   const { roomName } = req.params;
-  const memberEmail = res.locals.members;
+  const { memberEmail } = res.locals.members;
   res.status(200).json({ data: memberEmail, message: "방 입장 성공" });
 });
 
