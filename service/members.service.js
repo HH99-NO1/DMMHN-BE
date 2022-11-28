@@ -127,13 +127,13 @@ class MembersService {
   };
 
   updateMember = async (memberEmail, password, profileImg) => {
-
+    logger.info(`/service/members.service`);
     if(!profileImg) {
-      logger.info("here comes!1");
+      logger.info("@updateMember");
       await this.membersRepository.updateMember(memberEmail, password);
     } else if(profileImg) {
-      logger.info("here comes!2");
       const img = profileImg.location;
+      logger.info(`@updateMemberWithImg / img : ${img}`);
       
       await this.membersRepository.updateMemberWithImg(memberEmail, img);
     } else {
