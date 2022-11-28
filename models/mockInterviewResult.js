@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const AutoIncrement = require("mongoose-sequence")(mongoose);
+const autoIncrement = require("mongoose-sequence")(mongoose);
 const curr = new Date();
 const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
 const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
@@ -35,7 +35,7 @@ const mockInterviewResultSchema = new mongoose.Schema({
   updatedAt: { type: String, default: kr_curr },
 });
 
-mockInterviewResultSchema.plugin(AutoIncrement, {
+mockInterviewResultSchema.plugin(autoIncrement, {
   inc_field: "sequence"
 });
 

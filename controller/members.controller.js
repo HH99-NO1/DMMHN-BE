@@ -1,11 +1,5 @@
 const MembersService = require("../service/members.service");
-const Joi = require("joi");
-const membersSchema = Joi.object({
-  memberEmail: Joi.string().email().required(),
-  password: Joi.string().required(),
-  confirmPw: Joi.string().required(),
-});
-const authCode = "";
+const logger = require('../config/logger');
 
 class MembersController {
   membersService = new MembersService();
@@ -33,8 +27,7 @@ class MembersController {
         confirmPw,
         memberName,
         phoneNum,
-        gender,
-        authCode
+        gender
       );
       res.status(201).json({ message: "회원가입에 성공했습니다" });
     } catch (err) {
@@ -77,7 +70,8 @@ class MembersController {
       }
       const { memberEmail } = res.locals.members;
       const { password } = req.body;
-      await this.membersService.updateMember(memberEmail, password);
+      const profileImg = req.file;
+      await this.membersService.updateMember(memberEmail, password, profileImg);
       res.status(201).send({ message: "정보를 수정하였습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });

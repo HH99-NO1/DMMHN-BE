@@ -17,7 +17,7 @@ class MockInterviewService {
       category
     );
     const shuffledQue = shuffle(questions).slice(0, number);
-    let questionArr = [];
+    const questionArr = [];
 
     for (let i = 0; i < shuffledQue.length; i++) {
       questionArr.push(shuffledQue[i].question);
@@ -59,8 +59,6 @@ class MockInterviewService {
         createdAt: result[i].createdAt
       });
     };
-    
-    console.log("***data", data);
 
     return data;
   };
