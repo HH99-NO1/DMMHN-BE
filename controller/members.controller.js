@@ -54,7 +54,8 @@ class MembersController {
         res.status(401).send({ message: "jwt expired", ok: 6 });
         return;
       }
-      const { _id } = res.locals.members;
+      const { _id, memberEmail } = res.locals.members;
+      console.log(memberEmail);
       const getMemberInfo = await this.membersService.getMemberInfo(_id);
       res.status(200).send(getMemberInfo);
     } catch (err) {
@@ -94,3 +95,6 @@ class MembersController {
 }
 
 module.exports = MembersController;
+
+const array = [1, 2, 3, 4];
+console.log(array[array.length - 1]);
