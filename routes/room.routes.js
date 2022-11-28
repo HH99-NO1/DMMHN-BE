@@ -6,14 +6,14 @@ const Room = require("../models/room");
 router.post("/:roomName", auth_middleware, async (req, res) => {
   const { roomName } = req.params;
   const { memberEmail } = res.locals.members;
-  await Room.create({ roomName });
+  await Room.create({ roomName,memberEmail });
   res.status(201).send({ message: "방 생성 성공" });
 });
 
 router.get("/:roomName", auth_middleware, async (req, res) => {
   const { roomName } = req.params;
   const { memberEmail } = res.locals.members;
-  res.status(200).json({ data: memberEmail, message: "방 입장 성공" });
+  res.status(200).json({ data: memberEmail, data: roomName, message: "방 입장 성공" });
 });
 
 module.exports = router;
