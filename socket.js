@@ -1,5 +1,7 @@
 const app = require("./app");
 const http = require("http");
+const express = require("express");
+const router = express.Router();
 const authMiddleware = require("./middleware/auth_middleware");
 const Members = require("./models/members");
 const Room = require("./models/room");
@@ -22,6 +24,7 @@ let socketRoom = {};
 const MAXIMUM = 2;
 
 app.get("/room/:roomName", authMiddleware, async (req, res) => {
+  console.log("들어옴");
   const { roomName } = req.params;
   const { memberEmail } = res.locals.members;
 
@@ -71,17 +74,17 @@ app.get("/room/:roomName", authMiddleware, async (req, res) => {
     });
 
     socket.on("ice", (ice, remoteSocketId) => {
-      console.log("74 ice", ice,remoteSocketId)
+      console.log("74 ice", ice, remoteSocketId);
       socket.to(remoteSocketId).emit("ice", ice, socket.id);
     });
 
     socket.on("offer", (offer, remoteSocketId, localNickname) => {
-      console.log("79 offer", offer,remoteSocketId,localNickname)
+      console.log("79 offer", offer, remoteSocketId, localNickname);
       socket.to(remoteSocketId).emit("offer", offer, socket.id, localNickname);
     });
 
     socket.on("answer", (answer, remoteSocketId) => {
-      console.log("84 ice", answer,remoteSocketId)
+      console.log("84 ice", answer, remoteSocketId);
       socket.to(remoteSocketId).emit("answer", answer, socket.id);
     });
 
