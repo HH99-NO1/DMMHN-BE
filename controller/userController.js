@@ -26,14 +26,14 @@ module.exports = {
 
             const token = jwt.sign(
                 { userId, nickName, snsId, weeklyGoal },
-                process.env.JWT_KEY
+                process.env.SECRET_KEY
             )
             res.json({ token, message: '로그인 성공' })
         },
     },
     Usermodification: {
         patch: async (req, res) => {
-            const { userId } = res.locals.user
+            const { userId } = res.locals.members;
             const { nickName, weeklyGoal } = req.body
             const existUser = await User.findById(userId)
             existUser.nickName = nickName
@@ -44,7 +44,7 @@ module.exports = {
 
             const token = jwt.sign(
                 { userId, nickName, snsId, weeklyGoal },
-                process.env.JWT_KEY
+                process.env.SECRET_KEY
             )
             res.json({ token, message: '회원정보 수정 성공' })
         },
