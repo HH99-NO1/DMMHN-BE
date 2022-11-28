@@ -6,7 +6,7 @@ const rule = new schedule.RecurrenceRule();
 const nextMonth = (date) => {
   const newDate = new Date(date);
   newDate.setMonth(newDate.getMonth() + 1);
-  return String(newDate);
+  return newDate;
 };
 
 // 현재 시각

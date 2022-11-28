@@ -5,7 +5,10 @@ const authMiddleware = require("../middleware/auth_middleware");
 const MockInterviewController = require("../controller/mockInterview.controller");
 const mockInterviewController = new MockInterviewController();
 
-router.post("/", mockInterviewController.createQuestions);
-router.get("/", authMiddleware, mockInterviewController.getRandomQuestions);
+router.post("/createQuestions", mockInterviewController.createQuestions);
+router.post("/", authMiddleware, mockInterviewController.getRandomQuestions);
+router.post("/saveResults", authMiddleware, mockInterviewController.saveInterviewResults);
+router.get("/getResults", authMiddleware, mockInterviewController.getInterviewResults);
+router.get("/getResultDetails/:sequence", authMiddleware, mockInterviewController.getInterviewResultDetails);
 
 module.exports = router;
