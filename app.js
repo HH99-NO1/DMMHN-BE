@@ -21,6 +21,5 @@ app.use(
 expiration;
 
 app.use("/", routes);
-app.use("/room", roomName);
 
 module.exports = app;

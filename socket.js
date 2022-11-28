@@ -1,5 +1,7 @@
 const app = require("./app");
 const http = require("http");
+const express = require("express");
+const router = express.Router();
 const authMiddleware = require("./middleware/auth_middleware");
 const Members = require("./models/members");
 const Room = require("./models/room");
@@ -21,7 +23,8 @@ let socketRoom = {};
 
 const MAXIMUM = 2;
 
-app.get("/:roomName", authMiddleware, async (req, res) => {
+app.get("/room/:roomName", authMiddleware, async (req, res) => {
+  console.log("들어옴");
   const { roomName } = req.params;
   const { memberEmail } = res.locals.members;
 
