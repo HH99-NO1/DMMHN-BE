@@ -45,16 +45,16 @@ const logger = createLogger({
       maxFiles: 30,
     }),
   ],
-  exceptionHandlers: [
-    new winstonDaily({
-      format: logFormat.file,
-      level: "error",
-      datePattern: "YYYY-MM-DD",
-      dirname: logDir,
-      filename: `%DATE%.exception.log`,
-      maxFiles: 30,
-    }),
-  ],
+  // exceptionHandlers: [
+  //   new winstonDaily({
+  //     format: logFormat.file,
+  //     level: "error",
+  //     datePattern: "YYYY-MM-DD",
+  //     dirname: logDir,
+  //     filename: `%DATE%.exception.log`,
+  //     maxFiles: 30,
+  //   }),
+  // ],
 });
 
 if (process.env.NODE_ENV !== "production") {
