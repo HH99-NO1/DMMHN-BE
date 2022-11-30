@@ -55,14 +55,18 @@ class MockInterviewController {
         "X-NCP-APIGW-API-KEY": tts_secret,
       },
     };
-    const writeStream = fs.createWriteStream(`./voice/tts1.mp3`);
-    logger.info("here comes!")
-    const _req = request.post(options).on('response', function(response) {
-      console.log(response.statusCode);
-      console.log(response.headers['content-type']);
-    });
-    _req.pipe(writeStream);
-    _req.pipe(res);
+    try {
+      const writeStream = fs.createWriteStream(`./voice/tts1.mp3`);
+      logger.info("here comes!");
+      const _req = request.post(options).on("response", function (response) {
+        console.log(response.statusCode);
+        console.log(response.headers["content-type"]);
+      });
+      _req.pipe(writeStream);
+      _req.pipe(res);
+    } catch (err) {
+      res.status(400).send({message: err.message});
+    }
   };
 
   saveInterviewResults = async (req, res, next) => {
