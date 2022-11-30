@@ -29,7 +29,7 @@ const membersSchema = new mongoose.Schema({
     type: String,
     //  required: true,
   },
-  tech: {
+  stack: {
     type: String,
     //required: true,
   },
@@ -40,6 +40,9 @@ const membersSchema = new mongoose.Schema({
   career: {
     type: String,
     // required: true,
+  },
+  major: {
+    type: String,
   },
   img: {
     type: String,

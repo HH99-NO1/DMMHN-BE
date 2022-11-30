@@ -54,9 +54,10 @@ class MembersController {
         res.status(401).send({ message: "jwt expired", ok: 6 });
         return;
       }
-      const { _id, memberEmail } = res.locals.members;
-      console.log(memberEmail);
-      const getMemberInfo = await this.membersService.getMemberInfo(_id);
+      const { memberEmail } = res.locals.members;
+      const getMemberInfo = await this.membersService.getMemberInfo(
+        memberEmail
+      );
       res.status(200).send(getMemberInfo);
     } catch (err) {
       res.status(400).send({ message: err.message });
@@ -70,10 +71,9 @@ class MembersController {
         res.status(401).send({ message: "jwt expired", ok: 6 });
         return;
       }
-      const { memberEmail } = res.locals.members;
-      const { password } = req.body;
+      const { memberEmail, memberName, phoneNum, major, stack } = req.body;
       const profileImg = req.file;
-      await this.membersService.updateMember(memberEmail, password, profileImg);
+      await this.membersService.updateMember(memberName, profileImg);
       res.status(201).send({ message: "정보를 수정하였습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });
@@ -109,9 +109,10 @@ class MembersController {
         res.status(401).send({ message: "jwt expired", ok: 6 });
         return;
       }
-      const { _id } = res.locals.members;
-      await this.membersService.deleteMember(_id);
-      res.status(200).send({ message: "회원탈퇴가 완료되었습니다" });
+      const { memberEmail } = res.locals.members;
+      const { password } = req.body;
+      await this.membersService.deleteMember(memberEmail, password);
+      res.status(201).send({ message: "회원탈퇴가 완료되었습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });
     }
@@ -119,6 +120,3 @@ class MembersController {
 }
 
 module.exports = MembersController;
-
-const array = [1, 2, 3, 4];
-console.log(array[array.length - 1]);

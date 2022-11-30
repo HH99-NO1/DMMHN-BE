@@ -37,14 +37,12 @@ class MembersRepository {
   // };
 
   findOneMember = async (memberEmail) => {
-    const findOneMember = await Members.findOne({
-      memberEmail,
-    });
+    const findOneMember = await Members.findOne({ memberEmail });
     return findOneMember;
   };
 
-  getMemberInfo = async (_id) => {
-    const getMemberInfo = await Members.findOne({ _id });
+  getMemberInfo = async (memberEmail) => {
+    const getMemberInfo = await Members.findOne({ memberEmail });
     return getMemberInfo;
   };
 
@@ -71,8 +69,9 @@ class MembersRepository {
     return;
   };
 
-  deleteMember = async (_id) => {
-    await Members.findByIdAndDelete({ _id });
+  deleteMember = async (memberEmail) => {
+    await Members.findOneAndDelete({ memberEmail });
+    console.log("repo통과");
     return;
   };
 }
