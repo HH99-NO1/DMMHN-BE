@@ -1,4 +1,6 @@
 const Members = require("../models/members");
+const refresh = require("../models/refresh");
+const logger = require("../config/logger");
 
 class MembersRepository {
   //member DB에 유저의 정보를 저장한다
@@ -7,9 +9,7 @@ class MembersRepository {
     hashedPw,
     memberName,
     phoneNum,
-    gender,
-    authCode,
-    personalNum
+    gender
   ) => {
     await Members.create({
       memberEmail,
@@ -18,8 +18,6 @@ class MembersRepository {
       memberName,
       phoneNum,
       gender,
-      authCode,
-      personalNum,
     });
     return;
   };
@@ -38,25 +36,42 @@ class MembersRepository {
   //   return checkmem;
   // };
 
-  loginMembers = async (memberEmail) => {
-    const findOneMember = await Members.findOne({
-      memberEmail,
-    });
+  findOneMember = async (memberEmail) => {
+    const findOneMember = await Members.findOne({ memberEmail });
     return findOneMember;
   };
 
-  getMemberInfo = async (_id) => {
-    const getMemberInfo = await Members.findOne({ _id });
+  getMemberInfo = async (memberEmail) => {
+    const getMemberInfo = await Members.findOne({ memberEmail });
     return getMemberInfo;
   };
 
-  updateMember = async (memberEmail, password) => {
-    await Members.findOneAndUpdate({ memberEmail }, { password });
+  updateMember = async (memberEmail, membersEmail) => {
+    await Members.findOneAndUpdate({ memberEmail }, { membersEmail });
     return;
   };
 
-  deleteMember = async (_id) => {
-    await Members.findByIdAndDelete({ _id });
+  updateMemberWithImg = async (memberEmail, img, membersEmail) => {
+    logger.info(`/repository/members.repository@updateMemberWithImg`);
+    await Members.findOneAndUpdate({ memberEmail }, { img }, membersEmail);
+    return;
+  };
+
+  changePassword = async (memberEmail, hashedPw) => {
+    logger.info(`/repository/members.repository@changePassword`);
+    await Members.findOneAndUpdate({ memberEmail }, { password: hashedPw });
+    return;
+  };
+
+  deleteRefreshToken = async (refreshToken) => {
+    logger.info(`/repository/members.repository@deleteRefreshToken`);
+    await refresh.findOneAndDelete({ refreshToken });
+    return;
+  };
+
+  deleteMember = async (memberEmail) => {
+    await Members.findOneAndDelete({ memberEmail });
+    console.log("repo통과");
     return;
   };
 }
