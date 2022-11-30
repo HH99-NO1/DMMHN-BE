@@ -13,7 +13,7 @@ const refresh = async (req, res) => {
     console.log("accessTokenResult: ", accessTokenResult);
 
     if (!findOneRefreshToken) {
-      res.status(401).send({ message: "유효하지 않은 refresh token 입니다" });
+      res.status(400).send({ message: "유효하지 않은 refresh token 입니다" });
     }
     // access token을 디코딩하여 user의 정보를 가져온다
     // const decoded = jwt.decode(accessToken);

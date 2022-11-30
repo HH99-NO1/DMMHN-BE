@@ -1,4 +1,5 @@
 const Members = require("../models/members");
+const refresh = require("../models/refresh");
 const logger = require("../config/logger");
 
 class MembersRepository {
@@ -16,7 +17,7 @@ class MembersRepository {
       expiration: "false",
       memberName,
       phoneNum,
-      gender
+      gender,
     });
     return;
   };
@@ -35,7 +36,7 @@ class MembersRepository {
   //   return checkmem;
   // };
 
-  loginMembers = async (memberEmail) => {
+  findOneMember = async (memberEmail) => {
     const findOneMember = await Members.findOne({
       memberEmail,
     });
@@ -55,6 +56,18 @@ class MembersRepository {
   updateMemberWithImg = async (memberEmail, img) => {
     logger.info(`/repository/members.repository@updateMemberWithImg`);
     await Members.findOneAndUpdate({ memberEmail }, { img });
+    return;
+  };
+
+  changePassword = async (memberEmail, hashedPw) => {
+    logger.info(`/repository/members.repository@changePassword`);
+    await Members.findOneAndUpdate({ memberEmail }, { password: hashedPw });
+    return;
+  };
+
+  deleteRefreshToken = async (refreshToken) => {
+    logger.info(`/repository/members.repository@deleteRefreshToken`);
+    await refresh.findOneAndDelete({ refreshToken });
     return;
   };
 
