@@ -1,4 +1,5 @@
 const Members = require("../models/members");
+const refresh = require("../models/refresh");
 const logger = require("../config/logger");
 
 class MembersRepository {
@@ -16,7 +17,7 @@ class MembersRepository {
       expiration: "false",
       memberName,
       phoneNum,
-      gender
+      gender,
     });
     return;
   };
@@ -35,15 +36,13 @@ class MembersRepository {
   //   return checkmem;
   // };
 
-  loginMembers = async (memberEmail) => {
-    const findOneMember = await Members.findOne({
-      memberEmail,
-    });
+  findOneMember = async (memberEmail) => {
+    const findOneMember = await Members.findOne({ memberEmail });
     return findOneMember;
   };
 
-  getMemberInfo = async (_id) => {
-    const getMemberInfo = await Members.findOne({ _id });
+  getMemberInfo = async (memberEmail) => {
+    const getMemberInfo = await Members.findOne({ memberEmail });
     return getMemberInfo;
   };
 
@@ -58,8 +57,21 @@ class MembersRepository {
     return;
   };
 
-  deleteMember = async (_id) => {
-    await Members.findByIdAndDelete({ _id });
+  changePassword = async (memberEmail, hashedPw) => {
+    logger.info(`/repository/members.repository@changePassword`);
+    await Members.findOneAndUpdate({ memberEmail }, { password: hashedPw });
+    return;
+  };
+
+  deleteRefreshToken = async (refreshToken) => {
+    logger.info(`/repository/members.repository@deleteRefreshToken`);
+    await refresh.findOneAndDelete({ refreshToken });
+    return;
+  };
+
+  deleteMember = async (memberEmail) => {
+    await Members.findOneAndDelete({ memberEmail });
+    console.log("repo통과");
     return;
   };
 }

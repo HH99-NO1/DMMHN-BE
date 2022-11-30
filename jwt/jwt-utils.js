@@ -6,7 +6,7 @@ module.exports = {
   sign: (findOneUser) => {
     const payload = { id: findOneUser._id, email: findOneUser.memberEmail };
     return jwt.sign(payload, secretKey, {
-      expiresIn: "12h",
+      expiresIn: "3h",
     });
   },
 
@@ -24,7 +24,7 @@ module.exports = {
 
   refreshSign: () => {
     return jwt.sign({}, secretKey, {
-      expiresIn: "30m",
+      expiresIn: "12h",
     });
   },
 

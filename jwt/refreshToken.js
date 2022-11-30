@@ -1,15 +1,20 @@
 const { sign, verify, refreshVerify } = require("./jwt-utils");
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.SECRET_KEY;
+const RefreshModel = require("../models/refresh");
 const refresh = async (req, res) => {
   // access token과 refresh token의 존재 유무를 체크
   if (req.headers.authorization && req.headers.refresh) {
     const accessToken = req.headers.authorization.split(" ")[1];
     const refreshToken = req.headers.refresh;
-
+    const findOneRefreshToken = await RefreshModel.findOne({ refreshToken });
     // access token의 유효성을 체크 -> expired이어야 한다
     const accessTokenResult = verify(accessToken);
+    console.log("accessTokenResult: ", accessTokenResult);
 
+    if (!findOneRefreshToken) {
+      res.status(400).send({ message: "유효하지 않은 refresh token 입니다" });
+    }
     // access token을 디코딩하여 user의 정보를 가져온다
     // const decoded = jwt.decode(accessToken);
     // 디코딩 결과가 없으면 권한이 없음을 응답
