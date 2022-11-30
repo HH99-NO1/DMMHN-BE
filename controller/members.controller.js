@@ -1,5 +1,5 @@
 const MembersService = require("../service/members.service");
-const logger = require('../config/logger');
+const logger = require("../config/logger");
 
 class MembersController {
   membersService = new MembersService();
@@ -75,6 +75,29 @@ class MembersController {
       const profileImg = req.file;
       await this.membersService.updateMember(memberEmail, password, profileImg);
       res.status(201).send({ message: "정보를 수정하였습니다" });
+    } catch (err) {
+      res.status(400).send({ message: err.message });
+    }
+  };
+
+  changePassword = async (req, res, next) => {
+    logger.info("/controller/members.controller@changePassword");
+    try {
+      if (tokenInfo.message === "jwt expired") {
+        res.status(401).send({ message: "jwt expired", ok: 6 });
+        return;
+      }
+      const { memberEmail } = res.locals.members;
+      const { password, newPassword, confirmNewPassword, refreshToken } =
+        req.body;
+      await this.membersService.changePassword(
+        memberEmail,
+        password,
+        newPassword,
+        confirmNewPassword,
+        refreshToken
+      );
+      res.status(201).send({ message: "비밀번호가 변경되었습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });
     }

@@ -51,7 +51,7 @@ class MembersService {
     // if (!EMAIL_VALIDATION.test(memberEmail)) {
     //   throw new Error("이메일 형식을 맞춰주세요");
     // }
-    const result = await this.membersRepository.loginMembers(memberEmail);
+    const result = await this.membersRepository.findOneMember(memberEmail);
     if (result) {
       throw new Error("이미 가입된 계정입니다.");
     }
@@ -72,7 +72,7 @@ class MembersService {
   loginMembers = async (memberEmail, password) => {
     try {
       // member DB에서 일치하는 유저가 있는지 찾아온다.
-      const findOneMember = await this.membersRepository.loginMembers(
+      const findOneMember = await this.membersRepository.findOneMember(
         memberEmail
       );
 
@@ -117,7 +117,7 @@ class MembersService {
       return {
         _id: getMemberInfo._id,
         memberEmail: getMemberInfo.memberEmail,
-        profileImg: getMemberInfo.img, 
+        profileImg: getMemberInfo.img,
         createdAt: getMemberInfo.createdAt,
         updatedAt: getMemberInfo.updatedAt,
       };
@@ -128,17 +128,41 @@ class MembersService {
 
   updateMember = async (memberEmail, password, profileImg) => {
     logger.info(`/service/members.service`);
-    if(!profileImg) {
+    if (!profileImg) {
       logger.info("@updateMember");
       await this.membersRepository.updateMember(memberEmail, password);
-    } else if(profileImg) {
+    } else if (profileImg) {
       const img = profileImg.location;
       logger.info(`@updateMemberWithImg / img : ${img}`);
-      
+
       await this.membersRepository.updateMemberWithImg(memberEmail, img);
     } else {
-      throw new Error ('회원 정보 수정에 실패하였습니다.')
+      throw new Error("회원 정보 수정에 실패하였습니다.");
     }
+    return;
+  };
+
+  changePassword = async (
+    memberEmail,
+    password,
+    newPassword,
+    confirmNewPassword,
+    refreshToken
+  ) => {
+    logger.info(`/service/members.service@changePassword`);
+    const findOneMember = await this.membersRepository.findOneMember(
+      memberEmail
+    );
+    const match = await bcrypt.compare(password, findOneMember.password);
+    if (!match) {
+      throw new Error("비밀번호가 일치하지 않습니다");
+    }
+    if (newPassword !== confirmNewPassword) {
+      throw new Error("새 비밀번호와 비밀번호 확인이 일치하지 않습니다");
+    }
+    await this.membersRepository.deleteRefreshToken(refreshToken);
+    const hashedPw = bcrypt.hashSync(newPassword, 10);
+    await this.membersRepository.changePassword(memberEmail, hashedPw);
     return;
   };
 
