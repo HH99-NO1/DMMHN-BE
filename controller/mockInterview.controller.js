@@ -65,6 +65,7 @@ class MockInterviewController {
       _req.pipe(writeStream);
       _req.pipe(res);
     } catch (err) {
+      logger.error(err.message);
       res.status(400).send({message: err.message});
     }
   };
