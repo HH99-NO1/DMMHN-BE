@@ -71,9 +71,14 @@ class MembersController {
         res.status(401).send({ message: "jwt expired", ok: 6 });
         return;
       }
-      const { memberEmail, memberName, phoneNum, major, stack } = req.body;
+      const { memberEmail } = res.locals.members;
+      const { membersEmail, memberName } = req.body;
       const profileImg = req.file;
-      await this.membersService.updateMember(memberName, profileImg);
+      await this.membersService.updateMember(
+        memberEmail,
+        profileImg,
+        membersEmail
+      );
       res.status(201).send({ message: "정보를 수정하였습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });

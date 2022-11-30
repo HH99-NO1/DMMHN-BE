@@ -46,14 +46,14 @@ class MembersRepository {
     return getMemberInfo;
   };
 
-  updateMember = async (memberEmail, password) => {
-    await Members.findOneAndUpdate({ memberEmail }, { password });
+  updateMember = async (memberEmail, membersEmail) => {
+    await Members.findOneAndUpdate({ memberEmail }, { membersEmail });
     return;
   };
 
-  updateMemberWithImg = async (memberEmail, img) => {
+  updateMemberWithImg = async (memberEmail, img, membersEmail) => {
     logger.info(`/repository/members.repository@updateMemberWithImg`);
-    await Members.findOneAndUpdate({ memberEmail }, { img });
+    await Members.findOneAndUpdate({ memberEmail }, { img }, membersEmail);
     return;
   };
 
