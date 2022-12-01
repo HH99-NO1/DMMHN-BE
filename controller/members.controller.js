@@ -72,12 +72,17 @@ class MembersController {
         return;
       }
       const { memberEmail } = res.locals.members;
-      const { membersEmail, memberName } = req.body;
+      const { birth, memberName, major, stack, job, gender } = req.body;
       const profileImg = req.file;
       await this.membersService.updateMember(
         memberEmail,
         profileImg,
-        membersEmail
+        birth,
+        memberName,
+        major,
+        stack,
+        job,
+        gender
       );
       res.status(201).send({ message: "정보를 수정하였습니다" });
     } catch (err) {
