@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 const autoIncrement = require("mongoose-sequence")(mongoose);
-const curr = new Date();
-const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
-const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-const kr_curr = new Date(utc + KR_TIME_DIFF);
+const options = {
+  year: "2-digit",
+  month: "short",
+  weekday: "short",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
+}
 
-// required: 무조건 필요한지
 const mockInterviewResultSchema = new mongoose.Schema({
   sequence: {
     type: Number,
@@ -31,8 +35,8 @@ const mockInterviewResultSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  createdAt: { type: String, default: kr_curr },
-  updatedAt: { type: String, default: kr_curr },
+  createdAt: { type: String, default: new Intl.DateTimeFormat('ko-KR', options).format(new Date()) },
+  updatedAt: { type: String, default: new Intl.DateTimeFormat('ko-KR', options).format(new Date()) },
 });
 
 mockInterviewResultSchema.plugin(autoIncrement, {

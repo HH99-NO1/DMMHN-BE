@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
 
   //   try {
   const { memberEmail } = jwt.verify(authToken);
-  members.findById(memberEmail).then((members) => {
+  members.findOne({memberEmail}).then((members) => {
     res.locals.members = members;
     tokenInfo = jwt.verify(authToken);
     next();
