@@ -127,20 +127,33 @@ class MembersService {
     }
   };
 
-  updateMember = async (memberEmail, profileImg, membersEmail) => {
+  updateMember = async (
+    memberEmail,
+    profileImg,
+    birth,
+    memberName,
+    major,
+    stack,
+    job,
+    gender
+  ) => {
     logger.info(`/service/members.service`);
     try {
       if (!profileImg) {
         logger.info("@updateMember");
-        await this.membersRepository.updateMember(memberEmail, membersEmail);
+        await this.membersRepository.updateMember(
+          memberEmail,
+          birth,
+          memberName,
+          major,
+          stack,
+          job,
+          gender
+        );
       } else if (profileImg) {
         const img = profileImg.location;
         logger.info(`@updateMemberWithImg / img : ${img}`);
-        await this.membersRepository.updateMemberWithImg(
-          memberEmail,
-          img,
-          membersEmail
-        );
+        await this.membersRepository.updateMemberWithImg(memberEmail, img);
       } else {
         throw new Error("회원 정보 수정에 실패하였습니다.");
       }

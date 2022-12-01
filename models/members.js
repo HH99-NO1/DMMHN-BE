@@ -21,7 +21,7 @@ const membersSchema = new mongoose.Schema({
     type: String,
     //  required: true,
   },
-  phoneNum: {
+  birth: {
     type: String,
     //  required: true,
   },
