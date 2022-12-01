@@ -13,7 +13,8 @@ module.exports = {
   verify: (token) => {
     try {
       const decoded = jwt.verify(token, secretKey);
-      return { ok: true, id: decoded.id };
+      console.log(decoded.memberEmail);
+      return { ok: true, memberEmail: decoded.memberEmail };
     } catch (err) {
       return {
         ok: 6,
