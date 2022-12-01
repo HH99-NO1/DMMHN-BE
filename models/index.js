@@ -8,13 +8,13 @@ const connect = () => {
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      // useCreateIndex: true,
       dbName: "DMMHN",
-    },
-    (error) => {
-      if (error) console.log("Mongo DB Connect Error");
-      else console.log("몽고db에 성공적으로 연결하였습니다.");
-    }
-  );
-};
+    }).then(()=> {
+      console.log("몽고db에 성공적으로 연결하였습니다.");
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
 
 module.exports = connect;

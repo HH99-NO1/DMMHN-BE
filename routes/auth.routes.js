@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
@@ -20,3 +21,22 @@ router.get("/callback", function (req, res, next) {
 });
 
 module.exports = router;
+=======
+const express = require('express')
+const router = express.Router();
+const passport = require('passport');
+
+
+router.get("/kakao", passport.authenticate("kakao"));
+router.get(
+  "/auth/kakao/callback",
+  passport.authenticate("kakao-login", {
+    failureRedirect: "/",
+  }),
+  (req, res) => {
+    res.redirect("/");
+  }
+);
+
+module.exports = router;
+>>>>>>> f533496bd282565dd3b67e99a7b9b63048c554e3
