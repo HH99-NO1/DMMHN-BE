@@ -62,7 +62,7 @@ if (process.env.NODE_ENV !== "production") {
     new transports.Console({
       level: "info",
       format: logFormat.console,
-    }),
+    })
   );
 }
 
