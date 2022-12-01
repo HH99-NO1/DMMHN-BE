@@ -4,7 +4,6 @@ const membersRouter = require("./members.routes");
 const reservationRouter = require("./reservation.routes");
 const companyRouter = require("../routes/company.routes");
 const mockInterviewRouter = require("./mockInterview.routes");
-const authRouter = require("./auth.routes");
 const startKakaoLogin = require("../controller/startKakaoLogin.controller");
 const finishKakaoLogin = require("../controller/finishKakaoLogin.controller");
 const videoRouter = require("./videos.routes");
