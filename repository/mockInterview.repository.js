@@ -1,5 +1,6 @@
 const MockInterviews = require("../models/mockInterview");
 const MockInterviewResults = require("../models/mockInterviewResult");
+const { add } = require("date-fns");
 
 class MockInterviewRepository {
   createQuestions = async (category, question) => {
@@ -26,6 +27,8 @@ class MockInterviewRepository {
       number,
       result,
       totalTime,
+      createdAt: add(new Date(), { hours: 9 }),
+      updatedAt: add(new Date(), { hours: 9 }),
     });
     return data;
   };

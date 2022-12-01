@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const autoIncrement = require("mongoose-sequence")(mongoose);
-const { add } = require("date-fns");
-
 
 const mockInterviewResultSchema = new mongoose.Schema({
   sequence: {
@@ -28,8 +26,8 @@ const mockInterviewResultSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  createdAt: { type: Date, default: add(new Date(), { hours: 9 }) },
-  updatedAt: { type: Date, default: add(new Date(), { hours: 9 }) },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 mockInterviewResultSchema.plugin(autoIncrement, {
