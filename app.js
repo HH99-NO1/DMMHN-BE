@@ -7,7 +7,7 @@ const expiration = require("./schedule/schedule");
 
 const morganMiddleware = require("./middleware/morgan_middleware");
 const routes = require("./routes/index.routes");
-const videoRoute = require("./routes/index.routes")
+const videoRoute = require("./routes/index.routes");
 
 app.use(express.json());
 // app.use(
@@ -22,6 +22,6 @@ app.use(morganMiddleware);
 // scheduler 실행
 expiration;
 
-app.use("/", [routes,videoRoute]);
+app.use("/", [routes, videoRoute]);
 
 module.exports = app;

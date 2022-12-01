@@ -1,7 +1,6 @@
-const express = require('express')
+const express = require("express");
 const router = express.Router();
-const passport = require('passport');
-
+const passport = require("passport");
 
 router.get("/kakao", passport.authenticate("kakao"));
 router.get(
