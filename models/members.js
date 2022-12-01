@@ -49,6 +49,12 @@ const membersSchema = new mongoose.Schema({
     default: "https://i.ibb.co/jwSbV5Z/profile-default.png",
     // required: true,
   },
+  snsId: {
+    type: String,
+  },
+  provider: {
+    type: String,
+  },
   loginHistory: {
     type: String,
     default: kr_curr,

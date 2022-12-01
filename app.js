@@ -8,6 +8,8 @@ const roomName = require("./socket");
 
 const morganMiddleware = require("./middleware/morgan_middleware");
 const routes = require("./routes/index.routes");
+app.set("view engine", "pug");
+const home = (req, res) => res.render("Home");
 app.use(express.json());
 // app.use(
 //   cors({
