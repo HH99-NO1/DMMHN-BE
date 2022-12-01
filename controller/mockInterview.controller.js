@@ -1,5 +1,10 @@
 const MockInterviewService = require("../service/mockInterview.service");
 const logger = require("../config/logger");
+const fs = require("fs");
+require("dotenv").config();
+
+const tts_id = process.env.TTS_ID;
+const tts_secret = process.env.TTS_SECRET;
 
 class MockInterviewController {
   mockInterviewService = new MockInterviewService();
@@ -23,11 +28,45 @@ class MockInterviewController {
         category,
         number
       );
-      
+
       res.status(200).json(data);
     } catch (err) {
       logger.error(err);
       res.status(400).send(err.message);
+    }
+  };
+
+  getQuestionsVoice = async (req, res, next) => {
+    const { question } = req.body;
+    const api_url = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts";
+    const request = require("request");
+    const options = {
+      url: api_url,
+      form: {
+        speaker: "nara",
+        volume: "0",
+        speed: "0",
+        pitch: "0",
+        text: question,
+        format: "mp3",
+      },
+      headers: {
+        "X-NCP-APIGW-API-KEY-ID": tts_id,
+        "X-NCP-APIGW-API-KEY": tts_secret,
+      },
+    };
+    try {
+      const writeStream = fs.createWriteStream(`./voice/tts1.mp3`);
+      logger.info("here comes!");
+      const _req = request.post(options).on("response", function (response) {
+        console.log(response.statusCode);
+        console.log(response.headers["content-type"]);
+      });
+      _req.pipe(writeStream);
+      _req.pipe(res);
+    } catch (err) {
+      logger.error(err.message);
+      res.status(400).send({message: err.message});
     }
   };
 
@@ -44,8 +83,10 @@ class MockInterviewController {
         totalTime
       );
 
-      res.status(201).json({ sequence: data, message: "모의면접 결과가 저장되었습니다."});
-    } catch(err) {
+      res
+        .status(201)
+        .json({ sequence: data, message: "모의면접 결과가 저장되었습니다." });
+    } catch (err) {
       res.status(400).send(err.message);
     }
   };
@@ -53,10 +94,12 @@ class MockInterviewController {
   getInterviewResults = async (req, res, next) => {
     const { memberEmail } = res.locals.members;
     try {
-      const data = await this.mockInterviewService.getInterviewResults(memberEmail);
-      
+      const data = await this.mockInterviewService.getInterviewResults(
+        memberEmail
+      );
+
       res.status(200).json(data);
-    } catch(err) {
+    } catch (err) {
       res.status(400).send(err.message);
     }
   };
@@ -65,12 +108,14 @@ class MockInterviewController {
     const { sequence } = req.params;
 
     try {
-      const data = await this.mockInterviewService.getInterviewResultDetails(sequence);
-  
+      const data = await this.mockInterviewService.getInterviewResultDetails(
+        sequence
+      );
+
       res.status(200).json(data);
     } catch (err) {
       res.status(400).send(err.message);
-    };
+    }
   };
 }
 

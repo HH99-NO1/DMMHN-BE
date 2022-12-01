@@ -111,35 +111,43 @@ class MembersService {
     }
   };
 
-  getMemberInfo = async (_id) => {
+  getMemberInfo = async (memberEmail) => {
     try {
-      const getMemberInfo = await this.membersRepository.getMemberInfo(_id);
+      const getMemberInfo = await this.membersRepository.getMemberInfo(
+        memberEmail
+      );
       return {
-        _id: getMemberInfo._id,
         memberEmail: getMemberInfo.memberEmail,
         profileImg: getMemberInfo.img,
         createdAt: getMemberInfo.createdAt,
         updatedAt: getMemberInfo.updatedAt,
       };
     } catch (err) {
-      throw new Error({ message: err.message });
+      throw new Error(err.message);
     }
   };
 
-  updateMember = async (memberEmail, password, profileImg) => {
+  updateMember = async (memberEmail, profileImg, membersEmail) => {
     logger.info(`/service/members.service`);
-    if (!profileImg) {
-      logger.info("@updateMember");
-      await this.membersRepository.updateMember(memberEmail, password);
-    } else if (profileImg) {
-      const img = profileImg.location;
-      logger.info(`@updateMemberWithImg / img : ${img}`);
-
-      await this.membersRepository.updateMemberWithImg(memberEmail, img);
-    } else {
-      throw new Error("회원 정보 수정에 실패하였습니다.");
+    try {
+      if (!profileImg) {
+        logger.info("@updateMember");
+        await this.membersRepository.updateMember(memberEmail, membersEmail);
+      } else if (profileImg) {
+        const img = profileImg.location;
+        logger.info(`@updateMemberWithImg / img : ${img}`);
+        await this.membersRepository.updateMemberWithImg(
+          memberEmail,
+          img,
+          membersEmail
+        );
+      } else {
+        throw new Error("회원 정보 수정에 실패하였습니다.");
+      }
+      return;
+    } catch (err) {
+      throw new Error(err.message);
     }
-    return;
   };
 
   changePassword = async (
@@ -153,22 +161,40 @@ class MembersService {
     const findOneMember = await this.membersRepository.findOneMember(
       memberEmail
     );
-    const match = await bcrypt.compare(password, findOneMember.password);
-    if (!match) {
-      throw new Error("비밀번호가 일치하지 않습니다");
+    console.log(findOneMember);
+    try {
+      const match = await bcrypt.compare(password, findOneMember.password);
+      if (!match) {
+        throw new Error("비밀번호가 일치하지 않습니다");
+      }
+      if (newPassword !== confirmNewPassword) {
+        throw new Error("새 비밀번호와 비밀번호 확인이 일치하지 않습니다");
+      }
+      await this.membersRepository.deleteRefreshToken(refreshToken);
+      const hashedPw = bcrypt.hashSync(newPassword, 10);
+      await this.membersRepository.changePassword(memberEmail, hashedPw);
+      return;
+    } catch (err) {
+      throw new Error(err.message);
     }
-    if (newPassword !== confirmNewPassword) {
-      throw new Error("새 비밀번호와 비밀번호 확인이 일치하지 않습니다");
-    }
-    await this.membersRepository.deleteRefreshToken(refreshToken);
-    const hashedPw = bcrypt.hashSync(newPassword, 10);
-    await this.membersRepository.changePassword(memberEmail, hashedPw);
-    return;
   };
 
-  deleteMember = async (_id) => {
-    await this.membersRepository.deleteMember(_id);
-    return;
+  deleteMember = async (memberEmail, password) => {
+    try {
+      const findOneMember = await this.membersRepository.findOneMember(
+        memberEmail
+      );
+      const match = await bcrypt.compare(password, findOneMember.password);
+      if (!match) {
+        throw new Error("비밀번호가 일치하지 않습니다");
+      }
+      console.log(match);
+      await this.membersRepository.deleteMember(memberEmail);
+      console.log(memberEmail);
+      return;
+    } catch (err) {
+      throw new Error(err.message);
+    }
   };
 }
 
