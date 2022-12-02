@@ -90,18 +90,19 @@ class MembersService {
       const match = await bcrypt.compare(password, findOneMember.password);
 
       // 일치하는 유저가 없을 경우 에러 메세지를 띄운다
-      console.log(match);
       if (!match) {
         throw new Error("아이디 또는 비밀번호가 일치하지 않습니다");
       }
 
+      // 일치하는 유저가 있을 경우 access, refresh 토큰을 발급
+      const accessToken = jwt.sign(findOneMember);
+      const refreshToken = jwt.refreshSign(findOneMember);
+
+      // refresh Token 을 DB에 저장한다
+      await refreshModel.create({ refreshToken: `Bearer ${refreshToken}` });
       // expiration 모델의 updatedAt을 최신 날짜로 업데이트
       await this.membersRepository.updateLoginHistory(memberEmail);
 
-      // 일치하는 유저가 있을 경우 access, refresh 토큰을
-      const accessToken = jwt.sign(findOneMember);
-      const refreshToken = jwt.refreshSign(findOneMember);
-      await refreshModel.create({ refreshToken: `Bearer ${refreshToken}` });
       return {
         accessToken: `Bearer ${accessToken}`,
         refreshToken: `Bearer ${refreshToken}`,
