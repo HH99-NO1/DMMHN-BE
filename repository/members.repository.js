@@ -8,7 +8,9 @@ class MembersRepository {
     memberEmail,
     hashedPw,
     memberName,
-    phoneNum,
+    birth,
+    job,
+    stack,
     gender
   ) => {
     await Members.create({
@@ -16,7 +18,9 @@ class MembersRepository {
       password: hashedPw,
       expiration: "false",
       memberName,
-      phoneNum,
+      birth,
+      job,
+      stack,
       gender,
     });
     return;
@@ -26,24 +30,14 @@ class MembersRepository {
   updateLoginHistory = async (memberEmail) => {
     await Members.findOneAndUpdate(
       { memberEmail },
-      { loginHistory: String(new Date()) }
+      { loginHistory: String(Date.now) }
     );
     return;
   };
 
-  // checkMembersIdDup = async (memberEmail) => {
-  //   const checkmem = await Members.findOne({ memberEmail });
-  //   return checkmem;
-  // };
-
   findOneMember = async (memberEmail) => {
     const findOneMember = await Members.findOne({ memberEmail });
     return findOneMember;
-  };
-
-  getMemberInfo = async (memberEmail) => {
-    const getMemberInfo = await Members.findOne({ memberEmail });
-    return getMemberInfo;
   };
 
   updateMember = async (

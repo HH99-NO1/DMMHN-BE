@@ -12,12 +12,19 @@ class MembersController {
   };
 
   createMembers = async (req, res, next) => {
-    const { memberEmail, password, confirmPw, memberName, phoneNum, gender } =
-      req.body;
+    const {
+      memberEmail,
+      password,
+      confirmPw,
+      memberName,
+      birth,
+      job,
+      stack,
+      gender,
+    } = req.body;
 
     if (req.headers.authorization) {
       res.status(401).json({ errorMessage: "이미 로그인 된 계정입니다." });
-      return;
     }
 
     try {
@@ -26,7 +33,9 @@ class MembersController {
         password,
         confirmPw,
         memberName,
-        phoneNum,
+        birth,
+        job,
+        stack,
         gender
       );
       res.status(201).json({ message: "회원가입에 성공했습니다" });
@@ -38,11 +47,8 @@ class MembersController {
   loginMembers = async (req, res, next) => {
     try {
       const { memberEmail, password } = req.body;
-      const loginMembers = await this.membersService.loginMembers(
-        memberEmail,
-        password
-      );
-      res.status(200).json({ message: "로그인 완료", data: loginMembers });
+      await this.membersService.loginMembers(memberEmail, password);
+      res.status(200).json({ message: "로그인 완료" });
     } catch (err) {
       res.status(400).send({ message: err.message });
     }
