@@ -5,14 +5,7 @@ const refreshModel = require("../models/refresh");
 require("dotenv").config();
 const transPort = require("../config/email");
 const logger = require("../config/logger");
-
-const generateRandom = function (min, max) {
-  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-  return randomNumber;
-};
-
-const EMAIL_VALIDATION =
-  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[.][a-zA-Z]{2,3}$/i;
+const { generateRandom } = require("../util/members.util");
 
 class MembersService {
   membersRepository = new MembersRepository();
@@ -36,8 +29,6 @@ class MembersService {
     return authCode;
   };
 
-
-
   createMembers = async (
     memberEmail,
     password,
@@ -48,17 +39,16 @@ class MembersService {
     stack,
     gender
   ) => {
-    //     try {
+    
     if (password !== confirmPw) {
       throw new Error("비밀번호와 비밀번화 확인이 일치하지 않습니다");
     }
-    // if (!EMAIL_VALIDATION.test(memberEmail)) {
-    //   throw new Error("이메일 형식을 맞춰주세요");
-    // }
+    
     const result = await this.membersRepository.findOneMember(memberEmail);
     if (result) {
       throw new Error("이미 가입된 계정입니다.");
     }
+
     const hashedPw = bcrypt.hashSync(password, 10);
     await this.membersRepository.createMembers(
       memberEmail,
@@ -70,9 +60,6 @@ class MembersService {
       gender
     );
     return;
-    //  } catch (err) {
-    //     throw new Error(err.message);
-    //   }
   };
 
   loginMembers = async (memberEmail, password) => {
@@ -95,8 +82,7 @@ class MembersService {
       // DB에서 가져온 유저의 비밀번호와 입력한 비밀번호가 일치하는지 확인한다.
       const match = await bcrypt.compare(password, findOneMember.password);
 
-      // 일치하는 유저가 없을 경우 에러 메세지를 띄운다
-      console.log(match);
+      // 일치하는 유저가 없을 경우 에러 메세지를 띄운다      
       if (!match) {
         throw new Error("아이디 또는 비밀번호가 일치하지 않습니다");
       }
@@ -133,20 +119,33 @@ class MembersService {
     }
   };
 
-  updateMember = async (memberEmail, profileImg, membersEmail) => {
+  updateMember = async (
+    memberEmail,
+    profileImg,
+    birth,
+    memberName,
+    major,
+    stack,
+    job,
+    gender
+  ) => {
     logger.info(`/service/members.service`);
     try {
       if (!profileImg) {
         logger.info("@updateMember");
-        await this.membersRepository.updateMember(memberEmail, membersEmail);
+        await this.membersRepository.updateMember(
+          memberEmail,
+          birth,
+          memberName,
+          major,
+          stack,
+          job,
+          gender
+        );
       } else if (profileImg) {
         const img = profileImg.location;
         logger.info(`@updateMemberWithImg / img : ${img}`);
-        await this.membersRepository.updateMemberWithImg(
-          memberEmail,
-          img,
-          membersEmail
-        );
+        await this.membersRepository.updateMemberWithImg(memberEmail, img);
       } else {
         throw new Error("회원 정보 수정에 실패하였습니다.");
       }

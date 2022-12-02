@@ -2,7 +2,6 @@ const Members = require("../models/members");
 const refresh = require("../models/refresh");
 const logger = require("../config/logger");
 
-
 class MembersRepository {
   //member DB에 유저의 정보를 저장한다
   createMembers = async (
@@ -31,34 +30,42 @@ class MembersRepository {
   updateLoginHistory = async (memberEmail) => {
     await Members.findOneAndUpdate(
       { memberEmail },
-      { loginHistory: String(new Date()) }
+      { loginHistory: String(Date.now) }
     );
     return;
   };
-
-  // checkMembersIdDup = async (memberEmail) => {
-  //   const checkmem = await Members.findOne({ memberEmail });
-  //   return checkmem;
-  // };
 
   findOneMember = async (memberEmail) => {
     const findOneMember = await Members.findOne({ memberEmail });
     return findOneMember;
   };
 
-  getMemberInfo = async (memberEmail) => {
-    const getMemberInfo = await Members.findOne({ memberEmail });
-    return getMemberInfo;
-  };
-
-  updateMember = async (memberEmail, membersEmail) => {
-    await Members.findOneAndUpdate({ memberEmail }, { membersEmail });
+  updateMember = async (
+    memberEmail,
+    birth,
+    memberName,
+    major,
+    stack,
+    job,
+    gender
+  ) => {
+    await Members.findOneAndUpdate(
+      { memberEmail },
+      {
+        birth,
+        memberName,
+        major,
+        stack,
+        job,
+        gender,
+      }
+    );
     return;
   };
 
-  updateMemberWithImg = async (memberEmail, img, membersEmail) => {
+  updateMemberWithImg = async (memberEmail, img) => {
     logger.info(`/repository/members.repository@updateMemberWithImg`);
-    await Members.findOneAndUpdate({ memberEmail }, { img }, membersEmail);
+    await Members.findOneAndUpdate({ memberEmail }, { img });
     return;
   };
 

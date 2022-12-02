@@ -4,7 +4,7 @@ const refreshModel = require("../models/refresh");
 
 module.exports = {
   sign: (findOneUser) => {
-    const payload = { id: findOneUser._id, email: findOneUser.memberEmail };
+    const payload = { memberEmail: findOneUser.memberEmail };
     return jwt.sign(payload, secretKey, {
       expiresIn: "3h",
     });
@@ -13,7 +13,8 @@ module.exports = {
   verify: (token) => {
     try {
       const decoded = jwt.verify(token, secretKey);
-      return { ok: true, id: decoded.id };
+      console.log(decoded.memberEmail);
+      return { ok: true, memberEmail: decoded.memberEmail };
     } catch (err) {
       return {
         ok: 6,
