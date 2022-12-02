@@ -160,7 +160,6 @@ class MembersService {
     const findOneMember = await this.membersRepository.findOneMember(
       memberEmail
     );
-    console.log(findOneMember);
     try {
       const match = await bcrypt.compare(password, findOneMember.password);
       if (!match) {
