@@ -3,10 +3,9 @@ const schedule = require("node-schedule");
 const rule = new schedule.RecurrenceRule();
 
 // 시간 데이터에 1달을 더하는 함수
-const nextMonth = (date) => {
-  const newDate = new Date(date);
-  newDate.setMonth(newDate.getMonth() + 1);
-  return newDate;
+const nextMonth = (userDate) => {
+  userDate.setMonth(userDate.getMonth() + 1);
+  return userDate;
 };
 
 // 현재 시각

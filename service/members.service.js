@@ -154,7 +154,7 @@ class MembersService {
     password,
     newPassword,
     confirmNewPassword,
-    refreshToken
+    refresh
   ) => {
     logger.info(`/service/members.service@changePassword`);
     const findOneMember = await this.membersRepository.findOneMember(
@@ -168,7 +168,7 @@ class MembersService {
       if (newPassword !== confirmNewPassword) {
         throw new Error("새 비밀번호와 비밀번호 확인이 일치하지 않습니다");
       }
-      await this.membersRepository.deleteRefreshToken(refreshToken);
+      await this.membersRepository.deleteRefreshToken(refresh);
       const hashedPw = bcrypt.hashSync(newPassword, 10);
       await this.membersRepository.changePassword(memberEmail, hashedPw);
       return;
