@@ -8,9 +8,8 @@ module.exports = (req, res, next) => {
     res.status(401).send({ errorMessage: "이용할 수 없습니다" });
   }
 
-  //   try {
   const { memberEmail } = jwt.verify(authToken);
-  members.findOne({memberEmail}).then((members) => {
+  members.findOne({ memberEmail }).then((members) => {
     res.locals.members = members;
     tokenInfo = jwt.verify(authToken);
     next();

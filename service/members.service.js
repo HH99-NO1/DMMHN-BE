@@ -5,14 +5,7 @@ const refreshModel = require("../models/refresh");
 require("dotenv").config();
 const transPort = require("../config/email");
 const logger = require("../config/logger");
-
-const generateRandom = function (min, max) {
-  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-  return randomNumber;
-};
-
-const EMAIL_VALIDATION =
-  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*[.][a-zA-Z]{2,3}$/i;
+const { generateRandom } = require("../util/members.util");
 
 class MembersService {
   membersRepository = new MembersRepository();
@@ -41,32 +34,31 @@ class MembersService {
     password,
     confirmPw,
     memberName,
-    phoneNum,
+    birth,
+    job,
+    stack,
     gender
   ) => {
-    //     try {
     if (password !== confirmPw) {
       throw new Error("비밀번호와 비밀번화 확인이 일치하지 않습니다");
     }
-    // if (!EMAIL_VALIDATION.test(memberEmail)) {
-    //   throw new Error("이메일 형식을 맞춰주세요");
-    // }
+
     const result = await this.membersRepository.findOneMember(memberEmail);
     if (result) {
       throw new Error("이미 가입된 계정입니다.");
     }
+
     const hashedPw = bcrypt.hashSync(password, 10);
     await this.membersRepository.createMembers(
       memberEmail,
       hashedPw,
       memberName,
-      phoneNum,
+      birth,
+      job,
+      stack,
       gender
     );
     return;
-    //  } catch (err) {
-    //     throw new Error(err.message);
-    //   }
   };
 
   loginMembers = async (memberEmail, password) => {
@@ -114,15 +106,10 @@ class MembersService {
 
   getMemberInfo = async (memberEmail) => {
     try {
-      const getMemberInfo = await this.membersRepository.getMemberInfo(
+      const getMemberInfo = await this.membersRepository.findOneMember(
         memberEmail
       );
-      return {
-        memberEmail: getMemberInfo.memberEmail,
-        profileImg: getMemberInfo.img,
-        createdAt: getMemberInfo.createdAt,
-        updatedAt: getMemberInfo.updatedAt,
-      };
+      return getMemberInfo;
     } catch (err) {
       throw new Error(err.message);
     }
@@ -133,7 +120,6 @@ class MembersService {
     profileImg,
     birth,
     memberName,
-    major,
     stack,
     job,
     gender
@@ -146,7 +132,6 @@ class MembersService {
           memberEmail,
           birth,
           memberName,
-          major,
           stack,
           job,
           gender
@@ -154,7 +139,7 @@ class MembersService {
       } else if (profileImg) {
         const img = profileImg.location;
         logger.info(`@updateMemberWithImg / img : ${img}`);
-        await this.membersRepository.updateMemberWithImg(memberEmail, img);
+        await this.membersRepository.updateMemberImg(memberEmail, img);
       } else {
         throw new Error("회원 정보 수정에 실패하였습니다.");
       }

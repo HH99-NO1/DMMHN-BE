@@ -8,7 +8,9 @@ class MembersRepository {
     memberEmail,
     hashedPw,
     memberName,
-    phoneNum,
+    birth,
+    job,
+    stack,
     gender
   ) => {
     await Members.create({
@@ -16,7 +18,9 @@ class MembersRepository {
       password: hashedPw,
       expiration: "false",
       memberName,
-      phoneNum,
+      birth,
+      job,
+      stack,
       gender,
     });
     return;
@@ -31,36 +35,17 @@ class MembersRepository {
     return;
   };
 
-  // checkMembersIdDup = async (memberEmail) => {
-  //   const checkmem = await Members.findOne({ memberEmail });
-  //   return checkmem;
-  // };
-
   findOneMember = async (memberEmail) => {
     const findOneMember = await Members.findOne({ memberEmail });
     return findOneMember;
   };
 
-  getMemberInfo = async (memberEmail) => {
-    const getMemberInfo = await Members.findOne({ memberEmail });
-    return getMemberInfo;
-  };
-
-  updateMember = async (
-    memberEmail,
-    birth,
-    memberName,
-    major,
-    stack,
-    job,
-    gender
-  ) => {
+  updateMember = async (memberEmail, birth, memberName, stack, job, gender) => {
     await Members.findOneAndUpdate(
       { memberEmail },
       {
         birth,
         memberName,
-        major,
         stack,
         job,
         gender,
@@ -69,7 +54,7 @@ class MembersRepository {
     return;
   };
 
-  updateMemberWithImg = async (memberEmail, img) => {
+  updateMemberImg = async (memberEmail, img) => {
     logger.info(`/repository/members.repository@updateMemberWithImg`);
     await Members.findOneAndUpdate({ memberEmail }, { img });
     return;
