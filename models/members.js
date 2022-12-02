@@ -1,3 +1,4 @@
+const { string } = require("joi");
 const mongoose = require("mongoose");
 const curr = new Date();
 const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
@@ -41,6 +42,7 @@ const membersSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
+  
   major: {
     type: String,
   },
@@ -58,6 +60,18 @@ const membersSchema = new mongoose.Schema({
   loginHistory: {
     type: String,
     default: kr_curr,
+  },
+  birth:{
+    type:String,
+    //required:true,
+  },
+  gender:{
+    type:String,
+    //required:true
+  },
+  stack:{
+    type:String,
+    //required:true,
   },
   createdAt: { type: String, default: kr_curr },
   updatedAt: { type: String, default: kr_curr },

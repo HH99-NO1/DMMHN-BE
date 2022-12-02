@@ -2,13 +2,16 @@ const Members = require("../models/members");
 const refresh = require("../models/refresh");
 const logger = require("../config/logger");
 
+
 class MembersRepository {
   //member DB에 유저의 정보를 저장한다
   createMembers = async (
     memberEmail,
     hashedPw,
     memberName,
-    phoneNum,
+    birth,
+    job,
+    stack,
     gender
   ) => {
     await Members.create({
@@ -16,7 +19,9 @@ class MembersRepository {
       password: hashedPw,
       expiration: "false",
       memberName,
-      phoneNum,
+      birth,
+      job,
+      stack,
       gender,
     });
     return;

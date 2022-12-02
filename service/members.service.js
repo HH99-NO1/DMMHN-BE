@@ -36,12 +36,16 @@ class MembersService {
     return authCode;
   };
 
+
+
   createMembers = async (
     memberEmail,
     password,
     confirmPw,
     memberName,
-    phoneNum,
+    birth,
+    job,
+    stack,
     gender
   ) => {
     //     try {
@@ -60,7 +64,9 @@ class MembersService {
       memberEmail,
       hashedPw,
       memberName,
-      phoneNum,
+      birth,
+      job,
+      stack,
       gender
     );
     return;

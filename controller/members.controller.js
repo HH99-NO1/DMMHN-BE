@@ -12,7 +12,7 @@ class MembersController {
   };
 
   createMembers = async (req, res, next) => {
-    const { memberEmail, password, confirmPw, memberName, phoneNum, gender } =
+    const { memberEmail, password, confirmPw, memberName, birth, job, stack, gender } =
       req.body;
 
     if (req.headers.authorization) {
@@ -26,7 +26,9 @@ class MembersController {
         password,
         confirmPw,
         memberName,
-        phoneNum,
+        birth,
+        job,
+        stack,
         gender
       );
       res.status(201).json({ message: "회원가입에 성공했습니다" });
