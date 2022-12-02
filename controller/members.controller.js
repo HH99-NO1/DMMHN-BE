@@ -115,15 +115,16 @@ class MembersController {
         res.status(401).send({ message: "jwt expired", ok: 6 });
         return;
       }
+      const { refresh } = req.headers;
       const { memberEmail } = res.locals.members;
-      const { password, newPassword, confirmNewPassword, refreshToken } =
-        req.body;
+      const { password, newPassword, confirmNewPassword } = req.body;
+      console.log(refresh);
       await this.membersService.changePassword(
         memberEmail,
         password,
         newPassword,
         confirmNewPassword,
-        refreshToken
+        refresh
       );
       res.status(201).send({ message: "비밀번호가 변경되었습니다" });
     } catch (err) {
