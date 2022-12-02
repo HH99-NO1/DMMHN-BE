@@ -43,7 +43,17 @@ class MembersController {
       res.status(400).json(err.message);
     }
   };
-
+  checkDuplicatedId = async(req,res,next)=>{
+    const { memberEmail } =req.body;
+    try {
+      const message = await this.membersService.checkDuplicatedId(memberEmail)
+      res.status(201).json({message});      
+    }catch (err) {
+      res.status(400).json({errorMessage:err.message});
+    }
+    
+  
+  }
   loginMembers = async (req, res, next) => {
     try {
       const { memberEmail, password } = req.body;

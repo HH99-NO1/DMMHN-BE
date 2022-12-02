@@ -60,6 +60,15 @@ class MembersService {
     );
     return;
   };
+  checkDuplicatedId = async(memberEmail)=>{
+    const findOneMember = await this.membersRepository.findOneMember(memberEmail);
+
+    if(findOneMember){
+      throw new Error("이미 가입된 계정입니다.");
+    }else{
+      return '사용 가능한 계정입니다.'
+    }
+  }
 
   loginMembers = async (memberEmail, password) => {
     try {

@@ -25,6 +25,9 @@ class MembersRepository {
     });
     return;
   };
+  checkDuplicatedId = async (memberEmail)=>{
+    return  await Members.findOne({memberEmail});
+  }
 
   // expiration 모델의 updatedAt을 최신 날짜로 업데이트
   updateLoginHistory = async (memberEmail) => {
