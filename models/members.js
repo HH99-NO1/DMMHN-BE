@@ -27,7 +27,7 @@ const membersSchema = new mongoose.Schema({
     required: true,
   },
   stack: {
-    type: String,
+    type: [],
     required: true,
   },
   job: {
