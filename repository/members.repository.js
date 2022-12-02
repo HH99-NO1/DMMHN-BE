@@ -30,7 +30,7 @@ class MembersRepository {
   updateLoginHistory = async (memberEmail) => {
     await Members.findOneAndUpdate(
       { memberEmail },
-      { loginHistory: String(Date.now) }
+      { loginHistory: String(new Date()) }
     );
     return;
   };
@@ -40,21 +40,12 @@ class MembersRepository {
     return findOneMember;
   };
 
-  updateMember = async (
-    memberEmail,
-    birth,
-    memberName,
-    major,
-    stack,
-    job,
-    gender
-  ) => {
+  updateMember = async (memberEmail, birth, memberName, stack, job, gender) => {
     await Members.findOneAndUpdate(
       { memberEmail },
       {
         birth,
         memberName,
-        major,
         stack,
         job,
         gender,
@@ -63,7 +54,7 @@ class MembersRepository {
     return;
   };
 
-  updateMemberWithImg = async (memberEmail, img) => {
+  updateMemberImg = async (memberEmail, img) => {
     logger.info(`/repository/members.repository@updateMemberWithImg`);
     await Members.findOneAndUpdate({ memberEmail }, { img });
     return;

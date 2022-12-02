@@ -47,8 +47,11 @@ class MembersController {
   loginMembers = async (req, res, next) => {
     try {
       const { memberEmail, password } = req.body;
-      await this.membersService.loginMembers(memberEmail, password);
-      res.status(200).json({ message: "로그인 완료" });
+      const loginMembers = await this.membersService.loginMembers(
+        memberEmail,
+        password
+      );
+      res.status(200).json({ message: "로그인 완료", data: loginMembers });
     } catch (err) {
       res.status(400).send({ message: err.message });
     }
@@ -78,14 +81,13 @@ class MembersController {
         return;
       }
       const { memberEmail } = res.locals.members;
-      const { birth, memberName, major, stack, job, gender } = req.body;
+      const { birth, memberName, stack, job, gender } = req.body;
       const profileImg = req.file;
       await this.membersService.updateMember(
         memberEmail,
         profileImg,
         birth,
         memberName,
-        major,
         stack,
         job,
         gender

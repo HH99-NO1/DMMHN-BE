@@ -39,11 +39,10 @@ class MembersService {
     stack,
     gender
   ) => {
-    
     if (password !== confirmPw) {
       throw new Error("비밀번호와 비밀번화 확인이 일치하지 않습니다");
     }
-    
+
     const result = await this.membersRepository.findOneMember(memberEmail);
     if (result) {
       throw new Error("이미 가입된 계정입니다.");
@@ -82,18 +81,20 @@ class MembersService {
       // DB에서 가져온 유저의 비밀번호와 입력한 비밀번호가 일치하는지 확인한다.
       const match = await bcrypt.compare(password, findOneMember.password);
 
-      // 일치하는 유저가 없을 경우 에러 메세지를 띄운다      
+      // 일치하는 유저가 없을 경우 에러 메세지를 띄운다
       if (!match) {
         throw new Error("아이디 또는 비밀번호가 일치하지 않습니다");
       }
 
+      // 일치하는 유저가 있을 경우 access, refresh 토큰을 발급
+      const accessToken = jwt.sign(findOneMember);
+      const refreshToken = jwt.refreshSign(findOneMember);
+
+      // refresh Token 을 DB에 저장한다
+      await refreshModel.create({ refreshToken: `Bearer ${refreshToken}` });
       // expiration 모델의 updatedAt을 최신 날짜로 업데이트
       await this.membersRepository.updateLoginHistory(memberEmail);
 
-      // 일치하는 유저가 있을 경우 access, refresh 토큰을
-      const accessToken = jwt.sign(findOneMember);
-      const refreshToken = jwt.refreshSign(findOneMember);
-      await refreshModel.create({ refreshToken: `Bearer ${refreshToken}` });
       return {
         accessToken: `Bearer ${accessToken}`,
         refreshToken: `Bearer ${refreshToken}`,
@@ -105,15 +106,10 @@ class MembersService {
 
   getMemberInfo = async (memberEmail) => {
     try {
-      const getMemberInfo = await this.membersRepository.getMemberInfo(
+      const getMemberInfo = await this.membersRepository.findOneMember(
         memberEmail
       );
-      return {
-        memberEmail: getMemberInfo.memberEmail,
-        profileImg: getMemberInfo.img,
-        createdAt: getMemberInfo.createdAt,
-        updatedAt: getMemberInfo.updatedAt,
-      };
+      return getMemberInfo;
     } catch (err) {
       throw new Error(err.message);
     }
@@ -124,7 +120,6 @@ class MembersService {
     profileImg,
     birth,
     memberName,
-    major,
     stack,
     job,
     gender
@@ -137,7 +132,6 @@ class MembersService {
           memberEmail,
           birth,
           memberName,
-          major,
           stack,
           job,
           gender
@@ -145,7 +139,7 @@ class MembersService {
       } else if (profileImg) {
         const img = profileImg.location;
         logger.info(`@updateMemberWithImg / img : ${img}`);
-        await this.membersRepository.updateMemberWithImg(memberEmail, img);
+        await this.membersRepository.updateMemberImg(memberEmail, img);
       } else {
         throw new Error("회원 정보 수정에 실패하였습니다.");
       }

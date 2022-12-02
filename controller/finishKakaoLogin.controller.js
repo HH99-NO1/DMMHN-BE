@@ -1,7 +1,7 @@
 const finishKakaoLogin = async (req, res) => {
   const baseUrl = "https://kauth.kakao.com/oauth/token";
   const config = {
-    client_id: "805767768fee7092b22ffb1460b8e3d2",
+    client_id: "1662ba629c91358929241900b6bdd4eb",
     client_secret: "최강1조",
     grant_type: "authorization_code",
     redirect_uri: "http://localhost:3000/kakao/finish",
@@ -28,7 +28,7 @@ const finishKakaoLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log(userRequest);
+    console.log("정보", userRequest);
   } else {
     // 엑세스 토큰이 없으면 로그인페이지로 리다이렉트
     return res.redirect("/login");
