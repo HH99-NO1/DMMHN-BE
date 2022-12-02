@@ -160,7 +160,6 @@ class MembersService {
     const findOneMember = await this.membersRepository.findOneMember(
       memberEmail
     );
-    console.log(findOneMember);
     try {
       const match = await bcrypt.compare(password, findOneMember.password);
       if (!match) {
@@ -187,9 +186,7 @@ class MembersService {
       if (!match) {
         throw new Error("비밀번호가 일치하지 않습니다");
       }
-      console.log(match);
       await this.membersRepository.deleteMember(memberEmail);
-      console.log(memberEmail);
       return;
     } catch (err) {
       throw new Error(err.message);

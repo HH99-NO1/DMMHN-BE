@@ -74,7 +74,6 @@ class MembersRepository {
 
   deleteMember = async (memberEmail) => {
     await Members.findOneAndDelete({ memberEmail });
-    console.log("repo통과");
     return;
   };
 }
