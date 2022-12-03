@@ -11,12 +11,11 @@ const refresh = async (req, res) => {
 
     // access token의 유효성을 체크 -> expired이어야 한다
     const accessTokenResult = verify(accessToken);
-    console.log("accessTokenResult: ", accessTokenResult);
 
-    if (!findOneRefreshToken) {
-      res.status(400).send({ message: "유효하지 않은 refresh token 입니다" });
-    }
     try {
+      if (!findOneRefreshToken) {
+        res.status(400).send({ message: "유효하지 않은 refresh token 입니다" });
+      }
       const refreshResult = await refreshVerify(refreshToken);
 
       // access token의 재발급을 위해서는 access token이 만료되어 있어야 한다*/
