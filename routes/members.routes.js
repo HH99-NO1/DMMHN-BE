@@ -12,7 +12,6 @@ router.post("/sendAuthCode", membersController.sendAuthCode);
 router.post("/login", membersController.loginMembers);
 router.post("/checkDuplicatedId", membersController.checkDuplicatedId);
 router.get("/me", authMiddleware, membersController.getMemberInfo);
-
 router.post("/refresh", refresh);
 router.patch(
   "/me",
