@@ -20,14 +20,14 @@ const membersSchema = new mongoose.Schema({
   },
   birth: {
     type: String,
-    required: true,
+    // required: true,
   },
   gender: {
     type: String,
     required: true,
   },
   stack: {
-    type: String,
+    type: [],
     required: true,
   },
   job: {
