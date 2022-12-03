@@ -10,11 +10,13 @@ const membersController = new MembersController();
 router.post("/signup", membersController.createMembers);
 router.post("/sendAuthCode", membersController.sendAuthCode);
 router.post("/login", membersController.loginMembers);
+router.post("/checkDuplicatedId", membersController.checkDuplicatedId);
 router.get("/me", authMiddleware, membersController.getMemberInfo);
+
 router.post("/refresh", refresh);
 router.patch(
   "/me",
-  upload.single("profileImg"),
+  upload.single("profileImg"), 
   authMiddleware,
   membersController.updateMember
 );

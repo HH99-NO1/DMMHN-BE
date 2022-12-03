@@ -60,6 +60,15 @@ class MembersService {
     );
     return;
   };
+  checkDuplicatedId = async(memberEmail)=>{
+    const findOneMember = await this.membersRepository.findOneMember(memberEmail);
+
+    if(findOneMember){
+      throw new Error("이미 가입된 계정입니다.");
+    }else{
+      return '사용 가능한 계정입니다.'
+    }
+  }
 
   loginMembers = async (memberEmail, password) => {
     try {
@@ -154,13 +163,12 @@ class MembersService {
     password,
     newPassword,
     confirmNewPassword,
-    refreshToken
+    refresh
   ) => {
     logger.info(`/service/members.service@changePassword`);
     const findOneMember = await this.membersRepository.findOneMember(
       memberEmail
     );
-    console.log(findOneMember);
     try {
       const match = await bcrypt.compare(password, findOneMember.password);
       if (!match) {
@@ -169,7 +177,7 @@ class MembersService {
       if (newPassword !== confirmNewPassword) {
         throw new Error("새 비밀번호와 비밀번호 확인이 일치하지 않습니다");
       }
-      await this.membersRepository.deleteRefreshToken(refreshToken);
+      await this.membersRepository.deleteRefreshToken(refresh);
       const hashedPw = bcrypt.hashSync(newPassword, 10);
       await this.membersRepository.changePassword(memberEmail, hashedPw);
       return;
@@ -187,9 +195,7 @@ class MembersService {
       if (!match) {
         throw new Error("비밀번호가 일치하지 않습니다");
       }
-      console.log(match);
       await this.membersRepository.deleteMember(memberEmail);
-      console.log(memberEmail);
       return;
     } catch (err) {
       throw new Error(err.message);
