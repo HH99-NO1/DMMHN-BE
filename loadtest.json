@@ -1,0 +1,46 @@
+{
+  "config": {
+    "name": "members 부하테스트",
+    "target": "http://localhost:3000",
+    "phases": [
+      {
+        "duration": 60,
+        "arrivalRate": 50
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "flow": [
+        {
+          "post": {
+            "url": "/members/login",
+            "json": {
+              "memberEmail": "alstjq1826@gmail.com",
+              "password": "asdf1234!"
+            }
+          }
+        },
+        {
+          "get": {
+            "url": "/members/me",
+            "headers": {
+              "authorization": "{{token}}"
+            }
+          }
+        },
+        {
+          "patch": {
+            "url": "/members/me",
+            "headers": {
+              "authorization": "{{token}}"
+            },
+            "json": {
+              "memberName": ""
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
