@@ -4,7 +4,7 @@
 name: Example CI
 on:
   merge_group:
-    branches: [main]
+    branches: [master]
 jobs:
   SSH:
     runs-on: ubuntu-latest
