@@ -3,21 +3,22 @@
 
 name: Example CI
 on:
-  merge_group:
-    branches: [master]
+  push:
+    branches:
+      - master
 jobs:
   SSH:
     runs-on: ubuntu-latest
     container: ubuntu:20.04
     steps:
-#       - uses: actions/checkout@v3
-#       - name: Setup node.js 14.x
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: 14.x
-#           cache: "npm"
-#       - run: npm ci
-#       - run: npm test
+      #       - uses: actions/checkout@v3
+      #       - name: Setup node.js 14.x
+      #         uses: actions/setup-node@v3
+      #         with:
+      #           node-version: 14.x
+      #           cache: "npm"
+      #       - run: npm ci
+      #       - run: npm test
       - uses: actions/checkout@v2
       - name: Run scripts in server
         uses: appleboy/ssh-action@master
@@ -30,6 +31,6 @@ jobs:
             cd DMMHN-BE
             sudo chmod -R ugo+rwX .
             git fetch --all
-            git pull origin main
+            git pull origin master
             npm i
-            sudo pm2 restart 0
+            pm2 restart 0
