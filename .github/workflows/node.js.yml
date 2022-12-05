@@ -33,4 +33,4 @@ jobs:
             git fetch --all
             git pull origin master
             npm i
-            sudo pm2 restart server.js
+            pm2 restart 0
