@@ -3,9 +3,8 @@
 
 name: Example CI
 on:
-  push:
-    branches:
-      - dev
+  merge_group:
+    branches: [main]
 jobs:
   SSH:
     runs-on: ubuntu-latest
@@ -28,9 +27,9 @@ jobs:
           username: ubuntu
           port: 22
           script: |
-            cd DMMHN-BE
+            cd githunActionsTest
             sudo chmod -R ugo+rwX .
             git fetch --all
-            git pull origin dev
+            git pull origin main
             npm i
             sudo pm2 restart 0
