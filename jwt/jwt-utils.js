@@ -5,6 +5,7 @@ const refreshModel = require("../models/refresh");
 module.exports = {
   sign: (findOneUser) => {
     const payload = {
+      memberEmail: findOneUser.memberEmail,
       memberName: findOneUser.memberName,
       img: findOneUser.img,
     };
