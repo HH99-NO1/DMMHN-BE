@@ -27,7 +27,7 @@ jobs:
           username: ubuntu
           port: 22
           script: |
-            cd githunActionsTest
+            cd DMMHN-BE
             sudo chmod -R ugo+rwX .
             git fetch --all
             git pull origin main
