@@ -14,5 +14,6 @@ router.post("/getQuestionsVoice", mockInterviewController.getQuestionsVoice);
 router.post("/saveResults", authMiddleware, mockInterviewController.saveInterviewResults);
 router.get("/getResults", authMiddleware, mockInterviewController.getInterviewResults);
 router.get("/getResultDetails/:sequence", authMiddleware, mockInterviewController.getInterviewResultDetails);
+router.delete("/detail/:sequence", authMiddleware, mockInterviewController.deleteInterviewResult);
 
 module.exports = router;

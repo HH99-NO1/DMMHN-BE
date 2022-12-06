@@ -45,6 +45,12 @@ class MockInterviewRepository {
 
     return data;
   };
+
+  deleteInterviewResult = async (sequence) => {
+    await MockInterviewResults.remove({ sequence });
+
+    return;
+  };
 }
 
 module.exports = MockInterviewRepository;

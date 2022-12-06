@@ -101,6 +101,12 @@ class MockInterviewService {
 
     return data;
   };
+
+  deleteInterviewResult = async (sequence) => {
+    await this.mockInterviewRepository.deleteInterviewResult(sequence);
+
+    return;
+  };
 }
 
 module.exports = MockInterviewService;
