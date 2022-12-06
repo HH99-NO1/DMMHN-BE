@@ -8,6 +8,7 @@ const mockInterviewController = new MockInterviewController();
 
 router.post("/createQuestions", mockInterviewController.createQuestions);
 router.post("/custom", authMiddleware, mockInterviewController.createCustomQuestions);
+router.get("/custom", authMiddleware, mockInterviewController.getCustomQuestions);
 router.post("/", authMiddleware, mockInterviewController.getRandomQuestions);
 router.post("/getQuestionsVoice", mockInterviewController.getQuestionsVoice);
 router.post("/saveResults", authMiddleware, mockInterviewController.saveInterviewResults);
