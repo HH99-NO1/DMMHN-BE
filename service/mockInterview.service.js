@@ -7,8 +7,8 @@ const shuffle = (array) => {
 class MockInterviewService {
   mockInterviewRepository = new MockInterviewRepository();
 
-  createQuestions = async (category, question) => {
-    await this.mockInterviewRepository.createQuestions(category, question);
+  createQuestions = async (category, question, memberEmail) => {
+    await this.mockInterviewRepository.createQuestions(category, question, memberEmail);
     return;
   };
 

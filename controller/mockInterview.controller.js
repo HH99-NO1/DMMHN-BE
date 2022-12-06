@@ -20,6 +20,19 @@ class MockInterviewController {
     }
   };
 
+  createCustomQuestions = async (req, res, next) => {
+    const { category, question } = req.body;
+    const { memberEmail } = res.locals.members;
+
+    try {
+      await this.mockInterviewService.createQuestions(category, question, memberEmail);
+      
+      res.status(201).send("커스텀 면접 질문을 생성하였습니다.");
+    } catch (err) {
+      res.status(400).send(err.message);
+    };
+  };
+
   getRandomQuestions = async (req, res, next) => {
     const { category, number } = req.body;
 

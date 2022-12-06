@@ -4,14 +4,25 @@ const mongoose = require("mongoose");
 const mockInterviewSchema = new mongoose.Schema({
   category: {
     type: String,
-   // required: true,
+    required: true,
   },
   question: {
     type: String,
-  //  required: true,
+    required: true,
   },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
+  customMemberId: {
+    type: String,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("MockInterviews", mockInterviewSchema);
