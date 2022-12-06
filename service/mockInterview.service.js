@@ -8,8 +8,28 @@ class MockInterviewService {
   mockInterviewRepository = new MockInterviewRepository();
 
   createQuestions = async (category, question, memberEmail) => {
-    await this.mockInterviewRepository.createQuestions(category, question, memberEmail);
+    await this.mockInterviewRepository.createQuestions(
+      category,
+      question,
+      memberEmail
+    );
     return;
+  };
+
+  getCustomQuestions = async (memberEmail) => {
+    const result = await this.mockInterviewRepository.getCustomQuestions(
+      memberEmail
+    );
+
+    const data = [];
+    for (let i = 0; i < result.length; i++) {
+      data.push({
+        category: result[i].category,
+        question: result[i].question,
+      });
+    }
+
+    return data;
   };
 
   getRandomQuestions = async (category, number) => {

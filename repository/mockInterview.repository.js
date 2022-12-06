@@ -7,6 +7,11 @@ class MockInterviewRepository {
     return;
   };
 
+  getCustomQuestions = async (customMemberId) => {
+    const data = await MockInterviews.find({ customMemberId });
+    return data;
+  };
+
   getRandomQuestions = async (category) => {
     const questions = await MockInterviews.find({ category, customMemberId: null });
 
