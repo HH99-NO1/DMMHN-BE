@@ -9,6 +9,14 @@ const morganMiddleware = require("./middleware/morgan_middleware");
 const routes = require("./routes/index.routes");
 const videoRoute = require("./routes/index.routes");
 
+//소셜로그인 테스트
+const ejs = require("ejs")
+app.set("view engine","ejs");
+app.set("views","./views")
+app.get('/',(req,res)=>{
+  res.render("index")
+})
+
 app.use(express.json());
 // app.use(
 //   cors({

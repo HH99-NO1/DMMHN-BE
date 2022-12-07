@@ -43,17 +43,15 @@ class MembersController {
       res.status(400).json(err.message);
     }
   };
-  checkDuplicatedId = async(req,res,next)=>{
-    const { memberEmail } =req.body;
+  checkDuplicatedId = async (req, res, next) => {
+    const { memberEmail } = req.body;
     try {
-      const message = await this.membersService.checkDuplicatedId(memberEmail)
-      res.status(201).json({message});      
-    }catch (err) {
-      res.status(400).json({errorMessage:err.message});
+      const message = await this.membersService.checkDuplicatedId(memberEmail);
+      res.status(201).json({ message });
+    } catch (err) {
+      res.status(400).json({ errorMessage: err.message });
     }
-    
-  
-  }
+  };
   loginMembers = async (req, res, next) => {
     try {
       const { memberEmail, password } = req.body;
@@ -93,7 +91,7 @@ class MembersController {
       const { memberEmail } = res.locals.members;
       const { birth, memberName, stack, job, gender } = req.body;
       const profileImg = req.file;
-      await this.membersService.updateMember(
+      const updateMemberImg = await this.membersService.updateMember(
         memberEmail,
         profileImg,
         birth,
@@ -102,7 +100,9 @@ class MembersController {
         job,
         gender
       );
-      res.status(201).send({ message: "정보를 수정하였습니다" });
+      res
+        .status(201)
+        .send({ data: updateMemberImg, message: "정보를 수정하였습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });
     }
