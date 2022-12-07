@@ -60,15 +60,17 @@ class MembersService {
     );
     return;
   };
-  checkDuplicatedId = async(memberEmail)=>{
-    const findOneMember = await this.membersRepository.findOneMember(memberEmail);
+  checkDuplicatedId = async (memberEmail) => {
+    const findOneMember = await this.membersRepository.findOneMember(
+      memberEmail
+    );
 
-    if(findOneMember){
+    if (findOneMember) {
       throw new Error("이미 가입된 계정입니다.");
-    }else{
-      return '사용 가능한 계정입니다.'
+    } else {
+      return "사용 가능한 계정입니다.";
     }
-  }
+  };
 
   loginMembers = async (memberEmail, password) => {
     try {
@@ -137,7 +139,7 @@ class MembersService {
     try {
       if (!profileImg) {
         logger.info("@updateMember");
-        await this.membersRepository.updateMember(
+        const updateMember = await this.membersRepository.updateMember(
           memberEmail,
           birth,
           memberName,
@@ -145,14 +147,19 @@ class MembersService {
           job,
           gender
         );
+        return updateMember;
       } else if (profileImg) {
         const img = profileImg.location;
         logger.info(`@updateMemberWithImg / img : ${img}`);
-        await this.membersRepository.updateMemberImg(memberEmail, img);
+        const updateMemberImg = await this.membersRepository.updateMemberImg(
+          memberEmail,
+          img
+        );
+        console.log(updateMemberImg);
+        return updateMemberImg;
       } else {
         throw new Error("회원 정보 수정에 실패하였습니다.");
       }
-      return;
     } catch (err) {
       throw new Error(err.message);
     }

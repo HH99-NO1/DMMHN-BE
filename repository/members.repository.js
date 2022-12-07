@@ -25,9 +25,9 @@ class MembersRepository {
     });
     return;
   };
-  checkDuplicatedId = async (memberEmail)=>{
-    return  await Members.findOne({memberEmail});
-  }
+  checkDuplicatedId = async (memberEmail) => {
+    return await Members.findOne({ memberEmail });
+  };
 
   // expiration 모델의 updatedAt을 최신 날짜로 업데이트
   updateLoginHistory = async (memberEmail) => {
@@ -44,7 +44,7 @@ class MembersRepository {
   };
 
   updateMember = async (memberEmail, birth, memberName, stack, job, gender) => {
-    await Members.findOneAndUpdate(
+    const updateMember = await Members.findOneAndUpdate(
       { memberEmail },
       {
         birth,
@@ -52,15 +52,20 @@ class MembersRepository {
         stack,
         job,
         gender,
-      }
+      },
+      { new: true }
     );
-    return;
+    return updateMember;
   };
 
   updateMemberImg = async (memberEmail, img) => {
     logger.info(`/repository/members.repository@updateMemberWithImg`);
-    await Members.findOneAndUpdate({ memberEmail }, { img });
-    return;
+    const updateMemberImg = await Members.findOneAndUpdate(
+      { memberEmail },
+      { img },
+      { new: true }
+    );
+    return updateMemberImg;
   };
 
   changePassword = async (memberEmail, hashedPw) => {
