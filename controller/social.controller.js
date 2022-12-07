@@ -15,7 +15,7 @@ class SocialController {
     try {
       //프론트에게 인가코드 받기
       const { code } = req.body;
-      console.log("인가코드 + code");
+      console.log("인가코드" + code);
       const isGoogle = await this.socialService.isGoogle(code);
 
       const findGoogleMember = await this.socialService.findMember(isGoogle);
