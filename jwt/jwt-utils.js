@@ -4,7 +4,11 @@ const refreshModel = require("../models/refresh");
 
 module.exports = {
   sign: (findOneUser) => {
-    const payload = { memberEmail: findOneUser.memberEmail };
+    const payload = {
+      memberEmail: findOneUser.memberEmail,
+      memberName: findOneUser.memberName,
+      img: findOneUser.img,
+    };
     return jwt.sign(payload, secretKey, {
       expiresIn: "3h",
     });

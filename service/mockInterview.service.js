@@ -7,9 +7,29 @@ const shuffle = (array) => {
 class MockInterviewService {
   mockInterviewRepository = new MockInterviewRepository();
 
-  createQuestions = async (category, question) => {
-    await this.mockInterviewRepository.createQuestions(category, question);
+  createQuestions = async (category, question, memberEmail) => {
+    await this.mockInterviewRepository.createQuestions(
+      category,
+      question,
+      memberEmail
+    );
     return;
+  };
+
+  getCustomQuestions = async (memberEmail) => {
+    const result = await this.mockInterviewRepository.getCustomQuestions(
+      memberEmail
+    );
+
+    const data = [];
+    for (let i = 0; i < result.length; i++) {
+      data.push({
+        category: result[i].category,
+        question: result[i].question,
+      });
+    }
+
+    return data;
   };
 
   getRandomQuestions = async (category, number) => {
@@ -17,7 +37,14 @@ class MockInterviewService {
       category
     );
     const shuffledQue = shuffle(questions).slice(0, number);
-    const data = { category, shuffledQue };
+    const questionArr = [];
+
+    for (let i = 0; i < shuffledQue.length; i++) {
+      questionArr.push(shuffledQue[i].question);
+    }
+
+    const data = { category, questionArr };
+
     return data;
   };
 
@@ -73,6 +100,12 @@ class MockInterviewService {
     };
 
     return data;
+  };
+
+  deleteInterviewResult = async (sequence) => {
+    await this.mockInterviewRepository.deleteInterviewResult(sequence);
+
+    return;
   };
 }
 
