@@ -42,6 +42,7 @@
     "path": "^0.12.7",
     "request": "^2.88.2",
     "socket.io": "^4.5.3",
+    "supertest": "^6.3.3",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1"
   },
