@@ -43,7 +43,7 @@ class MembersService {
     if (password !== confirmPw) {
       throw new Error("비밀번호와 비밀번화 확인이 일치하지 않습니다");
     }
-    if (validate !== process.env.AUTH_CODE_VALIDATE){
+    if (validate !== process.env.AUTH_CODE_VALIDATE) {
       throw new Error("email 인증코드를 입력해주세요");
     }
 
