@@ -17,19 +17,17 @@ class MockInterviewService {
   };
 
   getCustomQuestions = async (memberEmail) => {
-    const result = await this.mockInterviewRepository.getCustomQuestions(
+    const data = await this.mockInterviewRepository.getCustomQuestions(
       memberEmail
     );
 
-    const data = [];
-    for (let i = 0; i < result.length; i++) {
-      data.push({
-        category: result[i].category,
-        question: result[i].question,
-      });
-    }
-
     return data;
+  };
+
+  deleteCustomQuestions = async (questionId) => {
+    await this.mockInterviewRepository.deleteCustomQuestions(questionId);
+
+    return;
   };
 
   getRandomQuestions = async (category, number) => {
