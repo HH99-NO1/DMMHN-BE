@@ -37,10 +37,14 @@ class MembersService {
     birth,
     job,
     stack,
-    gender
+    gender,
+    validate
   ) => {
     if (password !== confirmPw) {
       throw new Error("비밀번호와 비밀번화 확인이 일치하지 않습니다");
+    }
+    if (validate !== process.env.AUTH_CODE_VALIDATE){
+      throw new Error("email 인증코드를 입력해주세요");
     }
 
     const result = await this.membersRepository.findOneMember(memberEmail);
@@ -56,7 +60,8 @@ class MembersService {
       birth,
       job,
       stack,
-      gender
+      gender,
+      validate
     );
     return;
   };
@@ -67,9 +72,8 @@ class MembersService {
 
     if (findOneMember) {
       throw new Error("이미 가입된 계정입니다.");
-    } else {
-      return "사용 가능한 계정입니다.";
     }
+    return;
   };
 
   loginMembers = async (memberEmail, password) => {
