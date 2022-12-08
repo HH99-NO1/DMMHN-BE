@@ -27,6 +27,7 @@ class MembersController {
       job,
       stack,
       gender,
+      validate
     } = req.body;
 
     if (req.headers.authorization) {
@@ -42,7 +43,8 @@ class MembersController {
         birth,
         job,
         stack,
-        gender
+        gender,
+        validate
       );
       res.status(201).json({ message: "회원가입에 성공했습니다" });
     } catch (err) {
