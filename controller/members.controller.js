@@ -6,9 +6,15 @@ class MembersController {
 
   sendAuthCode = async (req, res, next) => {
     const { memberEmail } = req.body;
-    const authCode = await this.membersService.sendAuthCode(memberEmail);
-
-    res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+    try{
+    const message = await this.membersService.checkDuplicatedId(memberEmail);
+    if (!message) {
+      const authCode = await this.membersService.sendAuthCode(memberEmail);
+      res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+    }
+  }catch(err){
+    res.status(400).send({ message: err.message });
+  }
   };
 
   createMembers = async (req, res, next) => {
@@ -43,15 +49,7 @@ class MembersController {
       res.status(400).json(err.message);
     }
   };
-  checkDuplicatedId = async (req, res, next) => {
-    const { memberEmail } = req.body;
-    try {
-      const message = await this.membersService.checkDuplicatedId(memberEmail);
-      res.status(201).json({ message });
-    } catch (err) {
-      res.status(400).json({ errorMessage: err.message });
-    }
-  };
+
   loginMembers = async (req, res, next) => {
     try {
       const { memberEmail, password } = req.body;
