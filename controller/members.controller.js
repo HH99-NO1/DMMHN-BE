@@ -6,15 +6,15 @@ class MembersController {
 
   sendAuthCode = async (req, res, next) => {
     const { memberEmail } = req.body;
-    try{
-    const message = await this.membersService.checkDuplicatedId(memberEmail);
-    if (!message) {
-      const authCode = await this.membersService.sendAuthCode(memberEmail);
-      res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+    try {
+      const message = await this.membersService.checkDuplicatedId(memberEmail);
+      if (!message) {
+        const authCode = await this.membersService.sendAuthCode(memberEmail);
+        res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+      }
+    } catch (err) {
+      res.status(400).send({ message: err.message });
     }
-  }catch(err){
-    res.status(400).send({ message: err.message });
-  }
   };
 
   createMembers = async (req, res, next) => {
@@ -27,7 +27,7 @@ class MembersController {
       job,
       stack,
       gender,
-      validate
+      validate,
     } = req.body;
 
     if (req.headers.authorization) {
@@ -133,7 +133,7 @@ class MembersController {
   };
 
   deleteMember = async (req, res, next) => {
-    // try {
+    try {
       if (tokenInfo.message === "jwt expired") {
         res.status(401).send({ message: "jwt expired", ok: 6 });
         return;
@@ -143,10 +143,13 @@ class MembersController {
       logger.info(`@controller, ${password}`);
       await this.membersService.deleteMember(memberEmail, password);
       res.status(201).send({ message: "회원탈퇴가 완료되었습니다" });
-    // } catch (err) {
-    //   logger.error(err.message);
-    //   res.status(400).send({ message: err.message });
-    // }
+    } catch (err) {
+      logger.error(`DELETE /members/me statusCode: ${err}`);
+      logger.error(
+        `DELETE /members/me statusCode: ${err.status}, stack:${err.stack}, message: ${err.message}`
+      );
+      res.status(400).send({ message: err.message });
+    }
   };
 }
 

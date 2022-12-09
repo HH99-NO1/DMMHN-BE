@@ -206,7 +206,7 @@ class MembersService {
   };
 
   deleteMember = async (memberEmail, password) => {
-    // try {
+    try {
       logger.info(`@service, memberEmail: ${memberEmail}`);
       logger.info(`@service, password: ${password}`);
       const findOneMember = await this.membersRepository.findOneMember(
@@ -219,10 +219,10 @@ class MembersService {
       }
       await this.membersRepository.deleteMember(memberEmail);
       return;
-    // } catch (err) {
-    //   logger.error(err.message);
-    //   throw new Error(err.message);
-    // }
+    } catch (err) {
+      logger.error(`${err}`);
+      throw new Error(err.message);
+    }
   };
 }
 
