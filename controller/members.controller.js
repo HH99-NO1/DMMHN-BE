@@ -144,10 +144,7 @@ class MembersController {
       await this.membersService.deleteMember(memberEmail, password);
       res.status(201).send({ message: "회원탈퇴가 완료되었습니다" });
     } catch (err) {
-      logger.error(`회원탈퇴 과정에서 서버 오류가 발생했습니다. err: ${err}`);
-      logger.error(
-        `DELETE /members/me @@@@ statusCode: ${err.ststusCode}, stack:${err.stack}, message: ${err.message}`
-      );
+      logger.error(`DELETE /members/me ${err.message}`);
       res.status(400).send({ message: err.message });
     }
   };
