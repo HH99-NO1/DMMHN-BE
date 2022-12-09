@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const refreshModel = require("../models/refresh");
 require("dotenv").config();
 const transPort = require("../config/email");
-const logger = require("../config/logger");
+const logger = require("../config/tracer");
 const { generateRandom } = require("../util/members.util");
 
 class MembersService {
@@ -72,7 +72,7 @@ class MembersService {
     );
     return;
   };
-  
+
   checkDuplicatedId = async (memberEmail) => {
     const findOneMember = await this.membersRepository.findOneMember(
       memberEmail
@@ -211,7 +211,7 @@ class MembersService {
       logger.info(`@service, password: ${password}`);
       const findOneMember = await this.membersRepository.findOneMember(
         memberEmail
-        );
+      );
       const match = await bcrypt.compare(password, findOneMember.password);
       logger.info(`@service, match: ${match}`);
       if (!match) {
