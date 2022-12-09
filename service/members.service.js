@@ -206,19 +206,23 @@ class MembersService {
   };
 
   deleteMember = async (memberEmail, password) => {
-    try {
+    // try {
+      logger.info(`@service, memberEmail: ${memberEmail}`);
+      logger.info(`@service, password: ${password}`);
       const findOneMember = await this.membersRepository.findOneMember(
         memberEmail
-      );
+        );
       const match = await bcrypt.compare(password, findOneMember.password);
+      logger.info(`@service, match: ${match}`);
       if (!match) {
         throw new Error("비밀번호가 일치하지 않습니다");
       }
       await this.membersRepository.deleteMember(memberEmail);
       return;
-    } catch (err) {
-      throw new Error(err.message);
-    }
+    // } catch (err) {
+    //   logger.error(err.message);
+    //   throw new Error(err.message);
+    // }
   };
 }
 
