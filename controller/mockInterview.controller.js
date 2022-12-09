@@ -100,7 +100,7 @@ class MockInterviewController {
     };
     try {
       const writeStream = fs.createWriteStream(`./voice/tts1.mp3`);
-      logger.info("here comes!");
+      // logger.info("here comes!");
       const _req = request.post(options).on("response", function (response) {
         console.log(response.statusCode);
         console.log(response.headers["content-type"]);
@@ -108,7 +108,7 @@ class MockInterviewController {
       _req.pipe(writeStream);
       _req.pipe(res);
     } catch (err) {
-      logger.error(err.message);
+      // logger.error(err.message);
       res.status(400).send({ message: err.message });
     }
   };
