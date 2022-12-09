@@ -220,7 +220,7 @@ class MembersService {
       await this.membersRepository.deleteMember(memberEmail);
       return;
     } catch (err) {
-      logger.error(`${err}`);
+      logger.error(`memberService@ ${err}`);
       throw new Error(err.message);
     }
   };
