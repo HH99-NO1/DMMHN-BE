@@ -12,6 +12,11 @@ class MockInterviewRepository {
     return data;
   };
 
+  deleteCustomQuestions = async (id) => {
+    await MockInterviews.findByIdAndDelete(id);
+    return;
+  };
+
   getRandomQuestions = async (category) => {
     const questions = await MockInterviews.find({ category, customMemberId: null });
 

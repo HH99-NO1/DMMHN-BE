@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const connect = require("./models/index");
 connect();
+const logger = require("./config/tracer");
 const expiration = require("./schedule/schedule");
 const RateLimit = require("express-rate-limit");
 const morganMiddleware = require("./middleware/morgan_middleware");
@@ -10,12 +11,18 @@ const routes = require("./routes/index.routes");
 const videoRoute = require("./routes/index.routes");
 
 //소셜로그인 테스트
-const ejs = require("ejs")
-app.set("view engine","ejs");
-app.set("views","./views")
-app.get('/',(req,res)=>{
-  res.render("index")
-})
+// const ejs = require("ejs");
+// app.set("view engine", "ejs");
+// app.set("views", "./views");
+
+app.use((req, res, next) => {
+  res.locals.logger = logger;
+  next();
+});
+
+app.get("/", (req, res) => {
+  res.send("Hellow world");
+});
 
 app.use(express.json());
 // app.use(
@@ -37,10 +44,10 @@ apiLimiter = new RateLimit({
   },
 });
 
-app.use(morganMiddleware);
+// app.use(morganMiddleware);
 
 // scheduler 실행
-expiration;
+// expiration;
 
 app.use("/", apiLimiter, [routes, videoRoute]);
 

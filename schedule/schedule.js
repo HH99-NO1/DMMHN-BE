@@ -12,8 +12,8 @@ const nextMonth = (userDate) => {
 const date = new Date();
 
 rule.dayOfWeek = [0, 1, 2, 3, 4, 5, 6];
-rule.hour = 00;
-rule.minute = 00;
+rule.hour = 0;
+rule.minute = 0;
 
 // rule에서 정의한 대로 매일 정해진 시간마다 스케쥴러 실행
 const expiration = schedule.scheduleJob(rule, async () => {
