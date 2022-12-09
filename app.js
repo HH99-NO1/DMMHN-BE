@@ -20,9 +20,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.send("Hellow world");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hellow world");
+// });
 
 app.use(express.json());
 // app.use(
@@ -44,7 +44,7 @@ apiLimiter = new RateLimit({
   },
 });
 
-// app.use(morganMiddleware);
+app.use(morganMiddleware);
 
 // scheduler 실행
 // expiration;

@@ -53,6 +53,7 @@ class MembersController {
   };
 
   loginMembers = async (req, res, next) => {
+    res.locals.logger.info("POST /members/login");
     try {
       const { memberEmail, password } = req.body;
       const loginMembers = await this.membersService.loginMembers(
