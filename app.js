@@ -20,9 +20,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.send("Hellow world");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hellow world");
+// });
 
 app.use(express.json());
 // app.use(
