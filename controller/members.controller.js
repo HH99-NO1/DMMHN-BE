@@ -140,6 +140,7 @@ class MembersController {
       }
       const { memberEmail } = res.locals.members;
       const { password } = req.body;
+      logger.info(`@controller, ${password}`);
       await this.membersService.deleteMember(memberEmail, password);
       res.status(201).send({ message: "회원탈퇴가 완료되었습니다" });
     // } catch (err) {
