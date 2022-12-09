@@ -1,5 +1,5 @@
 const morgan = require("morgan");
-const logger = require("../config/logger");
+const logger = require("../config/tracer");
 require("dotenv").config();
 
 const format = () => {
