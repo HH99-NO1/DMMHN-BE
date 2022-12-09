@@ -1,5 +1,6 @@
 const MembersService = require("../service/members.service");
 const logger = require("../config/tracer");
+const Sentry = require('@sentry/node');
 
 class MembersController {
   membersService = new MembersService();
@@ -13,7 +14,8 @@ class MembersController {
         res.status(200).json({ data: authCode, message: "Sent Auth Email" });
       }
     } catch (err) {
-      res.status(400).send({ message: err.message });
+      res.status(400).json(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -63,7 +65,8 @@ class MembersController {
       );
       res.status(200).json({ message: "로그인 완료", data: loginMembers });
     } catch (err) {
-      res.status(400).send({ message: err.message });
+      res.status(400).json(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -80,6 +83,7 @@ class MembersController {
       res.status(200).send(getMemberInfo);
     } catch (err) {
       res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
     }
   };
 
