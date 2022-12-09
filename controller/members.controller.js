@@ -1,5 +1,5 @@
 const MembersService = require("../service/members.service");
-const logger = require("../config/logger");
+const logger = require("../config/tracer");
 
 class MembersController {
   membersService = new MembersService();
@@ -18,7 +18,7 @@ class MembersController {
   };
 
   createMembers = async (req, res, next) => {
-    res.locals.logger.info("POST /members/createMembers");
+    logger.info(`/controller/members.controller`);
     const {
       memberEmail,
       password,
