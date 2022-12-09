@@ -44,7 +44,7 @@ apiLimiter = new RateLimit({
   },
 });
 
-// app.use(morganMiddleware);
+app.use(morganMiddleware);
 
 // scheduler 실행
 // expiration;

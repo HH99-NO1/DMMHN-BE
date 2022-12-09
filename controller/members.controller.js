@@ -18,6 +18,7 @@ class MembersController {
   };
 
   createMembers = async (req, res, next) => {
+    res.locals.logger.info("POST /members/createMembers");
     const {
       memberEmail,
       password,
