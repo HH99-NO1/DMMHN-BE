@@ -51,6 +51,18 @@ class MockInterviewController {
     }
   };
 
+  deleteCustomQuestions = async (req, res, next) => {
+    const { questionId } = req.params;
+
+    try {
+      await this.mockInterviewService.deleteCustomQuestions(questionId);
+
+      res.status(200).send("커스텀 질문이 정상적으로 삭제되었습니다.");
+    } catch (err) {
+      res.status(400).send(err.message);
+    };
+  };
+
   getRandomQuestions = async (req, res, next) => {
     const { category, number } = req.body;
 

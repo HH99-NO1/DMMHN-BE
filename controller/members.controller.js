@@ -6,15 +6,15 @@ class MembersController {
 
   sendAuthCode = async (req, res, next) => {
     const { memberEmail } = req.body;
-    try{
-    const message = await this.membersService.checkDuplicatedId(memberEmail);
-    if (!message) {
-      const authCode = await this.membersService.sendAuthCode(memberEmail);
-      res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+    try {
+      const message = await this.membersService.checkDuplicatedId(memberEmail);
+      if (!message) {
+        const authCode = await this.membersService.sendAuthCode(memberEmail);
+        res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+      }
+    } catch (err) {
+      res.status(400).send({ message: err.message });
     }
-  }catch(err){
-    res.status(400).send({ message: err.message });
-  }
   };
 
   createMembers = async (req, res, next) => {
@@ -27,7 +27,7 @@ class MembersController {
       job,
       stack,
       gender,
-      validate
+      validate,
     } = req.body;
 
     if (req.headers.authorization) {
@@ -140,9 +140,11 @@ class MembersController {
       }
       const { memberEmail } = res.locals.members;
       const { password } = req.body;
+      logger.info(`@controller, ${password}`);
       await this.membersService.deleteMember(memberEmail, password);
       res.status(201).send({ message: "회원탈퇴가 완료되었습니다" });
     } catch (err) {
+      logger.error(`DELETE /members/me ${err.message}`);
       res.status(400).send({ message: err.message });
     }
   };
