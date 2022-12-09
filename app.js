@@ -10,6 +10,7 @@ const morganMiddleware = require("./middleware/morgan_middleware");
 const routes = require("./routes/index.routes");
 const videoRoute = require("./routes/index.routes");
 
+//주석추가 곧 지워야함
 //소셜로그인 테스트
 // const ejs = require("ejs");
 // app.set("view engine", "ejs");
