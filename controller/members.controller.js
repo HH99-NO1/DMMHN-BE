@@ -133,7 +133,7 @@ class MembersController {
   };
 
   deleteMember = async (req, res, next) => {
-    try {
+    // try {
       if (tokenInfo.message === "jwt expired") {
         res.status(401).send({ message: "jwt expired", ok: 6 });
         return;
@@ -142,9 +142,10 @@ class MembersController {
       const { password } = req.body;
       await this.membersService.deleteMember(memberEmail, password);
       res.status(201).send({ message: "회원탈퇴가 완료되었습니다" });
-    } catch (err) {
-      res.status(400).send({ message: err.message });
-    }
+    // } catch (err) {
+    //   logger.error(err.message);
+    //   res.status(400).send({ message: err.message });
+    // }
   };
 }
 
