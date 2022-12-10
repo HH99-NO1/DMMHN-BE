@@ -74,27 +74,27 @@ app.get("/debug-sentry", () => {
 // scheduler 실행
 expiration;
 
-app.use(rTracer.expressMiddleware());
-app.use((req, res, next) => {
-  const {
-    method,
-    path,
-    url,
-    query,
-    headers: { cookie },
-    body,
-  } = req;
-  const request = {
-    method,
-    path,
-    cookie,
-    body,
-    url,
-    query,
-  };
-  logger.info({ request });
-  next();
-});
+// app.use(rTracer.expressMiddleware());
+// app.use((req, res, next) => {
+//   const {
+//     method,
+//     path,
+//     url,
+//     query,
+//     headers: { cookie },
+//     body,
+//   } = req;
+//   const request = {
+//     method,
+//     path,
+//     cookie,
+//     body,
+//     url,
+//     query,
+//   };
+//   logger.info({ request });
+//   next();
+// });
 app.use("/", apiLimiter, [(routes, videoRoute)]);
 
 app.listen(PORT, () => {
