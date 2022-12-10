@@ -147,10 +147,8 @@ class MembersService {
     job,
     gender
   ) => {
-    logger.info(`/service/members.service`);
     try {
       if (!profileImg) {
-        logger.info("@updateMember");
         const updateMember = await this.membersRepository.updateMember(
           memberEmail,
           birth,
@@ -162,12 +160,10 @@ class MembersService {
         return updateMember;
       } else if (profileImg) {
         const img = profileImg.location;
-        logger.info(`@updateMemberWithImg / img : ${img}`);
         const updateMemberImg = await this.membersRepository.updateMemberImg(
           memberEmail,
           img
         );
-        console.log(updateMemberImg);
         return updateMemberImg;
       } else {
         throw new Error("회원 정보 수정에 실패하였습니다.");
