@@ -111,6 +111,7 @@ class MembersController {
         .send({ data: updateMemberImg, message: "정보를 수정하였습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
     }
   };
 
@@ -133,6 +134,7 @@ class MembersController {
       res.status(201).send({ message: "비밀번호가 변경되었습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
     }
   };
 
@@ -150,6 +152,7 @@ class MembersController {
     } catch (err) {
       logger.error(`DELETE /members/me ${err.stack}`);
       res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
     }
   };
 }
