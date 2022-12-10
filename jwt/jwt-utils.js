@@ -17,7 +17,6 @@ module.exports = {
   verify: (token) => {
     try {
       const decoded = jwt.verify(token, secretKey);
-      console.log(decoded.memberEmail);
       return { ok: true, memberEmail: decoded.memberEmail };
     } catch (err) {
       return {

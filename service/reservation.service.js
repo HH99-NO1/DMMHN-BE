@@ -25,14 +25,10 @@ class ReservationService {
     const realDay = day - 0;
     const realHour = hour - 0;
     const realMin = min - 0;
-    // console.log(realYear, realMonth,realDay, realHour, realMin)
     const date = new Date(realYear, realMonth, realDay, realHour, realMin, 0);
-    // console.log(date)
     date.setMinutes(date.getMinutes() + 0);
     schedule.scheduleJob(date, async () => {
-      console.log("start: test");
       await Company.updateOne({ companyName }, { isDone: "true" });
-      console.log("성공");
     });
 
     const [endDayOfTheWeek, endMonth, endDay, endYear, endTime] =
@@ -51,15 +47,12 @@ class ReservationService {
       endRealMin,
       0
     );
-    // console.log(endDate)
     endDate.setMinutes(endDate.getMinutes() + 0);
     schedule.scheduleJob(endDate, async () => {
-      console.log("end: test");
       await Company.updateOne({ companyName }, { isDone: "false" });
     });
 
     let randomStr = Math.random().toString(36).substring(2, 12);
-    console.log(randomStr);
 
     url = `localhost:3000/${randomStr}`;
 
@@ -136,19 +129,19 @@ class ReservationService {
 
   getReservation = async (companyName) => {
     // try {
-      await this.reservationRepository.getReservation(
-        companyName,
-        interviewTopic,
-        url,
-        onMuted
-      );
+    await this.reservationRepository.getReservation(
+      companyName,
+      interviewTopic,
+      url,
+      onMuted
+    );
 
-      return {
-        companyName,
-        interviewTopic,
-        url,
-        onMuted,
-      };
+    return {
+      companyName,
+      interviewTopic,
+      url,
+      onMuted,
+    };
     // } catch (err) {
     //   throw new Error("getReservation에서 권한이 없습니다");
     // }

@@ -12,7 +12,6 @@ module.exports = () => {
         callbackURL: "http://localhost:3000/auth/kakao/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log("kakao profile", profile);
         try {
           const exMember = await MemebersModel.findOne({
             snsId: profile.id,
