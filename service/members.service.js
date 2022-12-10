@@ -27,13 +27,12 @@ class MembersService {
       </div>`,
     };
 
-    transPort.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        ctx.state = 500;
-      }
-    });
-
-    return authCode;
+    try {
+      transPort.sendMail(mailOptions);
+      return authCode;
+    } catch (err) {
+      throw new Error("인증 코드 전송에 실패했습니다");
+    }
   };
 
   createMembers = async (
