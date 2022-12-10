@@ -52,6 +52,7 @@ class MembersController {
       res.status(201).json({ message: "회원가입에 성공했습니다" });
     } catch (err) {
       res.status(400).json(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -88,7 +89,6 @@ class MembersController {
   };
 
   updateMember = async (req, res, next) => {
-    logger.info(`/controller/members.controller`);
     try {
       if (tokenInfo.message === "jwt expired") {
         res.status(401).send({ message: "jwt expired", ok: 6 });

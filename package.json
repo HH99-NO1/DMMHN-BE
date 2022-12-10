@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@sentry/node": "^7.24.2",
+    "@sentry/tracing": "^7.24.2",
     "aws-sdk": "^2.1255.0",
     "axios": "^1.2.0",
     "bcrypt": "^5.1.0",

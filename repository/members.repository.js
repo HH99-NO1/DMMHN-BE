@@ -59,7 +59,6 @@ class MembersRepository {
   };
 
   updateMemberImg = async (memberEmail, img) => {
-    // logger.info(`/repository/members.repository@updateMemberWithImg`);
     const updateMemberImg = await Members.findOneAndUpdate(
       { memberEmail },
       { img },
