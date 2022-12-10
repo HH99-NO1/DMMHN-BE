@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors");
 const connect = require("./models/index");
 connect();
+const PORT = process.env.EXPRESS_PORT || 3000;
 var WhatapAgent = require("whatap").NodeAgent;
 const logger = require("./config/tracer");
 const rTracer = require("cls-rtracer");
@@ -96,4 +97,7 @@ app.use((req, res, next) => {
 });
 app.use("/", apiLimiter, [(routes, videoRoute)]);
 
+app.listen(PORT, () => {
+  logger.info(`http server on ${PORT}`);
+});
 module.exports = app;

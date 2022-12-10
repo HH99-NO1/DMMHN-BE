@@ -1,7 +1,8 @@
-// const { server } = require("./socket");
-const PORT = process.env.EXPRESS_PORT || 3000;
-const logger = require("./config/tracer");
+// // const { server } = require("./socket");
 
-server.listen(PORT, () => {
-  logger.info(`http server on ${PORT}`);
-});
+// const logger = require("./config/tracer");
+
+// // server.listen(P?ORT, () => {
+// //   logger.info(`http server on ${PORT}`);
+// // });
+// //
