@@ -52,6 +52,7 @@ class MembersController {
       res.status(201).json({ message: "회원가입에 성공했습니다" });
     } catch (err) {
       res.status(400).json(err.message);
+      Sentry.captureException(err);
     }
   };
 
