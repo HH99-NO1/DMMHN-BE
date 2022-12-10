@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors");
 const connect = require("./models/index");
 connect();
+var WhatapAgent = require("whatap").NodeAgent;
 const logger = require("./config/tracer");
 const rTracer = require("cls-rtracer");
 const expiration = require("./schedule/schedule");
@@ -12,8 +13,6 @@ const RateLimit = require("express-rate-limit");
 const morganMiddleware = require("./middleware/morgan_middleware");
 const routes = require("./routes/index.routes");
 const videoRoute = require("./routes/index.routes");
-
-
 
 // app.get("/", function rootHandler(req, res) {
 //   res.end("Hello world!");
@@ -50,12 +49,15 @@ apiLimiter = new RateLimit({
 
 app.use(morganMiddleware);
 
-Sentry.init({ dsn: process.env.SENTRY_DSN, tracesSampleRate: 1.0, integrations: [
-  // enable HTTP calls tracing
-  new Sentry.Integrations.Http({ tracing: true }),
-  // enable Express.js middleware tracing
-  new Tracing.Integrations.Express({ app }),
-],
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Tracing.Integrations.Express({ app }),
+  ],
 });
 // 첫번째 미들웨어로 설정
 app.use(Sentry.Handlers.requestHandler());
@@ -92,6 +94,6 @@ app.use((req, res, next) => {
   logger.info({ request });
   next();
 });
-app.use("/", apiLimiter, [routes, videoRoute]);
+app.use("/", apiLimiter, [(routes, videoRoute)]);
 
 module.exports = app;
