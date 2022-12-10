@@ -1,5 +1,6 @@
 const MockInterviewService = require("../service/mockInterview.service");
 const logger = require("../config/logger");
+const Sentry = require('@sentry/node');
 const fs = require("fs");
 require("dotenv").config();
 
@@ -17,6 +18,7 @@ class MockInterviewController {
       res.status(201).send("면접 질문을 생성하였습니다.");
     } catch (err) {
       res.status(400).send(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -34,6 +36,7 @@ class MockInterviewController {
       res.status(201).send("커스텀 면접 질문을 생성하였습니다.");
     } catch (err) {
       res.status(400).send(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -48,6 +51,7 @@ class MockInterviewController {
       res.status(200).json(data);
     } catch (err) {
       res.status(400).send(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -60,6 +64,7 @@ class MockInterviewController {
       res.status(200).send("커스텀 질문이 정상적으로 삭제되었습니다.");
     } catch (err) {
       res.status(400).send(err.message);
+      Sentry.captureException(err);
     };
   };
 
@@ -76,6 +81,7 @@ class MockInterviewController {
     } catch (err) {
       logger.error(err);
       res.status(400).send(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -110,6 +116,7 @@ class MockInterviewController {
     } catch (err) {
       // logger.error(err.message);
       res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
     }
   };
 
@@ -131,6 +138,7 @@ class MockInterviewController {
         .json({ sequence: data, message: "모의면접 결과가 저장되었습니다." });
     } catch (err) {
       res.status(400).send(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -144,6 +152,7 @@ class MockInterviewController {
       res.status(200).json(data);
     } catch (err) {
       res.status(400).send(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -158,6 +167,7 @@ class MockInterviewController {
       res.status(200).json(data);
     } catch (err) {
       res.status(400).send(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -170,6 +180,7 @@ class MockInterviewController {
       res.status(200).send("모의 면접 결과가 정상적으로 삭제되었습니다.");
     } catch (err) {
       res.status(400).send(err.message);
+      Sentry.captureException(err);
     }
   };
 }
