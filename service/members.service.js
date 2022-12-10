@@ -184,7 +184,6 @@ class MembersService {
     confirmNewPassword,
     refresh
   ) => {
-    logger.info(`/service/members.service@changePassword`);
     const findOneMember = await this.membersRepository.findOneMember(
       memberEmail
     );

@@ -53,9 +53,9 @@ describe("members 테스트", () => {
       .post("/members/login")
       .send(wrongmember);
     expect(response.statusCode).toBe(400);
-    expect(response.body).toStrictEqual({
-      message: "아이디 또는 비밀번호가 일치하지 않습니다",
-    });
+    expect(response.body).toStrictEqual(
+      "아이디 또는 비밀번호가 일치하지 않습니다"
+    );
   });
 
   it("GET /members/me", async () => {
@@ -74,7 +74,7 @@ describe("members 테스트", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .set("refresh", `Bearer ${refreshToken}`)
       .send({
-        memberEmail: "asdf1111!",
+        memberEmail: "alstjq__@naver.com",
         password: "asdf1111!",
         newPassword: "asdf1111!",
         confirmNewPassword: "asdf1111!",
@@ -93,7 +93,7 @@ describe("members 테스트", () => {
       .set("Authorization", `Bearer ${accessToken}`)
       .set("refresh", `Bearer ${refreshToken}`)
       .send({
-        memberEmail: "asdf1234!",
+        memberEmail: "alstjq__@naver.com",
         password: "asdf1234!",
         newPassword: "asdf1234!",
         confirmNewPassword: "asdf1234!",
@@ -109,7 +109,7 @@ describe("members 테스트", () => {
     const response = await request(server)
       .delete("/members/me")
       .set("Authorization", `Bearer ${accessToken}`)
-      .send({ memberEmail: "asdf1111!", password: "asdf1111" });
+      .send({ memberEmail: "alstjq__@naver.com", password: "asdf1111" });
     expect(response.statusCode).toBe(400);
     expect(response.body).toStrictEqual({
       message: "비밀번호가 일치하지 않습니다",
@@ -121,7 +121,7 @@ describe("members 테스트", () => {
     const response = await request(server)
       .delete("/members/me")
       .set("Authorization", `Bearer ${accessToken}`)
-      .send({ memberEmail: "asdf1111!", password: "asdf1111!" });
+      .send({ memberEmail: "alstjq__@naver.com", password: "asdf1111!" });
     expect(response.statusCode).toBe(201);
     expect(response.body).toStrictEqual({
       message: "회원탈퇴가 완료되었습니다",

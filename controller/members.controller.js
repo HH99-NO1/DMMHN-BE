@@ -1,6 +1,6 @@
 const MembersService = require("../service/members.service");
 const logger = require("../config/tracer");
-const Sentry = require('@sentry/node');
+const Sentry = require("@sentry/node");
 
 class MembersController {
   membersService = new MembersService();
@@ -115,7 +115,6 @@ class MembersController {
   };
 
   changePassword = async (req, res, next) => {
-    logger.info("/controller/members.controller@changePassword");
     try {
       if (tokenInfo.message === "jwt expired") {
         res.status(401).send({ message: "jwt expired", ok: 6 });
@@ -124,7 +123,6 @@ class MembersController {
       const { refresh } = req.headers;
       const { memberEmail } = res.locals.members;
       const { password, newPassword, confirmNewPassword } = req.body;
-      console.log(refresh);
       await this.membersService.changePassword(
         memberEmail,
         password,
@@ -150,9 +148,7 @@ class MembersController {
       await this.membersService.deleteMember(memberEmail, password);
       res.status(201).send({ message: "회원탈퇴가 완료되었습니다" });
     } catch (err) {
-      logger.error(
-        `DELETE /members/me ${err.stack}`
-      );
+      logger.error(`DELETE /members/me ${err.stack}`);
       res.status(400).send({ message: err.message });
     }
   };

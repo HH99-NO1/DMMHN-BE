@@ -46,6 +46,7 @@
     "socket.io": "^4.5.3",
     "supertest": "^6.3.3",
     "tracer": "^1.1.6",
+    "whatap": "^0.4.63",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1"
   },

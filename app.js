@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const connect = require("./models/index");
 connect();
+var WhatapAgent = require("whatap").NodeAgent;
 const logger = require("./config/tracer");
 const rTracer = require("cls-rtracer");
 const expiration = require("./schedule/schedule");
@@ -11,7 +12,7 @@ const RateLimit = require("express-rate-limit");
 const morganMiddleware = require("./middleware/morgan_middleware");
 const routes = require("./routes/index.routes");
 const videoRoute = require("./routes/index.routes");
-
+WhatapAgent;
 // app.get("/", function rootHandler(req, res) {
 //   res.end("Hello world!");
 // });
@@ -81,6 +82,6 @@ app.use((req, res, next) => {
   logger.info({ request });
   next();
 });
-app.use("/", apiLimiter, [routes, videoRoute]);
+app.use("/", apiLimiter, [(routes, videoRoute)]);
 
 module.exports = app;
