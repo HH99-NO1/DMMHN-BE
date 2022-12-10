@@ -12,30 +12,10 @@ const morganMiddleware = require("./middleware/morgan_middleware");
 const routes = require("./routes/index.routes");
 const videoRoute = require("./routes/index.routes");
 
-Sentry.init({ dsn: process.env.SENTRY_DSN,
-});
-// 첫번째 미들웨어로 설정 
-app.use(Sentry.Handlers.requestHandler());
+// app.get("/", function rootHandler(req, res) {
+//   res.end("Hello world!");
+// });
 
-app.get("/", function rootHandler(req, res) {
-  res.end("Hello world!");
-});
-
-app.use(
-  Sentry.Handlers.errorHandler({
-    shouldHandleError(error) {
-      // error status 404, 500 번만 error로 판단
-      if (error.status >= 400 && error.status <= 500) {
-        return true;
-      }
-      return false;
-    },
-  })
-);
-
-app.get("/debug-sentry", function mainHandler(req, res) {
-  throw new Error("My first Sentry error!");
-});
 //소셜로그인 테스트
 // const ejs = require("ejs");
 // app.set("view engine", "ejs");
@@ -67,16 +47,36 @@ apiLimiter = new RateLimit({
 
 app.use(morganMiddleware);
 
+Sentry.init({ dsn: process.env.SENTRY_DSN, tracesSampleRate: 1.0 });
+// 첫번째 미들웨어로 설정
+app.use(Sentry.Handlers.requestHandler());
+
+app.use(Sentry.Handlers.errorHandler());
+
+app.get("/debug-sentry", () => {
+  throw new Error("My first Sentry error!");
+});
+
 // scheduler 실행
 expiration;
 
 app.use(rTracer.expressMiddleware());
 app.use((req, res, next) => {
   const {
-    method, path, url, query, headers: { cookie }, body,
+    method,
+    path,
+    url,
+    query,
+    headers: { cookie },
+    body,
   } = req;
   const request = {
-    method, path, cookie, body, url, query
+    method,
+    path,
+    cookie,
+    body,
+    url,
+    query,
   };
   logger.info({ request });
   next();
