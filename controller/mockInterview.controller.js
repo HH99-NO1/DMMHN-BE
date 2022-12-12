@@ -1,6 +1,5 @@
 const MockInterviewService = require("../service/mockInterview.service");
-const logger = require("../config/logger");
-const Sentry = require('@sentry/node');
+const Sentry = require("@sentry/node");
 const fs = require("fs");
 require("dotenv").config();
 
@@ -65,7 +64,7 @@ class MockInterviewController {
     } catch (err) {
       res.status(400).send(err.message);
       Sentry.captureException(err);
-    };
+    }
   };
 
   getRandomQuestions = async (req, res, next) => {
@@ -107,10 +106,7 @@ class MockInterviewController {
     try {
       const writeStream = fs.createWriteStream(`./voice/tts1.mp3`);
       // logger.info("here comes!");
-      const _req = request.post(options).on("response", function (response) {
-        console.log(response.statusCode);
-        console.log(response.headers["content-type"]);
-      });
+      const _req = request.post(options).on("response", function (response) {});
       _req.pipe(writeStream);
       _req.pipe(res);
     } catch (err) {

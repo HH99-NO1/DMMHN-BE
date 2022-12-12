@@ -1,0 +1,532 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My API",
+    "description": "Description",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "회원 가입 및 로그인API",
+      "description": ""
+    }
+  ],
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "any description..."
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/members/signup": {
+      "post": {
+        "description": "회원가입",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "memberEmail": {
+                  "example": "이메일 계정"
+                },
+                "password": {
+                  "example": "패스워드"
+                },
+                "confirmPw": {
+                  "example": "컨펌패스워드"
+                },
+                "memberName": {
+                  "example": "이름"
+                },
+                "birth": {
+                  "example": "생년월일"
+                },
+                "job": {
+                  "example": "직업"
+                },
+                "stack": {
+                  "example": "기술스택"
+                },
+                "gender": {
+                  "example": "성별"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "회원가입에 성공했습니다"
+          },
+          "400": {
+            "description": "에러메세지"
+          },
+          "401": {
+            "description": "이미 로그인 된 계정입니다."
+          }
+        }
+      }
+    },
+    "/members/sendAuthCode": {
+      "post": {
+        "description": "이메일인증",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "memberEmail": {
+                  "example": "이메일 계정"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sent Auth Email"
+          }
+        }
+      }
+    },
+    "/members/login": {
+      "post": {
+        "description": "로그인",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "memberEmail": {
+                  "example": "이메일계정"
+                },
+                "password": {
+                  "example": "패스워드"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "로그인 완료"
+          },
+          "400": {
+            "description": "에러메세지"
+          }
+        }
+      }
+    },
+    "/members/checkDuplicatedId": {
+      "post": {
+        "description": "아이디 중복확인",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "memberEmail": {
+                  "example": "이메일계정"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "메세지"
+          },
+          "400": {
+            "description": "에러메세지"
+          }
+        }
+      }
+    },
+    "/members/me": {
+      "get": {
+        "description": "회원정보 조회",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "사용자 정보"
+          },
+          "401": {
+            "description": "에러 메세지 "
+          }
+        }
+      },
+      "patch": {
+        "description": "회원정보 수정",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "memberEmail",
+            "in": "body",
+            "type": "string",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "profileImg": {
+                  "example": "프로필 이미지"
+                },
+                "memberName": {
+                  "example": "사용자 이름"
+                },
+                "stack": {
+                  "example": "기술스택"
+                },
+                "job": {
+                  "example": "현재직업"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "수정성공"
+          },
+          "401": {
+            "description": "실패"
+          }
+        }
+      },
+      "delete": {
+        "description": "회원삭제",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "memberEmail",
+            "in": "body",
+            "type": "string",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "example": "비밀번호"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "회원탈퇴가 완료되었습니다. "
+          },
+          "400": {
+            "description": "에러메세지"
+          }
+        }
+      }
+    },
+    "/members/refresh": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "refresh",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/members/password": {
+      "patch": {
+        "description": "비밀번호 변경",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "refresh",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "type": "string",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "example": "비밀번호"
+                },
+                "newPassword": {
+                  "example": "새로운 비밀번호"
+                },
+                "confirmNewPassword": {
+                  "example": "새로운 비밀번호 확인"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/mockInterview/createQuestions": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "type": "string",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "example": "카테고리"
+                },
+                "question": {
+                  "example": "문항 수 "
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "면접 질문을 생성하였습니다."
+          },
+          "400": {
+            "description": "에러메세지"
+          }
+        }
+      },
+      "/mockInterview/custom": {
+        "post": {
+          "description": "커스텀질문",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "type": "string",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "example": "카테고리"
+                  },
+                  "question": {
+                    "example": "문항 수 "
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "get": {
+          "description": "",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/mockInterview/": {
+        "post": {
+          "description": "",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/mockInterview/getQuestionsVoice": {
+        "post": {
+          "description": "",
+          "parameters": [],
+          "responses": {}
+        }
+      },
+      "/mockInterview/saveResults": {
+        "post": {
+          "description": "",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/mockInterview/getResults": {
+        "get": {
+          "description": "",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/mockInterview/getResultDetails/{sequence}": {
+        "get": {
+          "description": "",
+          "parameters": [
+            {
+              "name": "sequence",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/mockInterview/detail/{sequence}": {
+        "delete": {
+          "description": "",
+          "parameters": [
+            {
+              "name": "sequence",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/social/google/isGoogle": {
+        "post": {
+          "description": "",
+          "parameters": [],
+          "responses": {}
+        }
+      },
+      "/social/google/callback": {
+        "post": {
+          "description": "",
+          "parameters": [],
+          "responses": {}
+        }
+      },
+      "/social/kakao/isKaKao": {
+        "post": {
+          "description": "",
+          "parameters": [],
+          "responses": {}
+        }
+      },
+      "/social/kakao/callback": {
+        "post": {
+          "description": "",
+          "parameters": [],
+          "responses": {}
+        }
+      }
+    }
+  }
+}

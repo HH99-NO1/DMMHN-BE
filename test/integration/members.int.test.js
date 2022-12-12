@@ -4,7 +4,7 @@ const jwt = require("../../jwt/jwt-utils");
 require("dotenv").config();
 
 const newMember = {
-  memberEmail: "alstjq__@naver.com",
+  memberEmail: "alstjq1234@naver.com",
   password: "asdf1111!",
   confirmPw: "asdf1111!",
   memberName: "kim",
@@ -17,12 +17,12 @@ const newMember = {
 };
 
 const member = {
-  memberEmail: "alstjq__@naver.com",
+  memberEmail: "alstjq1234@naver.com",
   password: "asdf1111!",
 };
 
 const wrongmember = {
-  memberEmail: "alstjq__@naver.com",
+  memberEmail: "alstjq1234@naver.com",
   password: "asdf1234",
 };
 
