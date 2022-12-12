@@ -10,7 +10,7 @@ module.exports = {
       img: findOneUser.img,
     };
     return jwt.sign(payload, secretKey, {
-      expiresIn: "3h",
+      expiresIn: "10s",
     });
   },
 
