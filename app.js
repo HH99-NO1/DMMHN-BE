@@ -5,9 +5,9 @@ const app = express();
 const cors = require("cors");
 const connect = require("./models/index");
 connect();
-var WhatapAgent = require("whatap").NodeAgent;
+// var WhatapAgent = require("whatap").NodeAgent;
 const logger = require("./config/tracer");
-const rTracer = require("cls-rtracer");
+// const rTracer = require("cls-rtracer");
 const expiration = require("./schedule/schedule");
 const RateLimit = require("express-rate-limit");
 const morganMiddleware = require("./middleware/morgan_middleware");
@@ -73,27 +73,27 @@ app.get("/debug-sentry", () => {
 // scheduler 실행
 expiration;
 
-app.use(rTracer.expressMiddleware());
-app.use((req, res, next) => {
-  const {
-    method,
-    path,
-    url,
-    query,
-    headers: { cookie },
-    body,
-  } = req;
-  const request = {
-    method,
-    path,
-    cookie,
-    body,
-    url,
-    query,
-  };
-  logger.info({ request });
-  next();
-});
+// app.use(expressMiddleware());
+// app.use((req, res, next) => {
+//   const {
+//     method,
+//     path,
+//     url,
+//     query,
+//     headers: { cookie },
+//     body,
+//   } = req;
+//   const request = {
+//     method,
+//     path,
+//     cookie,
+//     body,
+//     url,
+//     query,
+//   };
+//   logger.info({ request });
+//   next();
+// });
 app.use("/", apiLimiter, [(routes, videoRoute)]);
 
 module.exports = app;
