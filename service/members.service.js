@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const refreshModel = require("../models/refresh");
 require("dotenv").config();
 const transPort = require("../config/email");
-const logger = require("../config/tracer");
 const { generateRandom } = require("../util/members.util");
 
 class MembersService {
@@ -201,13 +200,10 @@ class MembersService {
 
   deleteMember = async (memberEmail, password) => {
     try {
-      logger.info(`@service, memberEmail: ${memberEmail}`);
-      logger.info(`@service, password: ${password}`);
       const findOneMember = await this.membersRepository.findOneMember(
         memberEmail
       );
       const match = await bcrypt.compare(password, findOneMember.password);
-      logger.info(`@service, match: ${match}`);
       if (!match) {
         throw new Error("비밀번호가 일치하지 않습니다");
       }
