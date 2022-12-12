@@ -70,8 +70,8 @@
 |--|--|
 |`문제 상황`| AccessToken만 사용했을 때 제 3자에게 토큰이 탈취되었을 경우<br> 보안에 취약하다는 피드백을 받음 |
 |`선택지`| Access Token + Refresh Token |
-|`의견 조율`| • Access Token의 유효 시간을 짧게 하여 공격 면적을 줄이고, Refresh Token의 유효기간을 상대적으로 길게 설정해 <br> 사용자의 편의성도 고려하면 좋을 것 같다고 의견이 나옴 <br> • Refresh Token 역시 탈취될 가능성이 있기 때문에 refresh 발급 시 DB에 저장 후 개인정보 탈취가 의심될 경우에 <br>비밀번호 변경으로 유도한 뒤 변경 시 DB에 저장된 Refresh를 삭제하게 하면 좋다는 의견 |
-|`의견 결정`| 로그인 시 Access Token 과 Refresh Token 두 개를 발급, Refresh Token 발급시 DB에 저장을 하고 개인정보 탈취 의심시 <br>비밀번호 변경으로 유도하여 DB에 있는 Refresh Token을 삭제함으로써 보안적으로 좀 더 강화하였다. |
+|`의견 조율`| • Access Token의 유효 시간을 짧게 하여 공격 면적을 줄이고,<br>Refresh Token의 유효기간을 상대적으로 길게 설정해 사용자의 편의성도 고려하면 좋을 것 같다고 의견이 나옴 <br>• Refresh Token 역시 탈취될 가능성이 있기 때문에 <br>refresh 발급 시 DB에 저장 후 개인정보 탈취가 의심될 경우에 비밀번호 변경으로 유도한 뒤<br> 변경 시 DB에 저장된 Refresh를 삭제하게 하면 좋다는 의견 |
+|`의견 결정`| 로그인 시 Access Token 과 Refresh Token 두 개를 발급, <br>Refresh Token 발급시 DB에 저장을 하고 개인정보 탈취 의심시 비밀번호 변경으로 유도하여 <br> DB에 있는 Refresh Token을 삭제함으로써 보안적으로 좀 더 강화하였다. |
 
 &nbsp;
 ### 2) 로그 관리 
@@ -101,6 +101,8 @@
 |`선택지`| 1안)  Jenkins <br> 2안)  Github Actions (CI) + AWS CodeDeploy(CD) <br> 3안)  Github Actions (CI/CD) |
 |`의견 조율`| 1안: 사용자가 많지만 젠킨스만을 위한 인스턴스가 필요하고 세팅이 복잡하다 <br> 2안: aws 하나로 관리가 가능하지만 요금이 발생하는 단점이 있다. <br> 3안: 툴 설치 없이 바로 github repository에서 관리할 수 있고 설정이 쉽다 |
 |`의견 결정`| 프로젝트 막바지에 적용을 하려다 보니 효율을 고려하지 않을 수 없었다. <br>그렇기 때문에 우선순위를 시간과 접근성에 두고 찾다보니 <br>3안(github action)이 찾던 조건에 가장 부합하여 채택하였다. |
+
+&nbsp;
 
 ## 🚩 맡은 역할
 | 이름 | 역할 |
