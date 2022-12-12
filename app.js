@@ -15,18 +15,24 @@ const morganMiddleware = require("./middleware/morgan_middleware");
 const routes = require("./routes/index.routes");
 const videoRoute = require("./routes/index.routes");
 
-// app.get("/", function rootHandler(req, res) {
-//   res.end("Hello world!");
-// });
+
+
+const swaggerFile = require("./modules/swagger-output.json");
+const swaggerUi = require("swagger-ui-express");
+app.use(
+  "/swagger",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerFile, { explorer: true })
+  );
 
 //소셜로그인 테스트
-// const ejs = require("ejs");
-// app.set("view engine", "ejs");
-// app.set("views", "./views");
+// const ejs = require("ejs")
+// app.set("view engine","ejs");
+// app.set("views","./views")
+// app.get('/',(req,res)=>{
+//   res.render("index")
+// })
 
-// app.get("/", (req, res) => {
-//   res.send("Hellow world");
-// });
 
 app.use(express.json());
 // app.use(

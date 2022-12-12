@@ -45,6 +45,7 @@
     "path": "^0.12.7",
     "request": "^2.88.2",
     "socket.io": "^4.5.3",
+    "swagger-autogen": "^2.22.0",
     "supertest": "^6.3.3",
     "tracer": "^1.1.6",
     "whatap": "^0.4.63",
@@ -55,6 +56,8 @@
     "artillery": "^2.0.0-27",
     "jest": "^29.3.1",
     "nodemon": "^2.0.20",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.6.0"
   }
 }
