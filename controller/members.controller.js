@@ -1,17 +1,26 @@
 const MembersService = require("../service/members.service");
-const logger = require("../config/logger");
+const logger = require("../config/tracer");
+const Sentry = require("@sentry/node");
 
 class MembersController {
   membersService = new MembersService();
 
   sendAuthCode = async (req, res, next) => {
     const { memberEmail } = req.body;
-    const authCode = await this.membersService.sendAuthCode(memberEmail);
-
-    res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+    try {
+      const message = await this.membersService.checkDuplicatedId(memberEmail);
+      if (!message) {
+        const authCode = await this.membersService.sendAuthCode(memberEmail);
+        res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+      }
+    } catch (err) {
+      res.status(400).json(err.message);
+      Sentry.captureException(err);
+    }
   };
 
   createMembers = async (req, res, next) => {
+    logger.info(`/controller/members.controller`);
     const {
       memberEmail,
       password,
@@ -21,6 +30,7 @@ class MembersController {
       job,
       stack,
       gender,
+      validate,
     } = req.body;
 
     if (req.headers.authorization) {
@@ -36,23 +46,18 @@ class MembersController {
         birth,
         job,
         stack,
-        gender
+        gender,
+        validate
       );
       res.status(201).json({ message: "회원가입에 성공했습니다" });
     } catch (err) {
       res.status(400).json(err.message);
+      Sentry.captureException(err);
     }
   };
-  checkDuplicatedId = async (req, res, next) => {
-    const { memberEmail } = req.body;
-    try {
-      const message = await this.membersService.checkDuplicatedId(memberEmail);
-      res.status(201).json({ message });
-    } catch (err) {
-      res.status(400).json({ errorMessage: err.message });
-    }
-  };
+
   loginMembers = async (req, res, next) => {
+    // res.locals.logger.info("POST /members/login");
     try {
       const { memberEmail, password } = req.body;
       const loginMembers = await this.membersService.loginMembers(
@@ -61,7 +66,8 @@ class MembersController {
       );
       res.status(200).json({ message: "로그인 완료", data: loginMembers });
     } catch (err) {
-      res.status(400).send({ message: err.message });
+      res.status(400).json(err.message);
+      Sentry.captureException(err);
     }
   };
 
@@ -78,11 +84,11 @@ class MembersController {
       res.status(200).send(getMemberInfo);
     } catch (err) {
       res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
     }
   };
 
   updateMember = async (req, res, next) => {
-    logger.info(`/controller/members.controller`);
     try {
       if (tokenInfo.message === "jwt expired") {
         res.status(401).send({ message: "jwt expired", ok: 6 });
@@ -105,11 +111,11 @@ class MembersController {
         .send({ data: updateMemberImg, message: "정보를 수정하였습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
     }
   };
 
   changePassword = async (req, res, next) => {
-    logger.info("/controller/members.controller@changePassword");
     try {
       if (tokenInfo.message === "jwt expired") {
         res.status(401).send({ message: "jwt expired", ok: 6 });
@@ -118,7 +124,6 @@ class MembersController {
       const { refresh } = req.headers;
       const { memberEmail } = res.locals.members;
       const { password, newPassword, confirmNewPassword } = req.body;
-      console.log(refresh);
       await this.membersService.changePassword(
         memberEmail,
         password,
@@ -129,6 +134,7 @@ class MembersController {
       res.status(201).send({ message: "비밀번호가 변경되었습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
     }
   };
 
@@ -140,10 +146,13 @@ class MembersController {
       }
       const { memberEmail } = res.locals.members;
       const { password } = req.body;
+      logger.info(`@controller, ${password}`);
       await this.membersService.deleteMember(memberEmail, password);
       res.status(201).send({ message: "회원탈퇴가 완료되었습니다" });
     } catch (err) {
+      logger.error(`DELETE /members/me ${err.stack}`);
       res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
     }
   };
 }

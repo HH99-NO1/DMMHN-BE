@@ -59,7 +59,6 @@ class MembersRepository {
   };
 
   updateMemberImg = async (memberEmail, img) => {
-    logger.info(`/repository/members.repository@updateMemberWithImg`);
     const updateMemberImg = await Members.findOneAndUpdate(
       { memberEmail },
       { img },
@@ -69,13 +68,13 @@ class MembersRepository {
   };
 
   changePassword = async (memberEmail, hashedPw) => {
-    logger.info(`/repository/members.repository@changePassword`);
+    // logger.info(`/repository/members.repository@changePassword`);
     await Members.findOneAndUpdate({ memberEmail }, { password: hashedPw });
     return;
   };
 
   deleteRefreshToken = async (refreshToken) => {
-    logger.info(`/repository/members.repository@deleteRefreshToken`);
+    // logger.info(`/repository/members.repository@deleteRefreshToken`);
     await refresh.findOneAndDelete({ refreshToken });
     return;
   };

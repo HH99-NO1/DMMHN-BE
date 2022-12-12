@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const refreshModel = require("../models/refresh");
 require("dotenv").config();
 const transPort = require("../config/email");
-const logger = require("../config/logger");
+const logger = require("../config/tracer");
 const { generateRandom } = require("../util/members.util");
 
 class MembersService {
@@ -16,17 +16,23 @@ class MembersService {
     const mailOptions = {
       from: `"떨면 뭐하니" <${process.env.NODEMAILER_USER}>`,
       to: memberEmail,
-      subcect: "떨면 뭐하니 Auth Number",
-      text: "인증코드를 입력해주세요" + authCode,
+      subject: "[떨면 뭐하니] 인증 코드를 안내해드립니다.",
+      html: `<h3>떨면 뭐하니 인증 코드</h3>
+
+      <p>면접깡패 양성 프로그램 떨면 뭐하니에 오신 것을 환영합니다.</p>
+      <p>아래의 인증 코드를 입력하시면 가입이 정상적으로 완료됩니다</p>
+      
+      <div style="background-color:lightgray">
+          <h1>${authCode}</h1>
+      </div>`,
     };
 
-    transPort.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        ctx.state = 500;
-      }
-    });
-
-    return authCode;
+    try {
+      transPort.sendMail(mailOptions);
+      return authCode;
+    } catch (err) {
+      throw new Error("인증 코드 전송에 실패했습니다");
+    }
   };
 
   createMembers = async (
@@ -37,10 +43,14 @@ class MembersService {
     birth,
     job,
     stack,
-    gender
+    gender,
+    validate
   ) => {
     if (password !== confirmPw) {
       throw new Error("비밀번호와 비밀번화 확인이 일치하지 않습니다");
+    }
+    if (validate !== process.env.AUTH_CODE_VALIDATE) {
+      throw new Error("email 인증코드를 입력해주세요");
     }
 
     const result = await this.membersRepository.findOneMember(memberEmail);
@@ -56,10 +66,12 @@ class MembersService {
       birth,
       job,
       stack,
-      gender
+      gender,
+      validate
     );
     return;
   };
+
   checkDuplicatedId = async (memberEmail) => {
     const findOneMember = await this.membersRepository.findOneMember(
       memberEmail
@@ -67,9 +79,8 @@ class MembersService {
 
     if (findOneMember) {
       throw new Error("이미 가입된 계정입니다.");
-    } else {
-      return "사용 가능한 계정입니다.";
     }
+    return;
   };
 
   loginMembers = async (memberEmail, password) => {
@@ -135,10 +146,8 @@ class MembersService {
     job,
     gender
   ) => {
-    logger.info(`/service/members.service`);
     try {
       if (!profileImg) {
-        logger.info("@updateMember");
         const updateMember = await this.membersRepository.updateMember(
           memberEmail,
           birth,
@@ -150,12 +159,10 @@ class MembersService {
         return updateMember;
       } else if (profileImg) {
         const img = profileImg.location;
-        logger.info(`@updateMemberWithImg / img : ${img}`);
         const updateMemberImg = await this.membersRepository.updateMemberImg(
           memberEmail,
           img
         );
-        console.log(updateMemberImg);
         return updateMemberImg;
       } else {
         throw new Error("회원 정보 수정에 실패하였습니다.");
@@ -172,7 +179,6 @@ class MembersService {
     confirmNewPassword,
     refresh
   ) => {
-    logger.info(`/service/members.service@changePassword`);
     const findOneMember = await this.membersRepository.findOneMember(
       memberEmail
     );
@@ -195,10 +201,13 @@ class MembersService {
 
   deleteMember = async (memberEmail, password) => {
     try {
+      logger.info(`@service, memberEmail: ${memberEmail}`);
+      logger.info(`@service, password: ${password}`);
       const findOneMember = await this.membersRepository.findOneMember(
         memberEmail
       );
       const match = await bcrypt.compare(password, findOneMember.password);
+      logger.info(`@service, match: ${match}`);
       if (!match) {
         throw new Error("비밀번호가 일치하지 않습니다");
       }
