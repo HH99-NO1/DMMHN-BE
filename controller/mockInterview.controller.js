@@ -1,5 +1,4 @@
 const MockInterviewService = require("../service/mockInterview.service");
-const logger = require("../config/logger");
 const Sentry = require("@sentry/node");
 const fs = require("fs");
 require("dotenv").config();

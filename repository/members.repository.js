@@ -1,6 +1,5 @@
 const Members = require("../models/members");
 const refresh = require("../models/refresh");
-const logger = require("../config/logger");
 
 class MembersRepository {
   //member DB에 유저의 정보를 저장한다
