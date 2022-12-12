@@ -67,11 +67,11 @@
 ## ⚽ 트러블 슈팅
 ### 1) AccessToken, RefreshToken
 | | |
-|--|--|
-|`문제 상황`| AccessToken만 사용했을 때 제 3자에게 토큰이 탈취되었을 경우<br> 보안에 취약하다는 피드백을 받음 |
+|:------:|--|
+|`문제 상황`| AccessToken만 사용했을 때 제 3자에게 토큰이 탈취되었을 경우 보안에 취약하다는 피드백을 받음 |
 |`선택지`| Access Token + Refresh Token |
-|`의견 조율`| • Access Token의 유효 시간을 짧게 하여 공격 면적을 줄이고,<br>Refresh Token의 유효기간을 상대적으로 길게 설정해 사용자의 편의성도 고려하면 좋을 것 같다고 의견이 나옴 <br>• Refresh Token 역시 탈취될 가능성이 있기 때문에 <br>refresh 발급 시 DB에 저장 후 개인정보 탈취가 의심될 경우에 비밀번호 변경으로 유도한 뒤<br> 변경 시 DB에 저장된 Refresh를 삭제하게 하면 좋다는 의견 |
-|`의견 결정`| 로그인 시 Access Token 과 Refresh Token 두 개를 발급, <br>Refresh Token 발급시 DB에 저장을 하고 개인정보 탈취 의심시 비밀번호 변경으로 유도하여 <br> DB에 있는 Refresh Token을 삭제함으로써 보안적으로 좀 더 강화하였다. |
+|`의견 조율`| • Access Token의 유효 시간을 짧게 하여 공격 면적을 줄이고, Refresh Token의 유효기간을 상대적으로 길게 설정해 사용자의 편의성도 고려하면 좋을 것 같다고 의견이 나옴 <br>• Refresh Token 역시 탈취될 가능성이 있기 때문에 refresh 발급 시 DB에 저장 후 개인정보 탈취가 의심될 경우에 비밀번호 변경으로 유도한 뒤 변경 시 DB에 저장된 Refresh를 삭제하게 하면 좋다는 의견 |
+|`의견 결정`| 로그인 시 Access Token 과 Refresh Token 두 개를 발급, Refresh Token 발급시 DB에 저장을 하고 개인정보 탈취 의심시 비밀번호 변경으로 유도하여 DB에 있는 Refresh Token을 삭제함으로써 보안적으로 좀 더 강화하였다. |
 
 &nbsp;
 ### 2) 로그 관리 
