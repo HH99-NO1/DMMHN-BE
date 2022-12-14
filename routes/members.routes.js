@@ -12,7 +12,7 @@ router.post("/signup", membersController.createMembers);
 router.post("/sendAuthCode", membersController.sendAuthCode);
 router.post("/login", membersController.loginMembers);
 router.post("/authCodeForPassword", membersController.sendAuthCodeForPassword);
-router.patch("/findPassword", membersController.findPassword);
+router.patch("/password", membersController.findPassword);
 router.get("/me", authMiddleware, membersController.getMemberInfo);
 router.post("/refresh", refresh);
 router.patch(
@@ -21,7 +21,7 @@ router.patch(
   authMiddleware,
   membersController.updateMember
 );
-router.patch("/password", authMiddleware, membersController.changePassword);
+// router.patch("/password", authMiddleware, membersController.changePassword);
 router.delete("/me", authMiddleware, membersController.deleteMember);
 
 module.exports = router;
