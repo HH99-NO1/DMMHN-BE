@@ -72,12 +72,12 @@ class MembersController {
     }
   };
 
-  authCodeforPassword = async (req, res, next) => {
+  sendAuthCodeForPassword = async (req, res, next) => {
     const { memberEmail } = req.body;
     try {
       const message = await this.membersService.checkEmail(memberEmail);
       if (message) {
-        const authCode = await this.membersService.sendAuthCodeforPassword(
+        const authCode = await this.membersService.sendAuthCodeForPassword(
           memberEmail
         );
         res.status(200).json({ data: authCode, message: "Sent Auth Email" });
