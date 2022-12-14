@@ -90,7 +90,8 @@ class MembersService {
     }
     return findOneMember;
   }
-  sendAuthCodeforPassword= async (memberEmail) => {
+
+  sendAuthCodeForPassword= async (memberEmail) => {
     const authCode = generateRandom(111111, 999999);
 
     const mailOptions = {
