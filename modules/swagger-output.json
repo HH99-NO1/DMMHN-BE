@@ -109,6 +109,65 @@
         }
       }
     },
+    "/members/authCodeforPassword": {
+      "post": {
+        "tags":["회원 가입 및 로그인API"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "memberEmail": {
+                  "example": "이메일 계정"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sent Auth Email"
+          }
+        }
+      }
+    },
+    "/members/findPassword": {
+      "patch": {
+        "tags":["회원 가입 및 로그인API"],
+        "description": "비밀번호 변경",
+        "parameters": [
+         
+          {
+            "name": "body",
+            "in": "body",
+            "type": "string",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "memberEmail":{
+                  "example":"이메일계정"
+                },
+                "password": {
+                  "example": "비밀번호"
+                },
+                
+                "confirmPassword": {
+                  "example": "새로운 비밀번호 확인"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/members/checkDuplicatedId": {
       "post": {
         "tags":["회원 가입 및 로그인API"],
