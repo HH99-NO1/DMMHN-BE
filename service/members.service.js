@@ -81,6 +81,55 @@ class MembersService {
     }
     return;
   };
+  checkEmail = async(memberEmail)=>{
+    const findOneMember = await this.membersRepository.findOneMember(
+      memberEmail
+    )
+    if(!findOneMember){     
+      throw new Error("가입되지 않은 이메일입니다.회원가입 하시겠습니까?")
+    }
+    return findOneMember;
+  }
+  sendAuthCodeforPassword= async (memberEmail) => {
+    const authCode = generateRandom(111111, 999999);
+
+    const mailOptions = {
+      from: `"떨면 뭐하니" <${process.env.NODEMAILER_USER}>`,
+      to: memberEmail,
+      subject: "[떨면 뭐하니] 인증 코드를 안내해드립니다.",
+      html: `<h3>떨면 뭐하니 인증 코드</h3>
+
+      <p>비밀번호 변경을 위한 인증 코드입니다.</p>
+            
+      <div style="background-color:lightgray">
+          <h1>${authCode}</h1>
+      </div>`,
+    };
+
+    try {
+      transPort.sendMail(mailOptions);
+      return authCode;
+    } catch (err) {
+      throw new Error("인증 코드 전송에 실패했습니다");
+    }
+  };
+
+
+  findPassword = async (memberEmail, password, confirmPassword) => {
+    try {
+      const findOneMember = await this.membersRepository.findOneMember(
+        memberEmail
+      );      
+      if (password !== confirmPassword) {
+        throw new Error("새 비밀번호와 비밀번호 확인이 일치하지 않습니다");
+      }
+      const hashedPw = bcrypt.hashSync(password, 10);
+      await this.membersRepository.changePassword(memberEmail, hashedPw);
+      return;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
 
   loginMembers = async (memberEmail, password) => {
     try {
@@ -91,7 +140,7 @@ class MembersService {
 
       // memberEmail이 일치하는 유저가 있는지 확인
       if (!findOneMember) {
-        throw new Error("아이디 또는 비밀번호가 일치하지 않습니다");
+        throw new Error("가입되지 않은 이메일입니다.");
       }
 
       // expiration 모델의 expiration 값이 true일 경우 에러 메세지를 띄운다
