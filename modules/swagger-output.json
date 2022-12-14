@@ -9,8 +9,7 @@
   "basePath": "/",
   "tags": [
     {
-      "name": "회원 가입 및 로그인API",
-      "description": ""
+      "name": "회원 가입 및 로그인API"      
     }
   ],
   "schemes": ["http"],
@@ -27,6 +26,7 @@
   "paths": {
     "/members/signup": {
       "post": {
+        "tags":["회원 가입 및 로그인API"],
         "description": "회원가입",
         "parameters": [
           {
@@ -78,6 +78,7 @@
     },
     "/members/sendAuthCode": {
       "post": {
+        "tags":["회원 가입 및 로그인API"],
         "description": "이메일 인증",
         "parameters": [],
         "responses": {}
@@ -85,6 +86,7 @@
     },
     "/members/login": {
       "post": {
+        "tags":["회원 가입 및 로그인API"],
         "description": "",
         "parameters": [
           {
@@ -109,6 +111,7 @@
     },
     "/members/checkDuplicatedId": {
       "post": {
+        "tags":["회원 가입 및 로그인API"],
         "description": "아이디 중복확인",
         "parameters": [
           {
@@ -136,6 +139,7 @@
     },
     "/members/me": {
       "get": {
+        "tags":["마이페이지"],
         "description": "회원정보 조회",
         "parameters": [
           {
@@ -154,6 +158,7 @@
         }
       },
       "patch": {
+        "tags":["마이페이지"],
         "description": "회원정보 수정",
         "parameters": [
           {
@@ -194,6 +199,7 @@
         }
       },
       "delete": {
+        "tags":["마이페이지"],
         "description": "회원탈퇴",
         "parameters": [
           {
@@ -227,6 +233,7 @@
     },
     "/members/refresh": {
       "post": {
+        "tags":["토큰"],
         "description": "토큰발행",
         "parameters": [
           {
@@ -255,6 +262,7 @@
     },
     "/members/password": {
       "patch": {
+        "tags":["마이페이지"],
         "description": "비밀번호 변경",
         "parameters": [
           {
@@ -296,6 +304,7 @@
     },
     "/mockInterview/createQuestions": {
       "post": {
+        "tags":["모의면접"],
         "description": "",
         "parameters": [
           {
@@ -327,6 +336,7 @@
     },
     "/mockInterview/custom": {
       "post": {
+        "tags":["모의면접"],
         "description": "커스텀 질문",
         "parameters": [
           {
@@ -361,6 +371,7 @@
         }
       },
       "get": {
+        "tags":["모의면접"],
         "description": "커스텀 질문 조회",
         "parameters": [
           {
@@ -378,6 +389,7 @@
     },
     "/mockInterview/": {
       "post": {
+        "tags":["모의면접"],
         "description": "",
         "parameters": [
           {
@@ -411,6 +423,7 @@
     },
     "/mockInterview/getQuestionsVoice": {
       "post": {
+        "tags":["모의면접"],
         "description": "음성 질문 조회",
         "parameters": [
           {
@@ -436,6 +449,7 @@
     },
     "/mockInterview/saveResults": {
       "post": {
+        "tags":["모의면접"],
         "description": "결과저장",
         "parameters": [
           {
@@ -478,6 +492,7 @@
     },
     "/mockInterview/getResults": {
       "get": {
+        "tags":["모의면접"],
         "description": "면접결과조회",
         "parameters": [
           {
@@ -495,6 +510,7 @@
     },
     "/mockInterview/getResultDetails/{sequence}": {
       "get": {
+        "tags":["모의면접"],
         "description": "면접결과조회",
         "parameters": [
           {
@@ -518,6 +534,7 @@
     },
     "/mockInterview/detail/{sequence}": {
       "delete": {
+        "tags":["모의면접"],
         "description": "면접이력삭제",
         "parameters": [
           {
@@ -541,6 +558,7 @@
     },
     "/social/google/isGoogle": {
       "post": {
+        "tags":["소셜로그인"],
         "description": "",
         "parameters": [],
         "responses": {}
@@ -548,6 +566,7 @@
     },
     "/social/google/callback": {
       "post": {
+        "tags":["소셜로그인"],
         "description": "",
         "parameters": [],
         "responses": {}
@@ -555,6 +574,7 @@
     },
     "/social/kakao/isKaKao": {
       "post": {
+        "tags":["소셜로그인"],
         "description": "",
         "parameters": [],
         "responses": {}
@@ -562,6 +582,7 @@
     },
     "/social/kakao/callback": {
       "post": {
+        "tags":["소셜로그인"],
         "description": "",
         "parameters": [],
         "responses": {}

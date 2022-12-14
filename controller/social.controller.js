@@ -61,7 +61,7 @@
 //           refreshToken: `Bearer ${refreshToken}`,
 //         });
 //       } catch (err) {
-//         res.status(400).json({ message: err.message, statusCode: err.status });
+//         res.status(409).json({ message: err.message, statusCode: err.status });
 //       }
 //     } catch (err) {
 //       res.status(400).send({
@@ -127,7 +127,7 @@
 //         });
 //       } catch (error) {
 //         res
-//           .status(400)
+//           .status(409)
 //           .json({ message: error.message, statusCode: error.status });
 //       }
 //     } catch (err) {
@@ -138,6 +138,83 @@
 //       });
 //     }
 //   };
+
+//   isNaver = async (req,res,next)=>{
+//     try {
+//         //프론트에게 인가코드 받기
+//         const { code } =req.body;
+//         console.log('인가코드'+code);
+//         try {
+//             const isNaver = await this.socialService.isNaver(code);
+//             const findNaverMember = await this.socialService.findMember(isNaver);
+
+//             if(!findNaverMember) {
+//                 res.status(200).json({memberId:isNaver});
+//             }else {
+//                 const accessToken = await this.socialService.accessToken(isNaver);
+//                 const refreshToken = await this.socialService.refreshToken();
+
+//                 //refreshToken db에 업데이트
+//                 await this.socialService.updateRefreshToken(isNaver, refreshToken);
+
+//                 res.status(201).json({
+//                     accessToken:`Bearer ${accessToken}`,
+//                     refreshToken:`Bearer ${refreshToken}`,
+//                 })
+//             }
+//         }catch(error){
+//             console.log(error);
+//             res.send(error)
+//         }
+//     }catch(err){
+//         res.status(400).send({
+//             success:false,
+//             errorMessage:err.message,
+//             message:"에러가 발생했습니다."
+//         })
+//     }
+//   }
+
+//   naver_callback = async(req,res,next)=>{
+//     try{
+//         //프론트에게 인가코드 받기
+//         const { memberId, nickName, birth, job, stack } = req.body;
+        
+//         //회원가입에 필요한 내용 싹다 넣기 
+//         //console.log(nickname)
+//         //console.log(address)
+
+//         try{
+//             await this.socialService.createMembers(
+//                 memberId,
+//                 nickName,
+//                 birth,
+//                 job,
+//                 stack 
+//             )
+
+//             const accessToken = await this.socialService.accessToken(userId);
+//             const refreshToken = await this.socialService.refreshToken();
+
+//             await this.socialService.updateRefresh(memberId,refreshToken)
+
+//             res.status(201).json({
+//                 accessToken:`Bearer ${accessToken}`,
+//                 refreshToken:`Bearer ${refreshToken}`,
+//             })
+//         }catch(error){
+//             console.log(error);
+//             res.status(409).json({message:error.message, statusCode:error.status})
+//         }
+        
+//     }catch(err){
+//         res.status(400).send({
+//             success:false,
+//             errorMessage:err.message,
+//             message:"에러가 발생했습니다.",
+//         })
+//     }
+//   }
 // }
 
 // module.exports = SocialController;

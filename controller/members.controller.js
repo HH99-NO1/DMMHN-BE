@@ -68,6 +68,35 @@ class MembersController {
     }
   };
 
+  authCodeforPassword = async (req, res, next) => {
+    const { memberEmail } = req.body;
+    try {
+      const message = await this.membersService.checkEmail(memberEmail);      
+      if (message) {        
+        const authCode = await this.membersService.sendAuthCodeforPassword(memberEmail);
+        res.status(200).json({ data: authCode, message: "Sent Auth Email" });
+      }
+    } catch (err) {
+      res.status(400).json(err.message);
+      Sentry.captureException(err);
+    }
+  };
+  
+  findPassword = async (req, res, next) => {
+    try {             
+      const { memberEmail,password,  confirmPassword  } = req.body;
+      await this.membersService.findPassword(
+        memberEmail,
+        password,        
+        confirmPassword        
+      );
+      res.status(201).send({ message: "비밀번호가 변경되었습니다" });
+    } catch (err) {
+      res.status(400).send({ message: err.message });
+      Sentry.captureException(err);
+    }
+  };  
+
   getMemberInfo = async (req, res, next) => {
     try {
       if (tokenInfo.message === "jwt expired") {
