@@ -140,7 +140,8 @@ class MembersService {
 
       // memberEmail이 일치하는 유저가 있는지 확인
       if (!findOneMember) {
-        throw new Error("가입되지 않은 이메일입니다.");
+        // throw new Error("가입되지 않은 이메일입니다.");
+        return;
       }
 
       // expiration 모델의 expiration 값이 true일 경우 에러 메세지를 띄운다

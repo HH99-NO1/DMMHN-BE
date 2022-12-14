@@ -61,7 +61,11 @@ class MembersController {
         memberEmail,
         password
       );
-      res.status(200).json({ message: "로그인 완료", data: loginMembers });
+      if(loginMembers) {
+        res.status(200).json({ message: "로그인 완료", data: loginMembers });
+      } else {
+        res.status(401).send("가입되지 않은 이메일입니다.");
+      }
     } catch (err) {
       res.status(400).json(err.message);
       Sentry.captureException(err);
@@ -88,7 +92,7 @@ class MembersController {
       await this.membersService.findPassword(
         memberEmail,
         password,        
-        confirmPassword        
+        confirmPassword
       );
       res.status(201).send({ message: "비밀번호가 변경되었습니다" });
     } catch (err) {
