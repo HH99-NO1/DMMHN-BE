@@ -61,7 +61,7 @@ class MembersController {
         memberEmail,
         password
       );
-      if(loginMembers) {
+      if (loginMembers) {
         res.status(200).json({ message: "로그인 완료", data: loginMembers });
       } else {
         res.status(401).send("가입되지 않은 이메일입니다.");
@@ -75,9 +75,11 @@ class MembersController {
   authCodeforPassword = async (req, res, next) => {
     const { memberEmail } = req.body;
     try {
-      const message = await this.membersService.checkEmail(memberEmail);      
-      if (message) {        
-        const authCode = await this.membersService.sendAuthCodeforPassword(memberEmail);
+      const message = await this.membersService.checkEmail(memberEmail);
+      if (message) {
+        const authCode = await this.membersService.sendAuthCodeforPassword(
+          memberEmail
+        );
         res.status(200).json({ data: authCode, message: "Sent Auth Email" });
       }
     } catch (err) {
@@ -85,21 +87,22 @@ class MembersController {
       Sentry.captureException(err);
     }
   };
-  
+
   findPassword = async (req, res, next) => {
-    try {             
-      const { memberEmail,password,  confirmPassword  } = req.body;
+    try {
+      const { memberEmail, password, confirmPassword, validate } = req.body;
       await this.membersService.findPassword(
         memberEmail,
-        password,        
-        confirmPassword
+        password,
+        confirmPassword,
+        validate
       );
       res.status(201).send({ message: "비밀번호가 변경되었습니다" });
     } catch (err) {
       res.status(400).send({ message: err.message });
       Sentry.captureException(err);
     }
-  };  
+  };
 
   getMemberInfo = async (req, res, next) => {
     try {
