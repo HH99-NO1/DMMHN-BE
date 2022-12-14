@@ -115,11 +115,17 @@ class MembersService {
   };
 
 
-  findPassword = async (memberEmail, password, confirmPassword) => {
+  findPassword = async (memberEmail, password, confirmPassword, validate) => {
     try {
+      if (validate !== process.env.AUTH_CODE_VALIDATE) {
+        throw new Error("email 인증코드를 입력해주세요");
+      }
       const findOneMember = await this.membersRepository.findOneMember(
         memberEmail
-      );      
+      );
+      if(!findOneMember) {
+        throw new Error("이메일 전송 오류");
+      }
       if (password !== confirmPassword) {
         throw new Error("새 비밀번호와 비밀번호 확인이 일치하지 않습니다");
       }
