@@ -86,44 +86,6 @@ describe("members 테스트", () => {
     expect(response.statusCode).toBe(200);
   });
 
-  it("Patch /members/password", async () => {
-    const accessToken = jwt.sign(member);
-    const refreshToken = jwt.refreshSign(member);
-    const response = await request(server)
-      .patch("/members/password")
-      .set("Authorization", `Bearer ${accessToken}`)
-      .set("refresh", `Bearer ${refreshToken}`)
-      .send({
-        memberEmail: "alstjq__@naver.com",
-        password: "asdf1111!",
-        newPassword: "asdf1111!",
-        confirmNewPassword: "asdf1111!",
-      });
-    expect(response.statusCode).toBe(201);
-    expect(response.body).toStrictEqual({
-      message: "비밀번호가 변경되었습니다",
-    });
-  });
-
-  it("Patch /members/password 잘못된 비밀번호가 들어왔을 경우", async () => {
-    const accessToken = jwt.sign(member);
-    const refreshToken = jwt.refreshSign(member);
-    const response = await request(server)
-      .patch("/members/password")
-      .set("Authorization", `Bearer ${accessToken}`)
-      .set("refresh", `Bearer ${refreshToken}`)
-      .send({
-        memberEmail: "alstjq__@naver.com",
-        password: "asdf1234!",
-        newPassword: "asdf1234!",
-        confirmNewPassword: "asdf1234!",
-      });
-    expect(response.statusCode).toBe(400);
-    expect(response.body).toStrictEqual({
-      message: "비밀번호가 일치하지 않습니다",
-    });
-  });
-
   it("delete /members/me 비밀번호가 틀렸을 경우", async () => {
     const accessToken = jwt.sign(member);
     const response = await request(server)
