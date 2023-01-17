@@ -9,6 +9,7 @@ const PORT = process.env.EXPRESS_PORT || 3000;
 const expiration = require("./schedule/schedule");
 const RateLimit = require("express-rate-limit");
 const morganMiddleware = require("./middleware/morgan_middleware");
+const helmet = require("helmet");
 const routes = require("./routes/index.routes");
 
 const swaggerFile = require("./modules/swagger-output.json");
@@ -21,6 +22,7 @@ app.use(
 
 app.use(express.json());
 app.use(cors());
+app.use(helmet());
 
 apiLimiter = new RateLimit({
   windowMs: 60 * 1000, // 1분 간격

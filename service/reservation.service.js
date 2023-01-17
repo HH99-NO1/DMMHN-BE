@@ -26,7 +26,7 @@ class ReservationService {
     const realHour = hour - 0;
     const realMin = min - 0;
     const date = new Date(realYear, realMonth, realDay, realHour, realMin, 0);
-    date.setMinutes(date.getMinutes() + 0);
+    date.setMinutes(date.getMinutes() - 10);
     schedule.scheduleJob(date, async () => {
       await Company.updateOne({ companyName }, { isDone: "true" });
     });
@@ -47,7 +47,7 @@ class ReservationService {
       endRealMin,
       0
     );
-    endDate.setMinutes(endDate.getMinutes() + 0);
+    endDate.setMinutes(endDate.getMinutes() + 10);
     schedule.scheduleJob(endDate, async () => {
       await Company.updateOne({ companyName }, { isDone: "false" });
     });
